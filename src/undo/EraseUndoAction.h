@@ -30,8 +30,8 @@ public:
     virtual bool undo(Control* control);
     virtual bool redo(Control* control);
 
-    void addOriginal(Layer* layer, Stroke* element, int pos);
-    void addEdited(Layer* layer, Stroke* element, int pos);
+    void addOriginal(Layer* layer, Stroke* element, int64_t pos);
+    void addEdited(Layer* layer, Stroke* element, int64_t pos);
     [[maybe_unused]] void removeEdited(Stroke* element);
 
     void finalize();

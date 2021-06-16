@@ -28,7 +28,7 @@ void BaseStrokeHandler::draw(cairo_t* cr) {
     }
 
     double zoom = xournal->getZoom();
-    int dpiScaleFactor = xournal->getDpiScaleFactor();
+    int64_t dpiScaleFactor = xournal->getDpiScaleFactor();
 
     cairo_scale(cr, zoom * dpiScaleFactor, zoom * dpiScaleFactor);
     view.drawStroke(cr, stroke, 0);
@@ -78,7 +78,7 @@ auto BaseStrokeHandler::onMotionNotifyEvent(const PositionInputData& pos) -> boo
     double zoom = xournal->getZoom();
     double x = pos.x / zoom;
     double y = pos.y / zoom;
-    int pointCount = stroke->getPointCount();
+    int64_t pointCount = stroke->getPointCount();
 
     Point currentPoint(x, y);
     Rectangle<double> rect = stroke->boundingRect();
@@ -121,7 +121,7 @@ void BaseStrokeHandler::onButtonReleaseEvent(const PositionInputData& pos) {
     if (settings->getStrokeFilterEnabled())  // Note: For simple strokes see StrokeHandler which has a slightly
                                              // different version of this filter.  See //!
     {
-        int strokeFilterIgnoreTime = 0, strokeFilterSuccessiveTime = 0;
+        int64_t strokeFilterIgnoreTime = 0, strokeFilterSuccessiveTime = 0;
         double strokeFilterIgnoreLength = NAN;
 
         settings->getStrokeFilter(&strokeFilterIgnoreTime, &strokeFilterIgnoreLength, &strokeFilterSuccessiveTime);

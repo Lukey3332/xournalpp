@@ -30,7 +30,7 @@ struct BackgroundImage::Content {
 
     fs::path path;
     GdkPixbuf* pixbuf = nullptr;
-    int pageId = -1;
+    int64_t pageId = -1;
     bool attach = false;
 };
 
@@ -54,9 +54,9 @@ void BackgroundImage::loadFile(GInputStream* stream, fs::path const& path, GErro
     this->img = std::make_shared<Content>(stream, path, error);
 }
 
-auto BackgroundImage::getCloneId() -> int { return this->img ? this->img->pageId : -1; }
+auto BackgroundImage::getCloneId() -> int64_t { return this->img ? this->img->pageId : -1; }
 
-void BackgroundImage::setCloneId(int id) {
+void BackgroundImage::setCloneId(int64_t id) {
     if (this->img) {
         this->img->pageId = id;
     }

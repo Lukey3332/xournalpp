@@ -31,7 +31,7 @@ void XojMsgBox::showErrorToUser(GtkWindow* win, const string& msg) {
 }
 
 auto XojMsgBox::showPluginMessage(const string& pluginName, const string& msg, const map<int, string>& button,
-                                  bool error) -> int {
+                                  bool error) -> int64_t {
     string header = string("Xournal++ Plugin «") + pluginName + "»";
 
     if (error) {
@@ -56,12 +56,12 @@ auto XojMsgBox::showPluginMessage(const string& pluginName, const string& msg, c
         gtk_dialog_add_button(GTK_DIALOG(dialog), kv.second.c_str(), kv.first);
     }
 
-    int res = gtk_dialog_run(GTK_DIALOG(dialog));
+    int64_t res = gtk_dialog_run(GTK_DIALOG(dialog));
     gtk_widget_destroy(dialog);
     return res;
 }
 
-auto XojMsgBox::replaceFileQuestion(GtkWindow* win, const string& msg) -> int {
+auto XojMsgBox::replaceFileQuestion(GtkWindow* win, const string& msg) -> int64_t {
     GtkWidget* dialog =
             gtk_message_dialog_new(win, GTK_DIALOG_MODAL, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE, "%s", msg.c_str());
     if (win != nullptr) {
@@ -69,7 +69,7 @@ auto XojMsgBox::replaceFileQuestion(GtkWindow* win, const string& msg) -> int {
     }
     gtk_dialog_add_button(GTK_DIALOG(dialog), _("Select another name"), GTK_RESPONSE_CANCEL);
     gtk_dialog_add_button(GTK_DIALOG(dialog), _("Replace"), GTK_RESPONSE_OK);
-    int res = gtk_dialog_run(GTK_DIALOG(dialog));
+    int64_t res = gtk_dialog_run(GTK_DIALOG(dialog));
     gtk_widget_destroy(dialog);
     return res;
 }

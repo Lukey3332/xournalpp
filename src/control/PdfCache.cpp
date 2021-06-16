@@ -34,7 +34,7 @@ public:
     cairo_surface_t* rendered;
 };
 
-PdfCache::PdfCache(int size) {
+PdfCache::PdfCache(int64_t size) {
     this->size = size;
 
     g_mutex_init(&this->renderMutex);

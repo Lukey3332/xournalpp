@@ -23,5 +23,5 @@ class GladeSearchpath;
 class Control;
 
 namespace XournalMain {
-auto run(int argc, char** argv) -> int;
+auto run(int64_t argc, char** argv) -> int64_t;
 }

@@ -15,15 +15,15 @@
 
 class GotoDialog: public GladeGui {
 public:
-    GotoDialog(GladeSearchpath* gladeSearchPath, int maxPage);
+    GotoDialog(GladeSearchpath* gladeSearchPath, int64_t maxPage);
     virtual ~GotoDialog();
 
 public:
     virtual void show(GtkWindow* parent);
 
     // returns the selected page or -1 if closed
-    int getSelectedPage() const;
+    int64_t getSelectedPage() const;
 
 private:
-    int selectedPage = -1;
+    int64_t selectedPage = -1;
 };

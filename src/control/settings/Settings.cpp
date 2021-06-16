@@ -219,14 +219,14 @@ void Settings::parseData(xmlNodePtr cur, SElement& elem) {
             string sType = reinterpret_cast<const char*>(type);
 
             if (sType == "int") {
-                int i = atoi(reinterpret_cast<const char*>(value));
+                int64_t i = atoi(reinterpret_cast<const char*>(value));
                 elem.setInt(reinterpret_cast<const char*>(name), i);
             } else if (sType == "double") {
                 double d = tempg_ascii_strtod(reinterpret_cast<const char*>(value),
                                               nullptr);  // g_ascii_strtod ignores locale setting.
                 elem.setDouble(reinterpret_cast<const char*>(name), d);
             } else if (sType == "hex") {
-                int i = 0;
+                int64_t i = 0;
                 if (sscanf(reinterpret_cast<const char*>(value), "%x", &i)) {
                     elem.setIntHex(reinterpret_cast<const char*>(name), i);
                 } else {
@@ -347,7 +347,7 @@ void Settings::parseItem(xmlDocPtr doc, xmlNodePtr cur) {
     } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("showSidebar")) == 0) {
         this->showSidebar = xmlStrcmp(value, reinterpret_cast<const xmlChar*>("true")) == 0;
     } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("sidebarWidth")) == 0) {
-        this->sidebarWidth = std::max<int>(g_ascii_strtoll(reinterpret_cast<const char*>(value), nullptr, 10), 50);
+        this->sidebarWidth = std::max<int64_t>(g_ascii_strtoll(reinterpret_cast<const char*>(value), nullptr, 10), 50);
     } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("sidebarOnRight")) == 0) {
         this->sidebarOnRight = xmlStrcmp(value, reinterpret_cast<const xmlChar*>("true")) == 0;
     } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("scrollbarOnLeft")) == 0) {
@@ -478,7 +478,7 @@ void Settings::parseItem(xmlDocPtr doc, xmlNodePtr cur) {
         this->audioOutputDevice = g_ascii_strtoll(reinterpret_cast<const char*>(value), nullptr, 10);
     } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("numIgnoredStylusEvents")) == 0) {
         this->numIgnoredStylusEvents =
-                std::max<int>(g_ascii_strtoll(reinterpret_cast<const char*>(value), nullptr, 10), 0);
+                std::max<int64_t>(g_ascii_strtoll(reinterpret_cast<const char*>(value), nullptr, 10), 0);
     } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("inputSystemTPCButton")) == 0) {
         this->inputSystemTPCButton = xmlStrcmp(value, reinterpret_cast<const xmlChar*>("true")) == 0;
     } else if (xmlStrcmp(name, reinterpret_cast<const xmlChar*>("inputSystemDrawOutsideWindow")) == 0) {
@@ -542,8 +542,8 @@ void Settings::loadDeviceClasses() {
     SElement& s = getCustomElement("deviceClasses");
     for (auto device: s.children()) {
         SElement& deviceNode = device.second;
-        int deviceClass = 0;
-        int deviceSource = 0;
+        int64_t deviceClass = 0;
+        int64_t deviceSource = 0;
         deviceNode.getInt("deviceClass", deviceClass);
         deviceNode.getInt("deviceSource", deviceSource);
         inputDeviceClasses.emplace(device.first, std::make_pair(static_cast<InputDeviceTypeOption>(deviceClass),
@@ -554,7 +554,7 @@ void Settings::loadDeviceClasses() {
 void Settings::loadButtonConfig() {
     SElement& s = getCustomElement("buttonConfig");
 
-    for (int i = 0; i < BUTTON_COUNT; i++) {
+    for (int64_t i = 0; i < BUTTON_COUNT; i++) {
         SElement& e = s.child(buttonToString(static_cast<Button>(i)));
         ButtonConfig* cfg = buttonConfig[i];
 
@@ -579,7 +579,7 @@ void Settings::loadButtonConfig() {
             }
 
             if (type == TOOL_PEN || type == TOOL_HIGHLIGHTER || type == TOOL_TEXT) {
-                if (int iColor; e.getInt("color", iColor)) {
+                if (int64_t iColor; e.getInt("color", iColor)) {
                     cfg->color = Color(iColor);
                 }
             }
@@ -671,14 +671,14 @@ auto Settings::savePropertyDouble(const gchar* key, double value, xmlNodePtr par
     return xmlNode;
 }
 
-auto Settings::saveProperty(const gchar* key, int value, xmlNodePtr parent) -> xmlNodePtr {
+auto Settings::saveProperty(const gchar* key, int64_t value, xmlNodePtr parent) -> xmlNodePtr {
     char* text = g_strdup_printf("%i", value);
     xmlNodePtr xmlNode = saveProperty(key, text, parent);
     g_free(text);
     return xmlNode;
 }
 
-auto Settings::savePropertyUnsigned(const gchar* key, unsigned int value, xmlNodePtr parent) -> xmlNodePtr {
+auto Settings::savePropertyUnsigned(const gchar* key, uint64_t value, xmlNodePtr parent) -> xmlNodePtr {
     char* text = g_strdup_printf("%u", value);
     xmlNodePtr xmlNode = saveProperty(key, text, parent);
     g_free(text);
@@ -703,7 +703,7 @@ void Settings::saveDeviceClasses() {
         InputDeviceTypeOption& deviceClass = device.second.first;
         GdkInputSource& source = device.second.second;
         SElement& e = s.child(name);
-        e.setInt("deviceClass", static_cast<int>(deviceClass));
+        e.setInt("deviceClass", static_cast<int64_t>(deviceClass));
         e.setInt("deviceSource", source);
     }
 }
@@ -712,7 +712,7 @@ void Settings::saveButtonConfig() {
     SElement& s = getCustomElement("buttonConfig");
     s.clear();
 
-    for (int i = 0; i < BUTTON_COUNT; i++) {
+    for (int64_t i = 0; i < BUTTON_COUNT; i++) {
         SElement& e = s.child(buttonToString(static_cast<Button>(i)));
         ButtonConfig* cfg = buttonConfig[i];
 
@@ -925,8 +925,8 @@ void Settings::save() {
     /**
      * Stabilizer related settings
      */
-    saveProperty("stabilizerAveragingMethod", static_cast<int>(stabilizerAveragingMethod), root);
-    saveProperty("stabilizerPreprocessor", static_cast<int>(stabilizerPreprocessor), root);
+    saveProperty("stabilizerAveragingMethod", static_cast<int64_t>(stabilizerAveragingMethod), root);
+    saveProperty("stabilizerPreprocessor", static_cast<int64_t>(stabilizerPreprocessor), root);
     SAVE_UINT_PROP(stabilizerBuffersize);
     SAVE_DOUBLE_PROP(stabilizerSigma);
     SAVE_DOUBLE_PROP(stabilizerDeadzoneRadius);
@@ -1070,9 +1070,9 @@ void Settings::setMenubarVisible(bool visible) {
     save();
 }
 
-auto Settings::getAutosaveTimeout() const -> int { return this->autosaveTimeout; }
+auto Settings::getAutosaveTimeout() const -> int64_t { return this->autosaveTimeout; }
 
-void Settings::setAutosaveTimeout(int autosave) {
+void Settings::setAutosaveTimeout(int64_t autosave) {
     if (this->autosaveTimeout == autosave) {
         return;
     }
@@ -1098,9 +1098,9 @@ auto Settings::getAddVerticalSpace() const -> bool { return this->addVerticalSpa
 
 void Settings::setAddVerticalSpace(bool space) { this->addVerticalSpace = space; }
 
-auto Settings::getAddVerticalSpaceAmount() const -> int { return this->addVerticalSpaceAmount; }
+auto Settings::getAddVerticalSpaceAmount() const -> int64_t { return this->addVerticalSpaceAmount; }
 
-void Settings::setAddVerticalSpaceAmount(int pixels) {
+void Settings::setAddVerticalSpaceAmount(int64_t pixels) {
     if (this->addVerticalSpaceAmount == pixels) {
         return;
     }
@@ -1114,9 +1114,9 @@ auto Settings::getAddHorizontalSpace() const -> bool { return this->addHorizonta
 
 void Settings::setAddHorizontalSpace(bool space) { this->addHorizontalSpace = space; }
 
-auto Settings::getAddHorizontalSpaceAmount() const -> int { return this->addHorizontalSpaceAmount; }
+auto Settings::getAddHorizontalSpaceAmount() const -> int64_t { return this->addHorizontalSpaceAmount; }
 
-void Settings::setAddHorizontalSpaceAmount(int pixels) {
+void Settings::setAddHorizontalSpaceAmount(int64_t pixels) {
     if (this->addHorizontalSpaceAmount == pixels) {
         return;
     }
@@ -1130,9 +1130,9 @@ auto Settings::getDrawDirModsEnabled() const -> bool { return this->drawDirModsE
 
 void Settings::setDrawDirModsEnabled(bool enable) { this->drawDirModsEnabled = enable; }
 
-auto Settings::getDrawDirModsRadius() const -> int { return this->drawDirModsRadius; }
+auto Settings::getDrawDirModsRadius() const -> int64_t { return this->drawDirModsRadius; }
 
-void Settings::setDrawDirModsRadius(int pixels) {
+void Settings::setDrawDirModsRadius(int64_t pixels) {
     if (this->drawDirModsRadius == pixels) {
         return;
     }
@@ -1358,10 +1358,10 @@ void Settings::setSizeUnit(const string& sizeUnit) {
 /**
  * Get size index in XOJ_UNITS
  */
-auto Settings::getSizeUnitIndex() const -> int {
+auto Settings::getSizeUnitIndex() const -> int64_t {
     string unit = getSizeUnit();
 
-    for (int i = 0; i < XOJ_UNIT_COUNT; i++) {
+    for (int64_t i = 0; i < XOJ_UNIT_COUNT; i++) {
         if (unit == XOJ_UNITS[i].name) {
             return i;
         }
@@ -1373,7 +1373,7 @@ auto Settings::getSizeUnitIndex() const -> int {
 /**
  * Set size index in XOJ_UNITS
  */
-void Settings::setSizeUnitIndex(int sizeUnitId) {
+void Settings::setSizeUnitIndex(int64_t sizeUnitId) {
     if (sizeUnitId < 0 || sizeUnitId >= XOJ_UNIT_COUNT) {
         sizeUnitId = 0;
     }
@@ -1412,7 +1412,7 @@ void Settings::setPressureSensitivity(gboolean presureSensitivity) {
     save();
 }
 
-void Settings::setPairsOffset(int numOffset) {
+void Settings::setPairsOffset(int64_t numOffset) {
     if (this->numPairsOffset == numOffset) {
         return;
     }
@@ -1421,9 +1421,9 @@ void Settings::setPairsOffset(int numOffset) {
     save();
 }
 
-auto Settings::getPairsOffset() const -> int { return this->numPairsOffset; }
+auto Settings::getPairsOffset() const -> int64_t { return this->numPairsOffset; }
 
-void Settings::setViewColumns(int numColumns) {
+void Settings::setViewColumns(int64_t numColumns) {
     if (this->numColumns == numColumns) {
         return;
     }
@@ -1432,10 +1432,10 @@ void Settings::setViewColumns(int numColumns) {
     save();
 }
 
-auto Settings::getViewColumns() const -> int { return this->numColumns; }
+auto Settings::getViewColumns() const -> int64_t { return this->numColumns; }
 
 
-void Settings::setViewRows(int numRows) {
+void Settings::setViewRows(int64_t numRows) {
     if (this->numRows == numRows) {
         return;
     }
@@ -1444,7 +1444,7 @@ void Settings::setViewRows(int numRows) {
     save();
 }
 
-auto Settings::getViewRows() const -> int { return this->numRows; }
+auto Settings::getViewRows() const -> int64_t { return this->numRows; }
 
 void Settings::setViewFixedRows(bool viewFixedRows) {
     if (this->viewFixedRows == viewFixedRows) {
@@ -1534,7 +1534,7 @@ void Settings::setZoomStepScroll(double zoomStepScroll) {
 
 auto Settings::getZoomStepScroll() const -> double { return this->zoomStepScroll; }
 
-void Settings::setDisplayDpi(int dpi) {
+void Settings::setDisplayDpi(int64_t dpi) {
     if (this->displayDpi == dpi) {
         return;
     }
@@ -1542,7 +1542,7 @@ void Settings::setDisplayDpi(int dpi) {
     save();
 }
 
-auto Settings::getDisplayDpi() const -> int { return this->displayDpi; }
+auto Settings::getDisplayDpi() const -> int64_t { return this->displayDpi; }
 
 void Settings::setDarkTheme(bool dark) {
     if (this->darkTheme == dark) {
@@ -1584,10 +1584,10 @@ void Settings::setToolbarVisible(bool visible) {
     save();
 }
 
-auto Settings::getSidebarWidth() const -> int { return this->sidebarWidth; }
+auto Settings::getSidebarWidth() const -> int64_t { return this->sidebarWidth; }
 
-void Settings::setSidebarWidth(int width) {
-    width = std::max(width, 50);
+void Settings::setSidebarWidth(int64_t width) {
+    width = std::max(width, (int64_t) 50);
 
     if (this->sidebarWidth == width) {
         return;
@@ -1596,16 +1596,16 @@ void Settings::setSidebarWidth(int width) {
     save();
 }
 
-void Settings::setMainWndSize(int width, int height) {
+void Settings::setMainWndSize(int64_t width, int64_t height) {
     this->mainWndWidth = width;
     this->mainWndHeight = height;
 
     save();
 }
 
-auto Settings::getMainWndWidth() const -> int { return this->mainWndWidth; }
+auto Settings::getMainWndWidth() const -> int64_t { return this->mainWndWidth; }
 
-auto Settings::getMainWndHeight() const -> int { return this->mainWndHeight; }
+auto Settings::getMainWndHeight() const -> int64_t { return this->mainWndHeight; }
 
 auto Settings::isMainWndMaximized() const -> bool { return this->maximized; }
 
@@ -1625,7 +1625,7 @@ auto Settings::getCustomElement(const string& name) -> SElement& { return this->
 
 void Settings::customSettingsChanged() { save(); }
 
-auto Settings::getButtonConfig(int id) -> ButtonConfig* {
+auto Settings::getButtonConfig(int64_t id) -> ButtonConfig* {
     if (id < 0 || id >= BUTTON_COUNT) {
         g_error("Settings::getButtonConfig try to get id=%i out of range!", id);
         return nullptr;
@@ -1668,9 +1668,9 @@ void Settings::setPDFPageRerenderThreshold(double threshold) {
     save();
 }
 
-auto Settings::getPdfPageCacheSize() const -> int { return this->pdfPageCacheSize; }
+auto Settings::getPdfPageCacheSize() const -> int64_t { return this->pdfPageCacheSize; }
 
-void Settings::setPdfPageCacheSize(int size) {
+void Settings::setPdfPageCacheSize(int64_t size) {
     if (this->pdfPageCacheSize == size) {
         return;
     }
@@ -1678,9 +1678,9 @@ void Settings::setPdfPageCacheSize(int size) {
     save();
 }
 
-auto Settings::getPreloadPagesBefore() const -> unsigned int { return this->preloadPagesBefore; }
+auto Settings::getPreloadPagesBefore() const -> uint64_t { return this->preloadPagesBefore; }
 
-void Settings::setPreloadPagesBefore(unsigned int n) {
+void Settings::setPreloadPagesBefore(uint64_t n) {
     if (this->preloadPagesBefore == n) {
         return;
     }
@@ -1688,9 +1688,9 @@ void Settings::setPreloadPagesBefore(unsigned int n) {
     save();
 }
 
-auto Settings::getPreloadPagesAfter() const -> unsigned int { return this->preloadPagesAfter; }
+auto Settings::getPreloadPagesAfter() const -> uint64_t { return this->preloadPagesAfter; }
 
-void Settings::setPreloadPagesAfter(unsigned int n) {
+void Settings::setPreloadPagesAfter(uint64_t n) {
     if (this->preloadPagesAfter == n) {
         return;
     }
@@ -1786,9 +1786,9 @@ void Settings::setAudioGain(double gain) {
     save();
 }
 
-auto Settings::getDefaultSeekTime() const -> unsigned int { return this->defaultSeekTime; }
+auto Settings::getDefaultSeekTime() const -> uint64_t { return this->defaultSeekTime; }
 
-void Settings::setDefaultSeekTime(unsigned int t) {
+void Settings::setDefaultSeekTime(uint64_t t) {
     if (this->defaultSeekTime == t) {
         return;
     }
@@ -1817,13 +1817,13 @@ void Settings::setPluginDisabled(const string& pluginDisabled) {
 }
 
 
-void Settings::getStrokeFilter(int* ignoreTime, double* ignoreLength, int* successiveTime) const {
+void Settings::getStrokeFilter(int64_t* ignoreTime, double* ignoreLength, int64_t* successiveTime) const {
     *ignoreTime = this->strokeFilterIgnoreTime;
     *ignoreLength = this->strokeFilterIgnoreLength;
     *successiveTime = this->strokeFilterSuccessiveTime;
 }
 
-void Settings::setStrokeFilter(int ignoreTime, double ignoreLength, int successiveTime) {
+void Settings::setStrokeFilter(int64_t ignoreTime, double ignoreLength, int64_t successiveTime) {
     this->strokeFilterIgnoreTime = ignoreTime;
     this->strokeFilterIgnoreLength = ignoreLength;
     this->strokeFilterSuccessiveTime = successiveTime;
@@ -1854,15 +1854,15 @@ auto Settings::setPreferredLocale(std::string const& locale) -> void { this->pre
 
 auto Settings::getPreferredLocale() const -> std::string { return this->preferredLocale; }
 
-void Settings::setIgnoredStylusEvents(int numEvents) {
+void Settings::setIgnoredStylusEvents(int64_t numEvents) {
     if (this->numIgnoredStylusEvents == numEvents) {
         return;
     }
-    this->numIgnoredStylusEvents = std::max<int>(numEvents, 0);
+    this->numIgnoredStylusEvents = std::max<int64_t>(numEvents, 0);
     save();
 }
 
-auto Settings::getIgnoredStylusEvents() const -> int { return this->numIgnoredStylusEvents; }
+auto Settings::getIgnoredStylusEvents() const -> int64_t { return this->numIgnoredStylusEvents; }
 
 void Settings::setInputSystemTPCButtonEnabled(bool tpcButtonEnabled) {
     if (this->inputSystemTPCButton == tpcButtonEnabled) {
@@ -1995,13 +1995,13 @@ void SElement::setComment(const string& name, const string& comment) {
     attrib.comment = comment;
 }
 
-void SElement::setIntHex(const string& name, const int value) {
+void SElement::setIntHex(const string& name, const int64_t value) {
     SAttribute& attrib = this->element->attributes[name];
     attrib.iValue = value;
     attrib.type = ATTRIBUTE_TYPE_INT_HEX;
 }
 
-void SElement::setInt(const string& name, const int value) {
+void SElement::setInt(const string& name, const int64_t value) {
     SAttribute& attrib = this->element->attributes[name];
     attrib.iValue = value;
     attrib.type = ATTRIBUTE_TYPE_INT;
@@ -2041,7 +2041,7 @@ auto SElement::getDouble(const string& name, double& value) -> bool {
     return true;
 }
 
-auto SElement::getInt(const string& name, int& value) -> bool {
+auto SElement::getInt(const string& name, int64_t& value) -> bool {
     SAttribute& attrib = this->element->attributes[name];
     if (attrib.type == ATTRIBUTE_TYPE_NONE) {
         this->element->attributes.erase(name);

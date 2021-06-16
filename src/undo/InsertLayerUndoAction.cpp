@@ -10,7 +10,7 @@
 #include "i18n.h"
 
 InsertLayerUndoAction::InsertLayerUndoAction(LayerController* layerController, const PageRef& page, Layer* layer,
-                                             int layerPosition):
+                                             int64_t layerPosition):
         UndoAction("InsertLayerUndoAction"), layerPosition(layerPosition), layerController(layerController) {
     this->page = page;
     this->layer = layer;
@@ -40,7 +40,7 @@ auto InsertLayerUndoAction::undo(Control* control) -> bool {
 auto InsertLayerUndoAction::redo(Control* control) -> bool {
     layerController->insertLayer(this->page, this->layer, layerPosition);
     Document* doc = control->getDocument();
-    int id = doc->indexOf(this->page);
+    int64_t id = doc->indexOf(this->page);
     control->getWindow()->getXournal()->layerChanged(id);
 
     this->undone = false;

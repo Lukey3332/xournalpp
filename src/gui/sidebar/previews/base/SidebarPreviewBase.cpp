@@ -58,7 +58,7 @@ void SidebarPreviewBase::enableSidebar() { enabled = true; }
 void SidebarPreviewBase::disableSidebar() { enabled = false; }
 
 void SidebarPreviewBase::sizeChanged(GtkWidget* widget, GtkAllocation* allocation, SidebarPreviewBase* sidebar) {
-    static int lastWidth = -1;
+    static int64_t lastWidth = -1;
 
     if (lastWidth == -1) {
         lastWidth = allocation->width;
@@ -112,8 +112,8 @@ auto SidebarPreviewBase::scrollToPreview(SidebarPreviewBase* sidebar) -> bool {
 
         GtkAllocation allocation;
         gtk_widget_get_allocation(widget, &allocation);
-        int x = allocation.x;
-        int y = allocation.y;
+        int64_t x = allocation.x;
+        int64_t y = allocation.y;
 
         if (x == -1) {
             g_idle_add(reinterpret_cast<GSourceFunc>(scrollToPreview), sidebar);

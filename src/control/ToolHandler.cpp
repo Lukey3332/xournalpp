@@ -241,9 +241,9 @@ void ToolHandler::setPenFillEnabled(bool fill, bool fireEvent) {
 
 auto ToolHandler::getPenFillEnabled() -> bool { return this->tools[TOOL_PEN - TOOL_PEN]->getFill(); }
 
-void ToolHandler::setPenFill(int alpha) { this->tools[TOOL_PEN - TOOL_PEN]->setFillAlpha(alpha); }
+void ToolHandler::setPenFill(int64_t alpha) { this->tools[TOOL_PEN - TOOL_PEN]->setFillAlpha(alpha); }
 
-auto ToolHandler::getPenFill() -> int { return this->tools[TOOL_PEN - TOOL_PEN]->getFillAlpha(); }
+auto ToolHandler::getPenFill() -> int64_t { return this->tools[TOOL_PEN - TOOL_PEN]->getFillAlpha(); }
 
 void ToolHandler::setHighlighterFillEnabled(bool fill, bool fireEvent) {
     this->tools[TOOL_HIGHLIGHTER - TOOL_PEN]->setFill(fill);
@@ -255,9 +255,9 @@ void ToolHandler::setHighlighterFillEnabled(bool fill, bool fireEvent) {
 
 auto ToolHandler::getHighlighterFillEnabled() -> bool { return this->tools[TOOL_HIGHLIGHTER - TOOL_PEN]->getFill(); }
 
-void ToolHandler::setHighlighterFill(int alpha) { this->tools[TOOL_HIGHLIGHTER - TOOL_PEN]->setFillAlpha(alpha); }
+void ToolHandler::setHighlighterFill(int64_t alpha) { this->tools[TOOL_HIGHLIGHTER - TOOL_PEN]->setFillAlpha(alpha); }
 
-auto ToolHandler::getHighlighterFill() -> int { return this->tools[TOOL_HIGHLIGHTER - TOOL_PEN]->getFillAlpha(); }
+auto ToolHandler::getHighlighterFill() -> int64_t { return this->tools[TOOL_HIGHLIGHTER - TOOL_PEN]->getFillAlpha(); }
 
 auto ToolHandler::getThickness() -> double {
     Tool* tool = this->activeTool;
@@ -321,7 +321,7 @@ auto ToolHandler::getColor() -> Color {
 /**
  * @return -1 if fill is disabled, else the fill alpha value
  */
-auto ToolHandler::getFill() -> int {
+auto ToolHandler::getFill() -> int64_t {
     Tool* tool = this->activeTool;
     if (!tool->getFill()) {
         return -1;
@@ -426,7 +426,7 @@ void ToolHandler::loadSettings() {
                 this->activeTool = tool.get();
             }
 
-            int iColor{};
+            int64_t iColor{};
             if (tool->hasCapability(TOOL_CAP_COLOR) && st.getInt("color", iColor)) {
                 tool->setColor(Color(iColor));
             }
@@ -436,11 +436,11 @@ void ToolHandler::loadSettings() {
                 tool->setDrawingType(drawingTypeFromString(drawingType));
             }
 
-            int fill = -1;
+            int64_t fill = -1;
             if (st.getInt("fill", fill)) {
                 tool->setFill(fill);
             }
-            int fillAlpha = -1;
+            int64_t fillAlpha = -1;
             if (st.getInt("fillAlpha", fillAlpha)) {
                 tool->setFillAlpha(fillAlpha);
             }

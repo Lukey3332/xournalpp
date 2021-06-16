@@ -14,7 +14,7 @@ auto VorbisConsumer::start(const string& filename) -> bool {
     SF_INFO sfInfo;
     sfInfo.channels = channels;
     sfInfo.format = SF_FORMAT_OGG | SF_FORMAT_VORBIS;
-    sfInfo.samplerate = static_cast<int>(this->settings.getAudioSampleRate());
+    sfInfo.samplerate = static_cast<int64_t>(this->settings.getAudioSampleRate());
 
     auto SNDFILE_closer = [](SNDFILE* tag) { sf_close(tag); };
     std::unique_ptr<SNDFILE, decltype(SNDFILE_closer)> sfFile{sf_open(filename.c_str(), SFM_WRITE, &sfInfo),
@@ -27,7 +27,7 @@ auto VorbisConsumer::start(const string& filename) -> bool {
 
     this->consumerThread = std::thread([this, sfFile = std::move(sfFile), channels = channels] {
         auto lock{audioQueue.acquire_lock()};
-        auto buffer_size{static_cast<size_t>(std::max(0, 64 * channels))};
+        auto buffer_size{static_cast<size_t>(std::max((int64_t)0, 64 * channels))};
         std::vector<float> buffer;
         buffer.reserve(buffer_size);  // efficiency
         double audioGain = this->settings.getAudioGain();

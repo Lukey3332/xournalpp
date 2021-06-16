@@ -188,10 +188,10 @@ auto PageBackgroundChangeController::applyPdfBackground(PageRef page) -> bool {
 
     dlg->show(GTK_WINDOW(control->getGtkWindow()));
 
-    int selected = dlg->getSelectedPage();
+    int64_t selected = dlg->getSelectedPage();
     delete dlg;
 
-    if (selected >= 0 && selected < static_cast<int>(doc->getPdfPageCount())) {
+    if (selected >= 0 && selected < static_cast<int64_t>(doc->getPdfPageCount())) {
         // no need to set a type, if we set the page number the type is also set
         page->setBackgroundPdfPageNr(selected);
 

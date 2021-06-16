@@ -7,7 +7,7 @@
 #include "PdfPagesDialog.h"
 
 
-PdfElementView::PdfElementView(int id, XojPdfPageSPtr page, PdfPagesDialog* dlg):
+PdfElementView::PdfElementView(int64_t id, XojPdfPageSPtr page, PdfPagesDialog* dlg):
         BaseElementView(id, dlg), page(std::move(page)) {}
 
 PdfElementView::~PdfElementView() = default;
@@ -24,6 +24,6 @@ void PdfElementView::paintContents(cairo_t* cr) {
     page->render(cr);
 }
 
-auto PdfElementView::getContentWidth() -> int { return page->getWidth() * PdfPagesDialog::getZoom(); }
+auto PdfElementView::getContentWidth() -> int64_t { return page->getWidth() * PdfPagesDialog::getZoom(); }
 
-auto PdfElementView::getContentHeight() -> int { return page->getHeight() * PdfPagesDialog::getZoom(); }
+auto PdfElementView::getContentHeight() -> int64_t { return page->getHeight() * PdfPagesDialog::getZoom(); }

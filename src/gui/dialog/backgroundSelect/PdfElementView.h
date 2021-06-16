@@ -23,7 +23,7 @@ class PdfPagesDialog;
 
 class PdfElementView: public BaseElementView {
 public:
-    PdfElementView(int id, XojPdfPageSPtr page, PdfPagesDialog* dlg);
+    PdfElementView(int64_t id, XojPdfPageSPtr page, PdfPagesDialog* dlg);
     ~PdfElementView();
 
 protected:
@@ -35,12 +35,12 @@ protected:
     /**
      * Get the width in pixel, without shadow / border
      */
-    virtual int getContentWidth();
+    virtual int64_t getContentWidth();
 
     /**
      * Get the height in pixel, without shadow / border
      */
-    virtual int getContentHeight();
+    virtual int64_t getContentHeight();
 
 public:
     bool isUsed() const;

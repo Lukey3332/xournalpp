@@ -88,12 +88,12 @@ public:
     /**
      * @return Alpha for fill
      */
-    int getFillAlpha() const;
+    int64_t getFillAlpha() const;
 
     /**
      * @param fillAlpha Alpha for fill
      */
-    void setFillAlpha(int fillAlpha);
+    void setFillAlpha(int64_t fillAlpha);
 
     /**
      * @return Style of the line drawing
@@ -134,7 +134,7 @@ private:
     /**
      * Alpha for fill
      */
-    int fillAlpha = 128;
+    int64_t fillAlpha = 128;
     ;
 
     /**

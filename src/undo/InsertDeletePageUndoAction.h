@@ -19,7 +19,7 @@
 
 class InsertDeletePageUndoAction: public UndoAction {
 public:
-    InsertDeletePageUndoAction(const PageRef& page, int pagePos, bool inserted);
+    InsertDeletePageUndoAction(const PageRef& page, int64_t pagePos, bool inserted);
     virtual ~InsertDeletePageUndoAction();
 
 public:
@@ -34,5 +34,5 @@ private:
 
 private:
     bool inserted;
-    int pagePos;
+    int64_t pagePos;
 };

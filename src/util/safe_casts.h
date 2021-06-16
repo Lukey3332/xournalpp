@@ -98,10 +98,10 @@ inline auto floor_cast(Float f) -> Integral {
     return rv1;
 }
 
-// static_assert(is_safely_castable<int>(std::numeric_limits<size_t>::max()) == false);
-// static_assert(is_safely_castable<int>(std::numeric_limits<int64_t>::min()) == false);
-// static_assert(is_safely_castable<int>(std::numeric_limits<double>::min()) == false);
-// static_assert(is_safely_castable<int>(std::numeric_limits<float>::min()) == false);
-// static_assert(is_safely_castable<int>(size_t(std::numeric_limits<int>::max())));
-// static_assert(is_safely_castable<int>(int64_t(std::numeric_limits<int>::min())));
-// static_assert(is_safely_castable<int>(double(std::numeric_limits<int>::min())));
+// static_assert(is_safely_castable<int64_t>(std::numeric_limits<size_t>::max()) == false);
+// static_assert(is_safely_castable<int64_t>(std::numeric_limits<int64_t>::min()) == false);
+// static_assert(is_safely_castable<int64_t>(std::numeric_limits<double>::min()) == false);
+// static_assert(is_safely_castable<int64_t>(std::numeric_limits<float>::min()) == false);
+// static_assert(is_safely_castable<int64_t>(size_t(std::numeric_limits<int64_t>::max())));
+// static_assert(is_safely_castable<int64_t>(int64_t(std::numeric_limits<int64_t>::min())));
+// static_assert(is_safely_castable<int64_t>(double(std::numeric_limits<int64_t>::min())));

@@ -2,7 +2,7 @@
 
 #include <utility>
 
-int ToolbarItem::sid = 0;
+int64_t ToolbarItem::sid = 0;
 
 ToolbarItem::ToolbarItem(string name) {
     this->name = std::move(name);
@@ -22,4 +22,4 @@ auto ToolbarItem::getName() const -> const std::string& { return this->name; }
 
 auto ToolbarItem::operator==(ToolbarItem& other) -> bool { return this->name == other.name; }
 
-auto ToolbarItem::getId() const -> int { return this->id; }
+auto ToolbarItem::getId() const -> int64_t { return this->id; }

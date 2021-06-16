@@ -110,7 +110,7 @@ private:
 protected:
     bool threadRunning = true;
 
-    int jobRenderThreadTimerId = 0;
+    int64_t jobRenderThreadTimerId = 0;
 
     GThread* thread = nullptr;
 

@@ -31,7 +31,7 @@ public:
 public:
     Settings* getSettings();
     virtual void show(GtkWindow* parent);
-    virtual void setSelected(int selected);
+    virtual void setSelected(int64_t selected);
 
 protected:
     void layout();
@@ -55,12 +55,12 @@ protected:
     /**
      * Selected image, none if negative
      */
-    int selected = -1;
+    int64_t selected = -1;
 
     /**
      * To check if the size has real changed
      */
-    int lastWidth = 0;
+    int64_t lastWidth = 0;
 
     /**
      * Elements to display

@@ -22,7 +22,7 @@ class LayerController;
 
 class InsertLayerUndoAction: public UndoAction {
 public:
-    InsertLayerUndoAction(LayerController* layerController, const PageRef& page, Layer* layer, int layerPosition);
+    InsertLayerUndoAction(LayerController* layerController, const PageRef& page, Layer* layer, int64_t layerPosition);
     virtual ~InsertLayerUndoAction();
 
 public:
@@ -32,7 +32,7 @@ public:
     virtual string getText();
 
 private:
-    int layerPosition;
+    int64_t layerPosition;
     LayerController* layerController;
     Layer* layer;
 };

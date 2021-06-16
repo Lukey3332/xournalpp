@@ -39,7 +39,7 @@ enum ExportQualityCriterion { EXPORT_QUALITY_DPI, EXPORT_QUALITY_WIDTH, EXPORT_Q
  */
 class RasterImageQualityParameter {
 public:
-    RasterImageQualityParameter(ExportQualityCriterion criterion, int value);
+    RasterImageQualityParameter(ExportQualityCriterion criterion, int64_t value);
     RasterImageQualityParameter();
     ~RasterImageQualityParameter();
 
@@ -53,14 +53,14 @@ public:
      * @brief Get the target value of this parameter
      * @return The target value
      */
-    int getValue();
+    int64_t getValue();
 
 private:
     /**
      * @brief Default quality is: DPI=300
      */
     ExportQualityCriterion qualityCriterion = EXPORT_QUALITY_DPI;
-    int value = 300;
+    int64_t value = 300;
 };
 
 /**
@@ -96,7 +96,7 @@ public:
      * @param criterion A quality criterion for the export
      * @param value The target value of this criterion
      */
-    void setQualityParameter(ExportQualityCriterion criterion, int value);
+    void setQualityParameter(ExportQualityCriterion criterion, int64_t value);
 
 private:
     /**
@@ -110,12 +110,12 @@ private:
      *          The return value may differ from that of the parameter zoomRatio
      *          if the export has fixed page width or height (in pixels)
      */
-    double createSurface(double width, double height, int id, double zoomRatio);
+    double createSurface(double width, double height, int64_t id, double zoomRatio);
 
     /**
      * Free / store the surface
      */
-    bool freeSurface(int id);
+    bool freeSurface(int64_t id);
 
     /**
      * @brief Get a filename with a (page) number appended
@@ -124,7 +124,7 @@ private:
      *
      * @return The filename
      */
-    fs::path getFilenameWithNumber(int no) const;
+    fs::path getFilenameWithNumber(int64_t no) const;
 
     /**
      * @brief Export a single PNG/SVG page
@@ -134,7 +134,7 @@ private:
      * @param format The format of the exported image
      * @param view A DocumentView for drawing the page
      */
-    void exportImagePage(int pageId, int id, double zoomRatio, ExportGraphicsFormat format, DocumentView& view);
+    void exportImagePage(int64_t pageId, int64_t id, double zoomRatio, ExportGraphicsFormat format, DocumentView& view);
 
 public:
     /**

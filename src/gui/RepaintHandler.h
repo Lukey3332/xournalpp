@@ -33,7 +33,7 @@ public:
     /**
      * Repaint a page area, coordinates are in view coordinates
      */
-    void repaintPageArea(XojPageView* view, int x1, int y1, int x2, int y2);
+    void repaintPageArea(XojPageView* view, int64_t x1, int64_t y1, int64_t x2, int64_t y2);
 
     /**
      * Repaints the page border (at least)

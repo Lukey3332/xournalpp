@@ -70,7 +70,7 @@ auto StrokeHandler::onMotionNotifyEvent(const PositionInputData& pos) -> bool {
 
 void StrokeHandler::paintTo(const Point& point) {
 
-    int pointCount = stroke->getPointCount();
+    int64_t pointCount = stroke->getPointCount();
 
     if (pointCount > 0) {
         Point endPoint = stroke->getPoint(pointCount - 1);
@@ -102,7 +102,7 @@ void StrokeHandler::paintTo(const Point& point) {
                     endPoint.z += increment.z;
                     stroke->setLastPressure(endPoint.z);
 
-                    for (int i = 1; i < static_cast<int>(nbSteps); i++) {  // The last step is done below
+                    for (int64_t i = 1; i < static_cast<int64_t>(nbSteps); i++) {  // The last step is done below
                         endPoint.x += increment.x;
                         endPoint.y += increment.y;
                         endPoint.z += increment.z;
@@ -178,7 +178,7 @@ void StrokeHandler::onButtonReleaseEvent(const PositionInputData& pos) {
     if (settings->getStrokeFilterEnabled())  // Note: For shape tools see BaseStrokeHandler which has a slightly
                                              // different version of this filter. See //!
     {
-        int strokeFilterIgnoreTime = 0, strokeFilterSuccessiveTime = 0;
+        int64_t strokeFilterIgnoreTime = 0, strokeFilterSuccessiveTime = 0;
         double strokeFilterIgnoreLength = NAN;
 
         settings->getStrokeFilter(&strokeFilterIgnoreTime, &strokeFilterIgnoreLength, &strokeFilterSuccessiveTime);
@@ -329,7 +329,7 @@ void StrokeHandler::onButtonPressEvent(const PositionInputData& pos) {
     double zoom = xournal->getZoom();
     PageRef page = redrawable->getPage();
 
-    int dpiScaleFactor = xournal->getDpiScaleFactor();
+    int64_t dpiScaleFactor = xournal->getDpiScaleFactor();
 
     double width = page->getWidth() * zoom * dpiScaleFactor;
     double height = page->getHeight() * zoom * dpiScaleFactor;

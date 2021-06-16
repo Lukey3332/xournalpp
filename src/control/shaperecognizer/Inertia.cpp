@@ -68,7 +68,7 @@ auto Inertia::det() const -> double {
 
 auto Inertia::getMass() const -> double { return mass; }
 
-void Inertia::increase(Point p1, Point p2, int coef) {
+void Inertia::increase(Point p1, Point p2, int64_t coef) {
     double dm = coef * hypot(p2.x - p1.x, p2.y - p1.y);
     this->mass += dm;
     this->sx += dm * p1.x;
@@ -78,9 +78,9 @@ void Inertia::increase(Point p1, Point p2, int coef) {
     this->sxy += dm * p1.x * p1.y;
 }
 
-void Inertia::calc(const Point* pt, int start, int end) {
+void Inertia::calc(const Point* pt, int64_t start, int64_t end) {
     this->mass = this->sx = this->sy = this->sxx = this->sxy = this->syy = 0.;
-    for (int i = start; i < end - 1; i++) {
+    for (int64_t i = start; i < end - 1; i++) {
         this->increase(pt[i], pt[i + 1], 1);
     }
 }

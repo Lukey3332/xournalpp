@@ -22,7 +22,7 @@ void ToolItemDragCurrentData::setData(GtkWidget* widget) {
     *data = *d;
 }
 
-void ToolItemDragCurrentData::setData(ToolItemType type, int id, AbstractToolItem* item) {
+void ToolItemDragCurrentData::setData(ToolItemType type, int64_t id, AbstractToolItem* item) {
     g_return_if_fail(item != nullptr || type != TOOL_ITEM_ITEM);
 
     data = ToolitemDragDrop::ToolItemDragDropData_new(item);
@@ -30,7 +30,7 @@ void ToolItemDragCurrentData::setData(ToolItemType type, int id, AbstractToolIte
     data->id = id;
 }
 
-void ToolItemDragCurrentData::setDataColor(int id, Color color) {
+void ToolItemDragCurrentData::setDataColor(int64_t id, Color color) {
     data = ToolitemDragDrop::ToolItemDragDropData_new(nullptr);
     data->type = TOOL_ITEM_COLOR;
     data->id = id;

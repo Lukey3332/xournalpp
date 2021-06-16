@@ -32,7 +32,7 @@ public:
 
     void save();
 
-    void setDpi(int dpi);
+    void setDpi(int64_t dpi);
 
     /**
      * Set active regions
@@ -63,7 +63,7 @@ private:
     static string updateHideString(const string& hidden, bool hideMenubar, bool hideSidebar);
 
     void initMouseButtonEvents();
-    void initMouseButtonEvents(const char* hbox, int button, bool withDevice = false);
+    void initMouseButtonEvents(const char* hbox, int64_t button, bool withDevice = false);
 
     void initLanguageSettings();
 
@@ -74,7 +74,7 @@ private:
     Settings* settings = nullptr;
     Control* control = nullptr;
     GtkWidget* callib = nullptr;
-    int dpi = 72;
+    int64_t dpi = 72;
     vector<DeviceInfo> audioInputDevices;
     vector<DeviceInfo> audioOutputDevices;
 

@@ -90,7 +90,7 @@ private:
      *              modification dates
      */
     static GList* filterRecent(GList* items, bool xoj);
-    void addRecentMenu(GtkRecentInfo* info, int i);
+    void addRecentMenu(GtkRecentInfo* info, int64_t i);
 
     /**
      * This callback function is triggered whenever a new
@@ -112,7 +112,7 @@ private:
     static auto sortRecentsEntries(GtkRecentInfo* a, GtkRecentInfo* b) -> gint;
 
 private:
-    int maxRecent = 10;
+    int64_t maxRecent = 10;
     gulong recentHandlerId{};
 
     std::vector<RecentManagerListener*> listener;

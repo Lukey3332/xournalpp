@@ -11,7 +11,7 @@ SidebarLayout::~SidebarLayout() = default;
 
 class SidebarRow {
 public:
-    explicit SidebarRow(int width) {
+    explicit SidebarRow(int64_t width) {
         this->width = width;
         this->currentWidth = 0;
     }
@@ -40,13 +40,13 @@ public:
         this->currentWidth = 0;
     }
 
-    auto getCount() -> int { return this->list.size(); }
+    auto getCount() -> int64_t { return this->list.size(); }
 
-    auto getWidth() const -> int { return this->currentWidth; }
+    auto getWidth() const -> int64_t { return this->currentWidth; }
 
-    auto placeAt(int y, GtkLayout* layout) -> int {
-        int height = 0;
-        int x = 0;
+    auto placeAt(int64_t y, GtkLayout* layout) -> int64_t {
+        int64_t height = 0;
+        int64_t x = 0;
 
         for (SidebarPreviewBaseEntry* p: this->list) {
             height = std::max(height, p->getHeight());
@@ -54,7 +54,7 @@ public:
 
 
         for (SidebarPreviewBaseEntry* p: this->list) {
-            int currentY = (height - p->getHeight()) / 2;
+            int64_t currentY = (height - p->getHeight()) / 2;
 
             gtk_layout_move(layout, p->getWidget(), x, y + currentY);
 
@@ -66,15 +66,15 @@ public:
     }
 
 private:
-    int width;
-    int currentWidth;
+    int64_t width;
+    int64_t currentWidth;
 
     std::list<SidebarPreviewBaseEntry*> list;
 };
 
 void SidebarLayout::layout(SidebarPreviewBase* sidebar) {
-    int y = 0;
-    int width = 0;
+    int64_t y = 0;
+    int64_t width = 0;
 
     GtkAllocation alloc;
 

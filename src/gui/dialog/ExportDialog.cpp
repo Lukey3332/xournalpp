@@ -29,7 +29,7 @@ ExportDialog::ExportDialog(GladeSearchpath* gladeSearchPath):
 
 ExportDialog::~ExportDialog() = default;
 
-void ExportDialog::initPages(int current, int count) {
+void ExportDialog::initPages(int64_t current, int64_t count) {
     string allPages = "1 - " + std::to_string(count);
     gtk_label_set_text(GTK_LABEL(get("lbAllPagesInfo")), allPages.c_str());
     string currentPages = std::to_string(current);
@@ -51,7 +51,7 @@ void ExportDialog::showProgressiveMode() {
 }
 
 void ExportDialog::selectQualityCriterion(GtkComboBox* comboBox, ExportDialog* self) {
-    int activeCriterion = gtk_combo_box_get_active(comboBox);
+    int64_t activeCriterion = gtk_combo_box_get_active(comboBox);
     switch (activeCriterion) {
         case EXPORT_QUALITY_DPI:
             gtk_label_set_text(GTK_LABEL(self->get("lbQualityUnit")), "dpi");
@@ -108,7 +108,7 @@ void ExportDialog::show(GtkWindow* parent) {
 
     gtk_window_set_transient_for(GTK_WINDOW(this->window), parent);
 
-    int res = gtk_dialog_run(GTK_DIALOG(this->window));
+    int64_t res = gtk_dialog_run(GTK_DIALOG(this->window));
 
     if (res == GTK_RESPONSE_OK) {
         confirmed = true;

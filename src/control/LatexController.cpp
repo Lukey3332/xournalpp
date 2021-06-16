@@ -69,7 +69,7 @@ auto LatexController::findTexDependencies() -> LatexController::FindDependencySt
  */
 void LatexController::findSelectedTexElement() {
     this->doc->lock();
-    int pageNr = this->control->getCurrentPageNo();
+    int64_t pageNr = this->control->getCurrentPageNo();
     if (pageNr == -1) {
         this->doc->unlock();
         return;

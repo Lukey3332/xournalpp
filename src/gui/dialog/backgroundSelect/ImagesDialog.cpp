@@ -64,7 +64,7 @@ void ImagesDialog::filechooserButtonCallback(GtkButton* button, ImagesDialog* dl
 auto ImagesDialog::shouldShowFilechooser() -> bool { return selected == -2 && confirmed; }
 
 auto ImagesDialog::getSelectedImage() -> BackgroundImage {
-    if (confirmed && selected >= 0 && selected < static_cast<int>(elements.size())) {
+    if (confirmed && selected >= 0 && selected < static_cast<int64_t>(elements.size())) {
         return (dynamic_cast<ImageElementView*>(elements[selected]))->backgroundImage;
     }
 

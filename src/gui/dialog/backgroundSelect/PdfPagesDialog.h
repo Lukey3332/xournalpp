@@ -27,7 +27,7 @@ public:
     virtual void show(GtkWindow* parent);
     void updateOkButton();
     static double getZoom();
-    int getSelectedPage();
+    int64_t getSelectedPage();
 
 private:
     static void onlyNotUsedCallback(GtkToggleButton* tb, PdfPagesDialog* dlg);

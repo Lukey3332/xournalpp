@@ -15,17 +15,17 @@
 
 class FillOpacityDialog: public GladeGui {
 public:
-    FillOpacityDialog(GladeSearchpath* gladeSearchPath, int alpha);
+    FillOpacityDialog(GladeSearchpath* gladeSearchPath, int64_t alpha);
     virtual ~FillOpacityDialog();
 
 public:
     virtual void show(GtkWindow* parent);
 
-    int getResultAlpha() const;
+    int64_t getResultAlpha() const;
 
 private:
-    void setPreviewImage(int alpha);
+    void setPreviewImage(int64_t alpha);
 
 private:
-    int resultAlpha = -1;
+    int64_t resultAlpha = -1;
 };

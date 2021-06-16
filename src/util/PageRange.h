@@ -18,16 +18,16 @@
 
 class PageRangeEntry {
 public:
-    PageRangeEntry(int first, int last);
+    PageRangeEntry(int64_t first, int64_t last);
     virtual ~PageRangeEntry();
 
 public:
-    int getLast() const;
-    int getFirst() const;
+    int64_t getLast() const;
+    int64_t getFirst() const;
 
 private:
-    int first;
-    int last;
+    int64_t first;
+    int64_t last;
 };
 
 typedef vector<PageRangeEntry*> PageRangeVector;
@@ -39,5 +39,5 @@ private:
 
 public:
     static bool isSeparator(char c);
-    static PageRangeVector parse(const char* str, int pageCount);
+    static PageRangeVector parse(const char* str, int64_t pageCount);
 };

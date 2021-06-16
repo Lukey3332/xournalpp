@@ -2,7 +2,7 @@
 
 #include "gui/Shadow.h"
 
-ImageElementView::ImageElementView(int id, BackgroundSelectDialogBase* dlg): BaseElementView(id, dlg) {}
+ImageElementView::ImageElementView(int64_t id, BackgroundSelectDialogBase* dlg): BaseElementView(id, dlg) {}
 
 ImageElementView::~ImageElementView() = default;
 
@@ -30,6 +30,6 @@ void ImageElementView::paintContents(cairo_t* cr) {
     cairo_paint(cr);
 }
 
-auto ImageElementView::getContentWidth() -> int { return width; }
+auto ImageElementView::getContentWidth() -> int64_t { return width; }
 
-auto ImageElementView::getContentHeight() -> int { return height; }
+auto ImageElementView::getContentHeight() -> int64_t { return height; }

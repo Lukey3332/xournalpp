@@ -47,7 +47,7 @@ public:
 private:
     void calcSize() const override;
 
-    static cairo_status_t cairoReadFunction(Image* image, unsigned char* data, unsigned int length);
+    static cairo_status_t cairoReadFunction(Image* image, unsigned char* data, uint64_t length);
 
 private:
     cairo_surface_t* image = nullptr;

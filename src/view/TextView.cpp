@@ -11,9 +11,9 @@ TextView::TextView() = default;
 
 TextView::~TextView() = default;
 
-static int textDpi = 72;
+static int64_t textDpi = 72;
 
-void TextView::setDpi(int dpi) { textDpi = dpi; }
+void TextView::setDpi(int64_t dpi) { textDpi = dpi; }
 
 auto TextView::initPango(cairo_t* cr, const Text* t) -> PangoLayout* {
     PangoLayout* layout = pango_cairo_create_layout(cr);
@@ -73,7 +73,7 @@ auto TextView::findText(const Text* t, string& search) -> vector<XojPdfRectangle
 
     vector<XojPdfRectangle> list;
 
-    int pos = -1;
+    int64_t pos = -1;
     do {
         pos = StringUtils::toLowerCase(text).find(srch, pos + 1);
         if (pos != -1) {

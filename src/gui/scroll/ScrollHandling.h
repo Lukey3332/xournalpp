@@ -32,10 +32,10 @@ public:
 
     void init(GtkWidget* xournal, Layout* layout);
 
-    void setLayoutSize(int width, int height);
+    void setLayoutSize(int64_t width, int64_t height);
 
-    int getPreferredWidth();
-    int getPreferredHeight();
+    int64_t getPreferredWidth();
+    int64_t getPreferredHeight();
 
 private:
 protected:

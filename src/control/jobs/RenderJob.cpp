@@ -40,9 +40,9 @@ void RenderJob::rerenderRectangle(Rectangle<double> const& rect) {
     v.setMarkAudioStroke(control->getToolHandler()->getToolType() == TOOL_PLAY_OBJECT);
     v.limitArea(rect.x, rect.y, rect.width, rect.height);
 
-    bool backgroundVisible = view->page->isLayerVisible(0);
+    bool backgroundVisible = view->page->isLayerVisible((int64_t)0);
     if (backgroundVisible && view->page->getBackgroundType().isPdfPage()) {
-        int pgNo = view->page->getPdfPageNr();
+        int64_t pgNo = view->page->getPdfPageNr();
         XojPdfPageSPtr popplerPage = doc->getPdfPage(pgNo);
         PdfCache* cache = view->xournal->getCache();
         PdfView::drawPage(cache, popplerPage, crRect, zoom, pageWidth, pageHeight);
@@ -82,13 +82,13 @@ void RenderJob::run() {
 
     g_mutex_unlock(&this->view->repaintRectMutex);
 
-    int dpiScaleFactor = this->view->xournal->getDpiScaleFactor();
+    int64_t dpiScaleFactor = this->view->xournal->getDpiScaleFactor();
 
     if (rerenderComplete || dpiScaleFactor > 1) {
         Document* doc = this->view->xournal->getDocument();
 
-        int dispWidth = this->view->getDisplayWidth();
-        int dispHeight = this->view->getDisplayHeight();
+        int64_t dispWidth = this->view->getDisplayWidth();
+        int64_t dispHeight = this->view->getDisplayHeight();
 
         dispWidth *= dpiScaleFactor;
         dispHeight *= dpiScaleFactor;
@@ -103,17 +103,17 @@ void RenderJob::run() {
         doc->lock();
 
         if (this->view->page->getBackgroundType().isPdfPage()) {
-            int pgNo = this->view->page->getPdfPageNr();
+            int64_t pgNo = this->view->page->getPdfPageNr();
             popplerPage = doc->getPdfPage(pgNo);
         }
 
         Control* control = view->getXournal()->getControl();
         DocumentView localView;
         localView.setMarkAudioStroke(control->getToolHandler()->getToolType() == TOOL_PLAY_OBJECT);
-        int width = this->view->page->getWidth();
-        int height = this->view->page->getHeight();
+        int64_t width = this->view->page->getWidth();
+        int64_t height = this->view->page->getHeight();
 
-        bool backgroundVisible = this->view->page->isLayerVisible(0);
+        bool backgroundVisible = this->view->page->isLayerVisible((int64_t)0);
         if (backgroundVisible) {
             PdfView::drawPage(this->view->xournal->getCache(), popplerPage, cr2, zoom, width, height);
         }

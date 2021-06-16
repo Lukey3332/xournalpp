@@ -8,7 +8,7 @@
 #include "i18n.h"
 
 PageBackgroundChangedUndoAction::PageBackgroundChangedUndoAction(const PageRef& page, const PageType& origType,
-                                                                 int origPdfPage, BackgroundImage origBackgroundImage,
+                                                                 int64_t origPdfPage, BackgroundImage origBackgroundImage,
                                                                  double origW, double origH):
         UndoAction("PageBackgroundChangedUndoAction") {
     this->page = page;
@@ -30,7 +30,7 @@ auto PageBackgroundChangedUndoAction::undo(Control* control) -> bool {
     this->newH = this->page->getHeight();
 
     Document* doc = control->getDocument();
-    int pageNr = doc->indexOf(this->page);
+    int64_t pageNr = doc->indexOf(this->page);
     if (pageNr == -1) {
         return false;
     }
@@ -55,7 +55,7 @@ auto PageBackgroundChangedUndoAction::undo(Control* control) -> bool {
 auto PageBackgroundChangedUndoAction::redo(Control* control) -> bool {
     Document* doc = control->getDocument();
 
-    int pageNr = doc->indexOf(this->page);
+    int64_t pageNr = doc->indexOf(this->page);
 
     if (pageNr == -1) {
         return false;

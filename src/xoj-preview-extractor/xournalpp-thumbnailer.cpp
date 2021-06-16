@@ -145,12 +145,12 @@ int main(int argc, char* argv[]) {
 
     // Struct for reading imageData into a cairo surface
     struct ReadClosure {
-        unsigned int pos;
+        uint64_t pos;
         unsigned char* data;
         gsize maxLen;
     };
     cairo_read_func_t processRead =
-            (cairo_read_func_t) + [](ReadClosure* closure, unsigned char* data, unsigned int length) {
+            (cairo_read_func_t) + [](ReadClosure* closure, unsigned char* data, uint64_t length) {
                 if (closure->pos + length > closure->maxLen) {
                     return CAIRO_STATUS_READ_ERROR;
                 }

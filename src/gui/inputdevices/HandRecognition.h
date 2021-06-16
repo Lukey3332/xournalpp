@@ -91,7 +91,7 @@ private:
     /**
      * Timeout in ms
      */
-    int disableTimeout = 500;
+    int64_t disableTimeout = 500;
 
     /**
      * True if an X11 session is running

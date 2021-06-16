@@ -113,7 +113,7 @@ private:
     GString* str;
 };
 
-static auto svgWriteFunction(GString* string, const unsigned char* data, unsigned int length) -> cairo_status_t {
+static auto svgWriteFunction(GString* string, const unsigned char* data, uint64_t length) -> cairo_status_t {
     g_string_append_len(string, reinterpret_cast<const gchar*>(data), length);
     return CAIRO_STATUS_SUCCESS;
 }
@@ -163,8 +163,8 @@ auto ClipboardHandler::copy() -> bool {
 
     double dpiFactor = 1.0 / Util::DPI_NORMALIZATION_FACTOR * 300.0;
 
-    int width = selection->getWidth() * dpiFactor;
-    int height = selection->getHeight() * dpiFactor;
+    int64_t width = selection->getWidth() * dpiFactor;
+    int64_t height = selection->getHeight() * dpiFactor;
     cairo_surface_t* surfacePng = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
     cairo_t* crPng = cairo_create(surfacePng);
     cairo_scale(crPng, dpiFactor, dpiFactor);
@@ -200,7 +200,7 @@ auto ClipboardHandler::copy() -> bool {
 
     GtkTargetList* list = gtk_target_list_new(nullptr, 0);
     GtkTargetEntry* targets = nullptr;
-    int n_targets = 0;
+    gint n_targets = 0;
 
     // if we have text elements...
     if (!text.empty()) {
@@ -280,7 +280,7 @@ auto gtk_selection_data_targets_include_xournal(GtkSelectionData* selection_data
     gboolean result = false;
 
     if (gtk_selection_data_get_targets(selection_data, &targets, &n_targets)) {
-        for (int i = 0; i < n_targets; i++) {
+        for (int64_t i = 0; i < n_targets; i++) {
             if (targets[i] == atomXournal) {
                 result = true;
                 break;

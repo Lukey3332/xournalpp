@@ -18,12 +18,12 @@ class SidebarPreviewBase;
 
 class SidebarPreviewLayerEntry: public SidebarPreviewBaseEntry {
 public:
-    SidebarPreviewLayerEntry(SidebarPreviewBase* sidebar, const PageRef& page, int layer, const string& layerName,
+    SidebarPreviewLayerEntry(SidebarPreviewBase* sidebar, const PageRef& page, int64_t layer, const string& layerName,
                              size_t index, bool stacked);
     virtual ~SidebarPreviewLayerEntry();
 
 public:
-    virtual int getHeight();
+    virtual int64_t getHeight();
 
     /**
      * @return What should be rendered
@@ -34,7 +34,7 @@ public:
     /**
      * @return The layer to be rendered
      */
-    int getLayer() const;
+    int64_t getLayer() const;
 
     virtual GtkWidget* getWidget();
 
@@ -56,12 +56,12 @@ private:
     /**
      * Layer to render
      */
-    int layer;
+    int64_t layer;
 
     /**
      * Toolbar with controls
      */
-    int toolbarHeight = 0;
+    int64_t toolbarHeight = 0;
 
     /**
      * Container box for the preview and the button

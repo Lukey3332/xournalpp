@@ -17,7 +17,7 @@ class Stroke;
 
 class StrokeView {
 public:
-    StrokeView(cairo_t* cr, Stroke* s, int startPoint, double scaleFactor, bool noAlpha);
+    StrokeView(cairo_t* cr, Stroke* s, int64_t startPoint, double scaleFactor, bool noAlpha);
     ~StrokeView() = default;
 
 public:
@@ -50,7 +50,7 @@ private:
     cairo_t* cr;
     Stroke* s;
 
-    int startPoint;
+    int64_t startPoint;
     double scaleFactor;
     bool noAlpha;
 };

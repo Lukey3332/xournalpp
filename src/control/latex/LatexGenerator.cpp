@@ -17,7 +17,7 @@ auto LatexGenerator::templateSub(const std::string& input, const std::string& te
     const static std::regex substRe("%%XPP_((TOOL_INPUT)|(TEXT_COLOR))%%");
     std::string output;
     output.reserve(templ.length());
-    int templatePos = 0;
+    int64_t templatePos = 0;
     for (std::sregex_iterator it(templ.begin(), templ.end(), substRe); it != std::sregex_iterator{}; it++) {
         std::smatch match = *it;
         std::string matchStr = match[1];

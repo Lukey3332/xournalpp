@@ -19,7 +19,7 @@ public:
     virtual ~HexObjectEncoding();
 
 public:
-    virtual void addData(const void* data, int len);
+    virtual void addData(const void* data, int64_t len);
 
 private:
 };

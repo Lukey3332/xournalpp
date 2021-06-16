@@ -38,8 +38,8 @@ public:
 
     double getMass() const;
 
-    void increase(Point p1, Point p2, int coef);
-    void calc(const Point* pt, int start, int end);
+    void increase(Point p1, Point p2, int64_t coef);
+    void calc(const Point* pt, int64_t start, int64_t end);
 
 private:
     double mass{};

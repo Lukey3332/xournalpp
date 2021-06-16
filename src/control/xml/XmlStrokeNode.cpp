@@ -15,14 +15,14 @@ XmlStrokeNode::~XmlStrokeNode() {
     delete[] this->widths;
 }
 
-void XmlStrokeNode::setWidth(double width, const double* widths, int widthsLength) {
+void XmlStrokeNode::setWidth(double width, const double* widths, int64_t widthsLength) {
     this->width = width;
 
 
     delete[] this->widths;
 
     this->widths = new double[widthsLength];
-    for (int i = 0; i < widthsLength; i++) {
+    for (int64_t i = 0; i < widthsLength; i++) {
         this->widths[i] = widths[i];
     }
     this->widthsLength = widthsLength;
@@ -40,7 +40,7 @@ void XmlStrokeNode::writeOut(OutputStream* out) {
     g_ascii_formatd(widthStr, G_ASCII_DTOSTR_BUF_SIZE, Util::PRECISION_FORMAT_STRING, width);
     out->write(widthStr);
 
-    for (int i = 0; i < widthsLength; i++) {
+    for (int64_t i = 0; i < widthsLength; i++) {
         g_ascii_formatd(widthStr, G_ASCII_DTOSTR_BUF_SIZE, Util::PRECISION_FORMAT_STRING, widths[i]);
         out->write(" ");
         out->write(widthStr);
@@ -55,7 +55,7 @@ void XmlStrokeNode::writeOut(OutputStream* out) {
 
         Util::writeCoordinateString(out, points[0].x, points[0].y);
 
-        for (int i = 1; i < this->pointsLength; i++) {
+        for (int64_t i = 1; i < this->pointsLength; i++) {
             out->write(" ");
             Util::writeCoordinateString(out, points[i].x, points[i].y);
         }

@@ -22,13 +22,13 @@ class BackgroundSelectDialogBase;
 
 class BaseElementView {
 public:
-    BaseElementView(int id, BackgroundSelectDialogBase* dlg);
+    BaseElementView(int64_t id, BackgroundSelectDialogBase* dlg);
     virtual ~BaseElementView();
 
 public:
     GtkWidget* getWidget();
-    int getWidth();
-    int getHeight();
+    int64_t getWidth();
+    int64_t getHeight();
 
     /**
      * Select / unselect this entry
@@ -59,12 +59,12 @@ protected:
     /**
      * Get the width in pixel, without shadow / border
      */
-    virtual int getContentWidth() = 0;
+    virtual int64_t getContentWidth() = 0;
 
     /**
      * Get the height in pixel, without shadow / border
      */
-    virtual int getContentHeight() = 0;
+    virtual int64_t getContentHeight() = 0;
 
     /**
      * Will be called before getContentWidth() / getContentHeight(), can be overwritten
@@ -83,7 +83,7 @@ private:
     /**
      * Element ID, starting with 0
      */
-    int id = -1;
+    int64_t id = -1;
 
     bool selected = false;
 

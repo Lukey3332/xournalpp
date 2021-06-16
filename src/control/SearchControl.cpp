@@ -29,7 +29,7 @@ void SearchControl::paint(cairo_t* cr, GdkRectangle* rect, double zoom, const Gd
     }
 }
 
-auto SearchControl::search(string text, int* occures, double* top) -> bool {
+auto SearchControl::search(string text, int64_t* occures, double* top) -> bool {
     freeSearchResults();
 
     if (text.empty()) {

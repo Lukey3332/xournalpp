@@ -44,8 +44,8 @@ void Image::setHeight(double height) {
     this->calcSize();
 }
 
-auto Image::cairoReadFunction(Image* image, unsigned char* data, unsigned int length) -> cairo_status_t {
-    for (unsigned int i = 0; i < length; i++, image->read++) {
+auto Image::cairoReadFunction(Image* image, unsigned char* data, uint64_t length) -> cairo_status_t {
+    for (uint64_t i = 0; i < length; i++, image->read++) {
         if (image->read >= image->data.length()) {
             return CAIRO_STATUS_READ_ERROR;
         }

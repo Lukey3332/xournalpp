@@ -24,9 +24,9 @@ public:
 
 public:
     bool loadValue(const string& key, string& value) const;
-    bool loadValue(const string& key, int& value) const;
+    bool loadValue(const string& key, int64_t& value) const;
     bool loadValue(const string& key, double& value) const;
-    bool loadValueHex(const string& key, int& value) const;
+    bool loadValueHex(const string& key, int64_t& value) const;
     bool loadValueHex(const string& key, uint32_t& value) const;
 
 private:

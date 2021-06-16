@@ -47,7 +47,7 @@ public:
     void scrollTo(size_t pageNo, double y = 0);
 
     // Relative navigation in current layout:
-    void pageRelativeXY(int offCol, int offRow);
+    void pageRelativeXY(int64_t offCol, int64_t offRow);
 
     size_t getCurrentPage() const;
 
@@ -61,7 +61,7 @@ public:
 
     XojPageView* getViewFor(size_t pageNr);
 
-    bool searchTextOnPage(string text, size_t p, int* occures, double* top);
+    bool searchTextOnPage(string text, size_t p, int64_t* occures, double* top);
 
     bool cut();
     bool copy();
@@ -75,12 +75,12 @@ public:
 
     void resetShapeRecognizer();
 
-    int getDisplayWidth() const;
-    int getDisplayHeight() const;
+    int64_t getDisplayWidth() const;
+    int64_t getDisplayHeight() const;
 
-    bool isPageVisible(size_t page, int* visibleHeight);
+    bool isPageVisible(size_t page, int64_t* visibleHeight);
 
-    void ensureRectIsVisible(int x, int y, int width, int height);
+    void ensureRectIsVisible(int64_t x, int64_t y, int64_t width, int64_t height);
 
     void setSelection(EditSelection* selection);
     EditSelection* getSelection();
@@ -92,14 +92,14 @@ public:
 
     Control* getControl();
     double getZoom();
-    int getDpiScaleFactor();
+    int64_t getDpiScaleFactor();
     Document* getDocument();
     PdfCache* getCache();
     RepaintHandler* getRepaintHandler();
     GtkWidget* getWidget();
     XournalppCursor* getCursor();
 
-    Rectangle<double>* getVisibleRect(int page);
+    Rectangle<double>* getVisibleRect(int64_t page);
     Rectangle<double>* getVisibleRect(XojPageView* redrawable);
 
     /**
@@ -176,7 +176,7 @@ private:
     /**
      * Memory cleanup timeout
      */
-    int cleanupTimeout = -1;
+    int64_t cleanupTimeout = -1;
 
     /**
      * Helper class for Touch specific fixes

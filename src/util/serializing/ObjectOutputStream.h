@@ -30,13 +30,13 @@ public:
     void writeObject(const char* name);
     void endObject();
 
-    void writeInt(int i);
+    void writeInt(int64_t i);
     void writeDouble(double d);
     void writeSizeT(size_t st);
     void writeString(const char* str);
     void writeString(const string& s);
 
-    void writeData(const void* data, int len, int width);
+    void writeData(const void* data, int64_t len, int64_t width);
     void writeImage(cairo_surface_t* img);
 
     GString* getStr();

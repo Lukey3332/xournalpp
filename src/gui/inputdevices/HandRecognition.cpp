@@ -110,7 +110,7 @@ auto HandRecognition::enableTimeout(HandRecognition* self) -> bool {
         return false;
     }
 
-    int nextTime = now - self->lastPenAction + self->disableTimeout;
+    int64_t nextTime = now - self->lastPenAction + self->disableTimeout;
 
     g_timeout_add(nextTime, reinterpret_cast<GSourceFunc>(enableTimeout), self);
 

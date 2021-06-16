@@ -19,7 +19,7 @@ void LineStyle::operator=(const LineStyle& other) {
         return;
     }
     const double* dashes = nullptr;
-    int dashCount = 0;
+    int64_t dashCount = 0;
 
     other.getDashes(dashes, dashCount);
     setDashes(dashes, dashCount);
@@ -50,7 +50,7 @@ void LineStyle::readSerialized(ObjectInputStream& in) {
  *
  * @return true if dashed
  */
-auto LineStyle::getDashes(const double*& dashes, int& dashCount) const -> bool {
+auto LineStyle::getDashes(const double*& dashes, int64_t& dashCount) const -> bool {
     dashes = this->dashes;
     dashCount = this->dashCount;
 
@@ -64,7 +64,7 @@ auto LineStyle::getDashes(const double*& dashes, int& dashCount) const -> bool {
  * @param dashCount Count of entries
  */
 // Todo(fabian): memmory use after free
-void LineStyle::setDashes(const double* dashes, int dashCount) {
+void LineStyle::setDashes(const double* dashes, int64_t dashCount) {
     g_free(this->dashes);
     if (dashCount == 0 || dashes == nullptr) {
         this->dashCount = 0;

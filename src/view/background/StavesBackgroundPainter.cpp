@@ -20,9 +20,9 @@ void StavesBackgroundPainter::paint() {
     double lineSize = 4 * staveDistance + 5 * lineWidth * lineWidthFactor + lineDistance;
     double offset = headerSize;
 
-    int numStaves = static_cast<int>((height - headerSize - footerSize + lineDistance) / (lineSize));
+    int64_t numStaves = static_cast<int64_t>((height - headerSize - footerSize + lineDistance) / (lineSize));
 
-    for (int line = 0; line < numStaves; line++) {
+    for (int64_t line = 0; line < numStaves; line++) {
         paintBackgroundStaves(offset);
         offset += lineSize;
     }
@@ -34,7 +34,7 @@ void StavesBackgroundPainter::paintBackgroundStaves(double offset) {
     cairo_set_line_width(cr, lineWidth * lineWidthFactor);
 
     double staveOffset = offset;
-    for (int j = 0; j < 5; j++) {
+    for (int64_t j = 0; j < 5; j++) {
         cairo_move_to(cr, this->borderSize, staveOffset);
         cairo_line_to(cr, this->width - this->borderSize, staveOffset);
         staveOffset += this->staveDistance;

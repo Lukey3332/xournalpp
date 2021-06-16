@@ -40,7 +40,7 @@ public:
 private:
     virtual void drawShape(Point& currentPoint, const PositionInputData& pos) = 0;
     DIRSET_MODIFIERS drawModifierFixed = NONE;
-    int lastCursor = -1;  // avoid same setCursor
+    int64_t lastCursor = -1;  // avoid same setCursor
     bool flipShift =
             false;  // use to reverse Shift key modifier action. i.e.  for separate Rectangle and Square Tool buttons.
     bool flipControl = false;  // use to reverse Control key modifier action.

@@ -283,7 +283,7 @@ void SidebarPreviewPages::pageSelected(size_t page) {
         p->setSelected(true);
         scrollToPreview(this);
 
-        int actions = 0;
+        int64_t actions = 0;
         if (page != 0 && !this->previews.empty()) {
             actions |= SIDEBAR_ACTION_MOVE_UP;
         }

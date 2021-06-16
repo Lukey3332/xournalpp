@@ -93,7 +93,7 @@ private:
     /**
      * Expand links
      */
-    int expandOpenLinks(GtkTreeModel* model, GtkTreeIter* parent);
+    int64_t expandOpenLinks(GtkTreeModel* model, GtkTreeIter* parent);
 
 private:
     /**
@@ -117,7 +117,7 @@ private:
      *
      * After a timeout we scroll to the selected page
      */
-    int searchTimeout = 0;
+    int64_t searchTimeout = 0;
 
     /**
      * If there is something to display in the tree

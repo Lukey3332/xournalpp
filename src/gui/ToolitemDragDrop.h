@@ -21,9 +21,9 @@ enum ToolItemType { TOOL_ITEM_SEPARATOR = 0, TOOL_ITEM_SPACER, TOOL_ITEM_ITEM, T
 #define ToolItemDragDropData_Identify 0xFA090201
 
 struct ToolItemDragDropData {
-    unsigned int identify;
+    uint64_t identify;
     ToolItemType type;
-    int id;
+    int64_t id;
     AbstractToolItem* item;
     Color color;
 };
@@ -34,9 +34,9 @@ private:
     virtual ~ToolitemDragDrop();
 
 public:
-    static void attachMetadata(GtkWidget* w, int id, AbstractToolItem* ait);
-    static void attachMetadata(GtkWidget* w, int id, ToolItemType type);
-    static void attachMetadataColor(GtkWidget* w, int id, Color color, AbstractToolItem* item);
+    static void attachMetadata(GtkWidget* w, int64_t id, AbstractToolItem* ait);
+    static void attachMetadata(GtkWidget* w, int64_t id, ToolItemType type);
+    static void attachMetadataColor(GtkWidget* w, int64_t id, Color color, AbstractToolItem* item);
 
 public:
     static ToolItemDragDropData* ToolItemDragDropData_new(AbstractToolItem* item);

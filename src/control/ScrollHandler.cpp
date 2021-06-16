@@ -61,7 +61,7 @@ void ScrollHandler::scrollToSpinPage() {
         return;
     }
     SpinPageAdapter* spinPageNo = this->control->getWindow()->getSpinPageNo();
-    int page = spinPageNo->getPage();
+    int64_t page = spinPageNo->getPage();
     if (page == 0) {
         return;
     }
@@ -73,7 +73,7 @@ void ScrollHandler::scrollToAnnotatedPage(bool next) {
         return;
     }
 
-    int step = next ? 1 : -1;
+    int64_t step = next ? 1 : -1;
 
     Document* doc = this->control->getDocument();
 
@@ -86,7 +86,7 @@ void ScrollHandler::scrollToAnnotatedPage(bool next) {
     }
 }
 
-auto ScrollHandler::isPageVisible(size_t page, int* visibleHeight) -> bool {
+auto ScrollHandler::isPageVisible(size_t page, int64_t* visibleHeight) -> bool {
     if (!this->control->getWindow()) {
         if (visibleHeight) {
             *visibleHeight = 0;

@@ -2,7 +2,7 @@
 
 #include <utility>
 
-Tool::Tool(string name, ToolType type, Color color, int capabilities, double* thickness) {
+Tool::Tool(string name, ToolType type, Color color, int64_t capabilities, double* thickness) {
     this->name = std::move(name);
     this->type = type;
     this->thickness = thickness;
@@ -15,7 +15,7 @@ Tool::Tool(string name, ToolType type, Color color, int capabilities, double* th
 Tool::Tool(Tool* t): name{t->name}, type{t->type}, capabilities{t->capabilities} {
     if (t->thickness) {
         this->thickness = new double[toolSizes];
-        for (int i{0}; i < toolSizes; i++) {
+        for (int64_t i{0}; i < toolSizes; i++) {
             this->thickness[i] = t->thickness[i];
         }
     } else {
@@ -31,7 +31,7 @@ Tool::~Tool() {
 
 auto Tool::getName() -> string { return this->name; }
 
-void Tool::setCapability(int capability, bool enabled) {
+void Tool::setCapability(int64_t capability, bool enabled) {
     if (enabled) {
         this->capabilities |= capability;
     } else {

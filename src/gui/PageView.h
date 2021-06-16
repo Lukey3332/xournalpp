@@ -54,7 +54,7 @@ public:
 
     void endText();
 
-    bool searchTextOnPage(string& text, int* occures, double* top);
+    bool searchTextOnPage(string& text, int64_t* occures, double* top);
 
     bool onKeyPressEvent(GdkEventKey* event);
     bool onKeyReleaseEvent(GdkEventKey* event);
@@ -73,27 +73,27 @@ public:
      * Returns whether this PageView contains the
      * given point on the display
      */
-    bool containsPoint(int x, int y, bool local = false) const;
+    bool containsPoint(int64_t x, int64_t y, bool local = false) const;
 
     /**
      * Returns Row assigned in current layout
      */
-    int getMappedRow() const;
+    int64_t getMappedRow() const;
 
     /**
      * Returns Column assigned in current layout
      */
-    int getMappedCol() const;
+    int64_t getMappedCol() const;
 
     GdkRGBA getSelectionColor() override;
-    int getBufferPixels();
+    int64_t getBufferPixels();
 
     /**
      * 0 if currently visible
      * -1 if no image is saved (never visible or cleanup)
      * else the time in Seconds
      */
-    int getLastVisibleTime();
+    int64_t getLastVisibleTime();
     TextEditor* getTextEditor();
 
     /**
@@ -118,26 +118,26 @@ public:
      * Returns the width of this XojPageView as displayed
      * on the display taking into account the current zoom
      */
-    int getDisplayWidth() const;
+    int64_t getDisplayWidth() const;
     double getDisplayWidthDouble() const;
     /**
      * Returns the height of this XojPageView as displayed
      * on the display taking into account the current zoom
      */
-    int getDisplayHeight() const;
+    int64_t getDisplayHeight() const;
     double getDisplayHeightDouble() const;
 
     /**
      * Returns the x coordinate of this XojPageView with
      * respect to the display
      */
-    int getX() const;
+    int64_t getX() const;
 
     /**
      * Returns the y coordinate of this XojPageView with
      * respect to the display
      */
-    int getY() const;
+    int64_t getY() const;
 
     TexImage* getSelectedTex();
     Text* getSelectedText();
@@ -178,10 +178,10 @@ private:
 
     void drawLoadingPage(cairo_t* cr);
 
-    void setX(int x);
-    void setY(int y);
+    void setX(int64_t x);
+    void setY(int64_t y);
 
-    void setMappedRowCol(int row, int col);  // row, column assigned by mapper during layout.
+    void setMappedRowCol(int64_t row, int64_t col);  // row, column assigned by mapper during layout.
 
 
 private:
@@ -225,7 +225,7 @@ private:
     /**
      * Unixtimestam when the page was last time in the visible area
      */
-    int lastVisibleTime = -1;
+    int64_t lastVisibleTime = -1;
 
     GMutex repaintRectMutex{};
     vector<Rectangle<double>> rerenderRects;
@@ -233,12 +233,12 @@ private:
 
     GMutex drawingMutex{};
 
-    int dispX{};  // position on display - set in Layout::layoutPages
-    int dispY{};
+    int64_t dispX{};  // position on display - set in Layout::layoutPages
+    int64_t dispY{};
 
 
-    int mappedRow{};
-    int mappedCol{};
+    int64_t mappedRow{};
+    int64_t mappedCol{};
 
 
     friend class RenderJob;
@@ -247,5 +247,5 @@ private:
     friend class SelectObject;
     friend class PlayObject;
     // only function allowed to setX(), setY(), setMappedRowCol():
-    friend void Layout::layoutPages(int width, int height);
+    friend void Layout::layoutPages(int64_t width, int64_t height);
 };

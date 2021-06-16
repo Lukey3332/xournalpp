@@ -36,8 +36,8 @@ void PageTypeMenu::loadDefaultPage() {
 }
 
 auto PageTypeMenu::createPreviewImage(MainBackgroundPainter* bgPainter, const PageType& pt) -> cairo_surface_t* {
-    int previewWidth = 100;
-    int previewHeight = 141;
+    int64_t previewWidth = 100;
+    int64_t previewHeight = 141;
     double zoom = 0.5;
 
     auto page = std::make_shared<XojPage>(previewWidth / zoom, previewHeight / zoom);

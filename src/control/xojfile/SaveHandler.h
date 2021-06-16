@@ -40,7 +40,7 @@ public:
 protected:
     static string getColorStr(Color c, unsigned char alpha = 0xff);
 
-    virtual void visitPage(XmlNode* root, PageRef p, Document* doc, int id);
+    virtual void visitPage(XmlNode* root, PageRef p, Document* doc, int64_t id);
     virtual void visitLayer(XmlNode* page, Layer* l);
     virtual void visitStroke(XmlPointNode* stroke, Stroke* s);
 
@@ -57,7 +57,7 @@ protected:
 protected:
     XmlNode* root;
     bool firstPdfPageVisited;
-    int attachBgId;
+    int64_t attachBgId;
 
     string errorMessage;
 

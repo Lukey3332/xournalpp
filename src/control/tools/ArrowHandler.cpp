@@ -23,7 +23,7 @@ void ArrowHandler::drawShape(Point& c, const PositionInputData& pos) {
     stroke->setFirstPoint(firstPoint.x, firstPoint.y);
 
 
-    int count = stroke->getPointCount();
+    int64_t count = stroke->getPointCount();
     if (count < 1) {
         stroke->addPoint(c);
     } else {

@@ -99,10 +99,10 @@ auto gtk_xournal_get_visible_area(GtkWidget* widget, XojPageView* p) -> Rectangl
     GtkAdjustment* hadj = xournal->scrollHandling->getHorizontal();
 
     GdkRectangle r2;
-    r2.x = static_cast<int>(gtk_adjustment_get_value(hadj));
-    r2.y = static_cast<int>(gtk_adjustment_get_value(vadj));
-    r2.width = static_cast<int>(gtk_adjustment_get_page_size(hadj));
-    r2.height = static_cast<int>(gtk_adjustment_get_page_size(vadj));
+    r2.x = static_cast<int64_t>(gtk_adjustment_get_value(hadj));
+    r2.y = static_cast<int64_t>(gtk_adjustment_get_value(vadj));
+    r2.width = static_cast<int64_t>(gtk_adjustment_get_page_size(hadj));
+    r2.height = static_cast<int64_t>(gtk_adjustment_get_page_size(vadj));
 
     GdkRectangle r1;
     r1.x = p->getX();
@@ -204,7 +204,7 @@ static void gtk_xournal_realize(GtkWidget* widget) {
     gdk_window_set_user_data(gtk_widget_get_window(widget), widget);
 }
 
-static void gtk_xournal_draw_shadow(GtkXournal* xournal, cairo_t* cr, int left, int top, int width, int height,
+static void gtk_xournal_draw_shadow(GtkXournal* xournal, cairo_t* cr, int64_t left, int64_t top, int64_t width, int64_t height,
                                     bool selected) {
     if (selected) {
         Shadow::drawShadow(cr, left - 2, top - 2, width + 4, height + 4);
@@ -229,7 +229,7 @@ static void gtk_xournal_draw_shadow(GtkXournal* xournal, cairo_t* cr, int left, 
     }
 }
 
-void gtk_xournal_repaint_area(GtkWidget* widget, int x1, int y1, int x2, int y2) {
+void gtk_xournal_repaint_area(GtkWidget* widget, int64_t x1, int64_t y1, int64_t x2, int64_t y2) {
     g_return_if_fail(widget != nullptr);
     g_return_if_fail(GTK_IS_XOURNAL(widget));
 
@@ -273,10 +273,10 @@ static auto gtk_xournal_draw(GtkWidget* widget, cairo_t* cr) -> gboolean {
     Rectangle clippingRect(x1 - 10, y1 - 10, x2 - x1 + 20, y2 - y1 + 20);
 
     for (auto&& pv: xournal->view->getViewPages()) {
-        int px = pv->getX();
-        int py = pv->getY();
-        int pw = pv->getDisplayWidth();
-        int ph = pv->getDisplayHeight();
+        int64_t px = pv->getX();
+        int64_t py = pv->getY();
+        int64_t pw = pv->getDisplayWidth();
+        int64_t ph = pv->getDisplayHeight();
 
         if (!clippingRect.intersects(pv->getRect())) {
             continue;

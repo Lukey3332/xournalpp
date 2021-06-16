@@ -10,7 +10,7 @@
 #include "i18n.h"
 
 MoveLayerUndoAction::MoveLayerUndoAction(LayerController* layerController, const PageRef& page, Layer* layer,
-                                         int oldLayerPos, int newLayerPos):
+                                         int64_t oldLayerPos, int64_t newLayerPos):
         UndoAction("MoveLayerUndoAction"),
         oldLayerPos(oldLayerPos),
         newLayerPos(newLayerPos),

@@ -76,13 +76,13 @@ void Stacktrace::printStracktrace(std::ostream& stream) {
     std::array<void*, 32> trace{};
     std::array<char, 2048> buff{};
 
-    int trace_size = backtrace(trace.data(), trace.size());
+    int64_t trace_size = backtrace(trace.data(), trace.size());
     char** messages = backtrace_symbols(trace.data(), trace_size);
 
     std::string exeName = getExePath();
 
     // skip first stack frame (points here)
-    for (int i = 1; i < trace_size; ++i) {
+    for (int64_t i = 1; i < trace_size; ++i) {
         stream << "[bt] #" << i << " " << messages[i] << endl;
 
         std::array<char, 1024> syscom{};

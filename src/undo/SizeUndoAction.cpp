@@ -11,7 +11,7 @@
 class SizeUndoActionEntry {
 public:
     SizeUndoActionEntry(Stroke* s, double orignalWidth, double newWidth, vector<double> originalPressure,
-                        vector<double> newPressure, int pressureCount) {
+                        vector<double> newPressure, int64_t pressureCount) {
         this->s = s;
         this->orignalWidth = orignalWidth;
         this->newWidth = newWidth;
@@ -27,7 +27,7 @@ public:
 
     vector<double> originalPressure;
     vector<double> newPressure;
-    int pressureCount;
+    int64_t pressureCount;
 };
 
 SizeUndoAction::SizeUndoAction(const PageRef& page, Layer* layer): UndoAction("SizeUndoAction") {
@@ -43,10 +43,10 @@ SizeUndoAction::~SizeUndoAction() {
 }
 
 auto SizeUndoAction::getPressure(Stroke* s) -> vector<double> {
-    int count = s->getPointCount();
+    int64_t count = s->getPointCount();
     vector<double> data;
     data.reserve(count);
-    for (int i = 0; i < count; i++) {
+    for (int64_t i = 0; i < count; i++) {
         data.push_back(s->getPoint(i).z);
     }
 
@@ -54,7 +54,7 @@ auto SizeUndoAction::getPressure(Stroke* s) -> vector<double> {
 }
 
 void SizeUndoAction::addStroke(Stroke* s, double originalWidth, double newWidth, vector<double> originalPressure,
-                               vector<double> newPressure, int pressureCount) {
+                               vector<double> newPressure, int64_t pressureCount) {
     this->data.push_back(new SizeUndoActionEntry(s, originalWidth, newWidth, std::move(originalPressure),
                                                  std::move(newPressure), pressureCount));
 }

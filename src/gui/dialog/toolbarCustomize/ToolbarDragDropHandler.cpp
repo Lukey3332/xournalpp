@@ -15,14 +15,14 @@ ToolbarDragDropHandler::ToolbarDragDropHandler(Control* control): control(contro
 ToolbarDragDropHandler::~ToolbarDragDropHandler() { clearToolbarsFromDragAndDrop(); }
 
 void ToolbarDragDropHandler::prepareToolbarsForDragAndDrop() {
-    int len = 0;
+    int64_t len = 0;
     MainWindow* win = control->getWindow();
     GtkWidget** widgets = win->getToolbarWidgets(len);
 
     this->toolbars = new ToolbarAdapter*[len + 1];
     this->toolbars[len] = nullptr;
 
-    for (int i = 0; i < len; i++) {
+    for (int64_t i = 0; i < len; i++) {
         GtkWidget* w = widgets[i];
         this->toolbars[i] = new ToolbarAdapter(w, win->getToolbarName(GTK_TOOLBAR(w)),
                                                control->getWindow()->getToolMenuHandler(), control->getWindow());
@@ -34,7 +34,7 @@ void ToolbarDragDropHandler::clearToolbarsFromDragAndDrop() {
         return;
     }
 
-    for (int i = 0; this->toolbars[i]; i++) {
+    for (int64_t i = 0; this->toolbars[i]; i++) {
         delete this->toolbars[i];
     }
     delete[] this->toolbars;

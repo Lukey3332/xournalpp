@@ -13,16 +13,16 @@
 
 class ProgressListener {
 public:
-    virtual void setMaximumState(int max) = 0;
-    virtual void setCurrentState(int state) = 0;
+    virtual void setMaximumState(int64_t max) = 0;
+    virtual void setCurrentState(int64_t state) = 0;
 
     virtual ~ProgressListener(){};
 };
 
 class DummyProgressListener: public ProgressListener {
 public:
-    virtual void setMaximumState(int max){};
-    virtual void setCurrentState(int state){};
+    virtual void setMaximumState(int64_t max){};
+    virtual void setCurrentState(int64_t state){};
 
     virtual ~DummyProgressListener(){};
 };

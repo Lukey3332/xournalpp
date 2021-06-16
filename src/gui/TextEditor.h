@@ -38,8 +38,8 @@ public:
     void toggleBold();
     void incSize();
     void decSize();
-    void moveCursor(GtkMovementStep step, int count, bool extendSelection);
-    void deleteFromCursor(GtkDeleteType type, int count);
+    void moveCursor(GtkMovementStep step, int64_t count, bool extendSelection);
+    void deleteFromCursor(GtkDeleteType type, int64_t count);
     void backspace();
     void copyToCliboard();
     void cutToClipboard();
@@ -65,8 +65,8 @@ private:
     void repaintCursor();
     void resetImContext();
 
-    int getByteOffset(int charOffset);
-    int getCharOffset(int byteOffset);
+    int64_t getByteOffset(int64_t charOffset);
+    int64_t getCharOffset(int64_t byteOffset);
 
     static void bufferPasteDoneCallback(GtkTextBuffer* buffer, GtkClipboard* clipboard, TextEditor* te);
 
@@ -80,7 +80,7 @@ private:
     static gint blinkCallback(TextEditor* te);
 
     void calcVirtualCursor();
-    void jumpALine(GtkTextIter* textIter, int count);
+    void jumpALine(GtkTextIter* textIter, int64_t count);
 
     void findPos(GtkTextIter* iter, double x, double y);
     void markPos(double x, double y, bool extendSelection);
@@ -97,7 +97,7 @@ private:
     Text* text = nullptr;
 
     PangoAttrList* preeditAttrList = nullptr;
-    int preeditCursor;
+    int64_t preeditCursor;
     string preeditString;
     string lastText;
 
@@ -108,9 +108,9 @@ private:
     double markPosY = 0;
 
     bool cursorBlink = true;
-    int cursorBlinkTime = 0;
-    int cursorBlinkTimeout = 0;
-    int blinkTimeout = 0;  // handler id
+    int64_t cursorBlinkTime = 0;
+    int64_t cursorBlinkTimeout = 0;
+    int64_t blinkTimeout = 0;  // handler id
 
     bool ownText = false;
     bool markPosExtendSelection = false;

@@ -69,7 +69,7 @@ public:
     void addKnotWithTangent(const Point& p, const Point& t);
     void modifyLastTangent(const Point& t);
     void deleteLastKnotWithTangent();
-    int getKnotCount() const;
+    int64_t getKnotCount() const;
 
 protected:
     DocumentView view;

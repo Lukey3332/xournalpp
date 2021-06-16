@@ -64,7 +64,7 @@ private:
     void freeColorIconview();
 
 private:
-    static void windowResponseCb(GtkDialog* dialog, int response, ToolbarCustomizeDialog* dlg);
+    static void windowResponseCb(GtkDialog* dialog, int64_t response, ToolbarCustomizeDialog* dlg);
 
 private:
     CustomizeableColorList colorList;

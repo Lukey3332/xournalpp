@@ -48,8 +48,8 @@ public:
 
 public:
     virtual GtkWidget* getWidget();
-    virtual int getWidth();
-    virtual int getHeight();
+    virtual int64_t getWidth();
+    virtual int64_t getHeight();
 
     virtual void setSelected(bool selected);
 
@@ -67,8 +67,8 @@ private:
 protected:
     virtual void mouseButtonPressCallback() = 0;
 
-    virtual int getWidgetWidth();
-    virtual int getWidgetHeight();
+    virtual int64_t getWidgetWidth();
+    virtual int64_t getWidgetHeight();
 
     virtual void drawLoadingPage();
     virtual void paint(cairo_t* cr);

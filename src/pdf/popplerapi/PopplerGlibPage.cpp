@@ -59,7 +59,7 @@ void PopplerGlibPage::render(cairo_t* cr, bool forPrinting)  // NOLINT(google-de
     }
 }
 
-auto PopplerGlibPage::getPageId() -> int { return poppler_page_get_index(page); }
+auto PopplerGlibPage::getPageId() -> int64_t { return poppler_page_get_index(page); }
 
 auto PopplerGlibPage::findText(string& text) -> vector<XojPdfRectangle> {
     vector<XojPdfRectangle> findings;

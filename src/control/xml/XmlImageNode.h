@@ -21,7 +21,7 @@ public:
 public:
     void setImage(cairo_surface_t* img);
 
-    static cairo_status_t pngWriteFunction(XmlImageNode* image, const unsigned char* data, unsigned int length);
+    static cairo_status_t pngWriteFunction(XmlImageNode* image, const unsigned char* data, uint64_t length);
 
     virtual void writeOut(OutputStream* out);
 
@@ -29,6 +29,6 @@ private:
     cairo_surface_t* img;
 
     OutputStream* out;
-    int pos;
+    int64_t pos;
     unsigned char buffer[30] = {0};
 };

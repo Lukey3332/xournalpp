@@ -100,8 +100,8 @@ static auto zoomcallib_draw(GtkWidget* widget, cairo_t* cr) -> gboolean {
 
     gdouble hafCm = (ZOOM_CALLIB(widget)->val / 2.54) / 2;
 
-    int h = allocation.height;
-    int height = 50;
+    int64_t h = allocation.height;
+    int64_t height = 50;
     if (h < height) {
         height = allocation.height - 10;
     }
@@ -110,11 +110,11 @@ static auto zoomcallib_draw(GtkWidget* widget, cairo_t* cr) -> gboolean {
     cairo_select_font_face(cr, "Serif", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_BOLD);
     cairo_set_font_size(cr, 13);
 
-    auto cx = [x_base = 2, hafCm](int i) { return x_base + i * hafCm; };
-    for (int i = 0; cx(i) < allocation.width; ++i) {
+    auto cx = [x_base = 2, hafCm](int64_t i) { return x_base + i * hafCm; };
+    for (int64_t i = 0; cx(i) < allocation.width; ++i) {
         gdouble x = cx(i);
 
-        int y = 0;
+        int64_t y = 0;
         if (i % 2 == 0) {
             cairo_set_source_rgb(cr, 0, 0, 0);
             y = height - 3;

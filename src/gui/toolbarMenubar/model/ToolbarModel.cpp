@@ -61,7 +61,7 @@ auto ToolbarModel::parse(fs::path const& filepath, bool predefined) -> bool {
 }
 
 void ToolbarModel::initCopyNameId(ToolbarData* data) {
-    for (int i = 0; i < 100; i++) {
+    for (int64_t i = 0; i < 100; i++) {
         string id = data->getId() + " Copy";
 
         if (i != 0) {

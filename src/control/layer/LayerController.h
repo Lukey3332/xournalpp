@@ -36,7 +36,7 @@ public:
     void pageSelected(size_t page) override;
 
 public:
-    void insertLayer(PageRef page, Layer* layer, int layerPos);
+    void insertLayer(PageRef page, Layer* layer, int64_t layerPos);
     void removeLayer(PageRef page, Layer* layer);
     void addLayer(PageRef page, Layer* layer);
 
@@ -71,8 +71,8 @@ public:
     void deleteCurrentLayer();
     void copyCurrentLayer();
     void moveCurrentLayer(bool up);
-    void switchToLay(int layer, bool hideShow = false);
-    void setLayerVisible(int layerId, bool visible);
+    void switchToLay(int64_t layer, bool hideShow = false);
+    void setLayerVisible(int64_t layerId, bool visible);
 
     PageRef getCurrentPage();
     size_t getCurrentPageId() const;
@@ -95,7 +95,7 @@ public:
     /**
      * @return Get layer name by layer id
      */
-    std::string getLayerNameById(int id);
+    std::string getLayerNameById(int64_t id);
 
     /**
      * Sets current layer name

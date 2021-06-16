@@ -2,7 +2,7 @@
 
 const char* XML_VERSION_STR = "XojStrm1:";
 
-InputStreamException::InputStreamException(const string& message, const string& filename, int line) {
+InputStreamException::InputStreamException(const string& message, const string& filename, int64_t line) {
     this->message = message + ", " + filename + ": " + std::to_string(line);
 }
 

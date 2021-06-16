@@ -26,11 +26,11 @@ public:
 
     bool operator==(ToolbarItem& other);
 
-    int getId() const;
+    int64_t getId() const;
 
 private:
     string name;
-    int id;
+    int64_t id;
 
-    static int sid;
+    static int64_t sid;
 };

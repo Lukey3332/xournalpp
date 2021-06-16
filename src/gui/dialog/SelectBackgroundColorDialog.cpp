@@ -42,13 +42,13 @@ SelectBackgroundColorDialog::SelectBackgroundColorDialog(Control* control):
     Settings* settings = control->getSettings();
     SElement& el = settings->getCustomElement("lastUsedPageBgColor");
 
-    int count = 0;
+    int64_t count = 0;
     el.getInt("count", count);
 
     auto index = 0ULL;
 
-    for (int i = 0; i < count && index < LAST_BACKGROUND_COLOR_COUNT; i++) {
-        int iColor{};
+    for (int64_t i = 0; i < count && index < LAST_BACKGROUND_COLOR_COUNT; i++) {
+        int64_t iColor{};
         char* settingName = g_strdup_printf("color%02i", i);
         bool read = el.getInt(settingName, iColor);
         g_free(settingName);
@@ -82,14 +82,14 @@ void SelectBackgroundColorDialog::storeLastUsedValuesInSettings() {
     SElement& el = settings->getCustomElement("lastUsedPageBgColor");
 
     // Move all colors one step back
-    for (int i = LAST_BACKGROUND_COLOR_COUNT - 1; i > 0; i--) {
+    for (int64_t i = LAST_BACKGROUND_COLOR_COUNT - 1; i > 0; i--) {
         lastBackgroundColors[i] = lastBackgroundColors[i - 1];
     }
 
     lastBackgroundColors[0] = newColor;
 
     el.setInt("count", LAST_BACKGROUND_COLOR_COUNT);
-    for (int i = 0; i < LAST_BACKGROUND_COLOR_COUNT; i++) {
+    for (int64_t i = 0; i < LAST_BACKGROUND_COLOR_COUNT; i++) {
         char* settingName = g_strdup_printf("color%02i", i);
         el.setIntHex(settingName, int(Util::GdkRGBA_to_argb(lastBackgroundColors[i])));
         g_free(settingName);
@@ -116,7 +116,7 @@ void SelectBackgroundColorDialog::show(GtkWindow* parent) {
                                   lastBackgroundColors.data());
 
 
-    int response = gtk_dialog_run(GTK_DIALOG(dialog));
+    int64_t response = gtk_dialog_run(GTK_DIALOG(dialog));
     if (response == GTK_RESPONSE_OK) {
         GdkRGBA color;
         gtk_color_chooser_get_rgba(GTK_COLOR_CHOOSER(dialog), &color);

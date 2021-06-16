@@ -40,7 +40,7 @@ auto ShapeRecognizer::tryRectangle() -> Stroke* {
 
     // check edges make angles ~= Pi/2 and vertices roughly match
     double avgAngle = 0.;
-    for (int i = 0; i <= 3; i++) {
+    for (int64_t i = 0; i <= 3; i++) {
         RecoSegment* r1 = &rs[i];
         RecoSegment* r2 = &rs[(i + 1) % 4];
         if (fabs(fabs(r1->angle - r2->angle) - M_PI / 2) > RECTANGLE_ANGLE_TOLERANCE) {
@@ -57,7 +57,7 @@ auto ShapeRecognizer::tryRectangle() -> Stroke* {
         r1->reversed =
                 ((r1->x2 - r1->x1) * (r2->xcenter - r1->xcenter) + (r1->y2 - r1->y1) * (r2->ycenter - r1->ycenter)) < 0;
     }
-    for (int i = 0; i <= 3; i++) {
+    for (int64_t i = 0; i <= 3; i++) {
         RecoSegment* r1 = &rs[i];
         RecoSegment* r2 = &rs[(i + 1) % 4];
         double dist = hypot((r1->reversed ? r1->x1 : r1->x2) - (r2->reversed ? r2->x2 : r2->x1),
@@ -80,11 +80,11 @@ auto ShapeRecognizer::tryRectangle() -> Stroke* {
     auto* s = new Stroke();
     s->applyStyleFrom(this->stroke);
 
-    for (int i = 0; i <= 3; i++) {
+    for (int64_t i = 0; i <= 3; i++) {
         rs[i].angle = avgAngle + i * M_PI / 2;
     }
 
-    for (int i = 0; i <= 3; i++) {
+    for (int64_t i = 0; i <= 3; i++) {
         Point p = rs[i].calcEdgeIsect(&rs[(i + 1) % 4]);
         s->addPoint(p);
     }
@@ -97,9 +97,9 @@ auto ShapeRecognizer::tryRectangle() -> Stroke* {
 /*
  * check if something is a polygonal line with at most nsides sides
  */
-auto ShapeRecognizer::findPolygonal(const Point* pt, int start, int end, int nsides, int* breaks, Inertia* ss) -> int {
+auto ShapeRecognizer::findPolygonal(const Point* pt, int64_t start, int64_t end, int64_t nsides, int64_t* breaks, Inertia* ss) -> int64_t {
     Inertia s;
-    int i1 = 0, i2 = 0, n1 = 0, n2 = 0;
+    int64_t i1 = 0, i2 = 0, n1 = 0, n2 = 0;
 
     if (end == start) {
         return 0;  // no way
@@ -114,7 +114,7 @@ auto ShapeRecognizer::findPolygonal(const Point* pt, int start, int end, int nsi
     }
 
     // look for a linear piece that's big enough
-    int k = 0;
+    int64_t k = 0;
     for (; k < nsides; k++) {
         i1 = start + (k * (end - start)) / nsides;
         i2 = start + ((k + 1) * (end - start)) / nsides;
@@ -189,8 +189,8 @@ auto ShapeRecognizer::findPolygonal(const Point* pt, int start, int end, int nsi
 /**
  * Improve on the polygon found by find_polygonal()
  */
-void ShapeRecognizer::optimizePolygonal(const Point* pt, int nsides, int* breaks, Inertia* ss) {
-    for (int i = 1; i < nsides; i++) {
+void ShapeRecognizer::optimizePolygonal(const Point* pt, int64_t nsides, int64_t* breaks, Inertia* ss) {
+    for (int64_t i = 1; i < nsides; i++) {
         // optimize break between sides i and i+1
         double cost = ss[i - 1].det() * ss[i - 1].det() + ss[i].det() * ss[i].det();
         Inertia s1 = ss[i - 1];
@@ -248,16 +248,16 @@ auto ShapeRecognizer::recognizePatterns(Stroke* stroke) -> ShapeRecognizerResult
     }
 
     Inertia ss[4];
-    int brk[5] = {0};
+    int64_t brk[5] = {0};
 
     // first see if it's a polygon
-    int n = findPolygonal(stroke->getPoints(), 0, stroke->getPointCount() - 1, MAX_POLYGON_SIDES, brk, ss);
+    int64_t n = findPolygonal(stroke->getPoints(), 0, stroke->getPointCount() - 1, MAX_POLYGON_SIDES, brk, ss);
     if (n > 0) {
         optimizePolygonal(stroke->getPoints(), n, brk, ss);
 #ifdef DEBUG_RECOGNIZER
         g_message("--");
         g_message("ShapeReco:: Polygon, %d edges:", n);
-        for (int i = 0; i < n; i++) {
+        for (int64_t i = 0; i < n; i++) {
             g_message("ShapeReco::      %d-%d (M=%.0f, det=%.4f)", brk[i], brk[i + 1], ss[i].getMass(), ss[i].det());
         }
         g_message("--");
@@ -265,7 +265,7 @@ auto ShapeRecognizer::recognizePatterns(Stroke* stroke) -> ShapeRecognizerResult
         // update recognizer segment queue (most recent at end)
         while (n + queueLength > MAX_POLYGON_SIDES) {
             // remove oldest polygonal stroke
-            int i = 1;
+            int64_t i = 1;
             while (i < queueLength && queue[i].startpt != 0) {
                 i++;
             }
@@ -278,7 +278,7 @@ auto ShapeRecognizer::recognizePatterns(Stroke* stroke) -> ShapeRecognizerResult
         RecoSegment* rs = &this->queue[this->queueLength];
         this->queueLength += n;
 
-        for (int i = 0; i < n; i++) {
+        for (int64_t i = 0; i < n; i++) {
             rs[i].startpt = brk[i];
             rs[i].endpt = brk[i + 1];
             rs[i].calcSegmentGeometry(stroke->getPoints(), brk[i], brk[i + 1], ss + i);

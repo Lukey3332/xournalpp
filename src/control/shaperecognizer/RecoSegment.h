@@ -21,11 +21,11 @@ struct RecoSegment final {
     /**
      * Find the geometry of a recognized segment
      */
-    void calcSegmentGeometry(const Point* pt, int start, int end, Inertia* s);
+    void calcSegmentGeometry(const Point* pt, int64_t start, int64_t end, Inertia* s);
 
     Stroke* stroke{nullptr};
-    int startpt{0};
-    int endpt{0};
+    int64_t startpt{0};
+    int64_t endpt{0};
 
     double xcenter{0};
     double ycenter{0};

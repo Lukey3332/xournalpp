@@ -30,7 +30,7 @@ void ImageExport::setQualityParameter(RasterImageQualityParameter qParam) { this
  * @param criterion A quality criterion for the export
  * @param value The target value of this criterion
  */
-void ImageExport::setQualityParameter(ExportQualityCriterion criterion, int value) {
+void ImageExport::setQualityParameter(ExportQualityCriterion criterion, int64_t value) {
     this->qualityParameter = RasterImageQualityParameter(criterion, value);
 }
 
@@ -52,7 +52,7 @@ auto ImageExport::getLastErrorMsg() const -> string { return lastError; }
  * height (in pixels). In this case, the zoomRatio (and the DPI) is page-dependent as soon as the document has pages of
  * different sizes.
  */
-auto ImageExport::createSurface(double width, double height, int id, double zoomRatio) -> double {
+auto ImageExport::createSurface(double width, double height, int64_t id, double zoomRatio) -> double {
     switch (this->format) {
         case EXPORT_GRAPHICS_PNG:
             switch (this->qualityParameter.getQualityCriterion()) {
@@ -88,7 +88,7 @@ auto ImageExport::createSurface(double width, double height, int id, double zoom
 /**
  * Free / store the surface
  */
-auto ImageExport::freeSurface(int id) -> bool {
+auto ImageExport::freeSurface(int64_t id) -> bool {
     cairo_destroy(this->cr);
 
     cairo_status_t status = CAIRO_STATUS_SUCCESS;
@@ -109,7 +109,7 @@ auto ImageExport::freeSurface(int id) -> bool {
  *
  * @return The filename
  */
-auto ImageExport::getFilenameWithNumber(int no) const -> fs::path {
+auto ImageExport::getFilenameWithNumber(int64_t no) const -> fs::path {
     if (no == -1) {
         // No number to add
         return file;
@@ -130,7 +130,7 @@ auto ImageExport::getFilenameWithNumber(int no) const -> fs::path {
  * @param format The format of the exported image
  * @param view A DocumentView for drawing the page
  */
-void ImageExport::exportImagePage(int pageId, int id, double zoomRatio, ExportGraphicsFormat format,
+void ImageExport::exportImagePage(int64_t pageId, int64_t id, double zoomRatio, ExportGraphicsFormat format,
                                   DocumentView& view) {
     doc->lock();
     PageRef page = doc->getPage(pageId);
@@ -145,7 +145,7 @@ void ImageExport::exportImagePage(int pageId, int id, double zoomRatio, ExportGr
     }
 
     if (page->getBackgroundType().isPdfPage() && (exportBackground >= EXPORT_BACKGROUND_UNRULED)) {
-        int pgNo = page->getPdfPageNr();
+        int64_t pgNo = page->getPdfPageNr();
         XojPdfPageSPtr popplerPage = doc->getPdfPage(pgNo);
 
         PdfView::drawPage(nullptr, popplerPage, cr, zoomRatio, page->getWidth(), page->getHeight());
@@ -168,18 +168,18 @@ void ImageExport::exportImagePage(int pageId, int id, double zoomRatio, ExportGr
 void ImageExport::exportGraphics(ProgressListener* stateListener) {
     // don't lock the page here for the whole flow, else we get a dead lock...
     // the ui is blocked, so there should be no changes...
-    int count = doc->getPageCount();
+    int64_t count = doc->getPageCount();
 
     bool onePage =
             ((this->exportRange.size() == 1) && (this->exportRange[0]->getFirst() == this->exportRange[0]->getLast()));
 
     char selectedPages[count];
-    int selectedCount = 0;
-    for (int i = 0; i < count; i++) {
+    int64_t selectedCount = 0;
+    for (int64_t i = 0; i < count; i++) {
         selectedPages[i] = 0;
     }
     for (PageRangeEntry* e: this->exportRange) {
-        for (int x = e->getFirst(); x <= e->getLast(); x++) {
+        for (int64_t x = e->getFirst(); x <= e->getLast(); x++) {
             selectedPages[x] = 1;
             selectedCount++;
         }
@@ -196,10 +196,10 @@ void ImageExport::exportGraphics(ProgressListener* stateListener) {
     }
 
     DocumentView view;
-    int current = 0;
+    int64_t current = 0;
 
-    for (int i = 0; i < count; i++) {
-        int id = i + 1;
+    for (int64_t i = 0; i < count; i++) {
+        int64_t id = i + 1;
         if (onePage) {
             id = -1;
         }
@@ -213,10 +213,10 @@ void ImageExport::exportGraphics(ProgressListener* stateListener) {
 }
 
 RasterImageQualityParameter::RasterImageQualityParameter() = default;
-RasterImageQualityParameter::RasterImageQualityParameter(ExportQualityCriterion criterion, int value):
+RasterImageQualityParameter::RasterImageQualityParameter(ExportQualityCriterion criterion, int64_t value):
         qualityCriterion(criterion), value(value) {}
 RasterImageQualityParameter::~RasterImageQualityParameter() = default;
 
 auto RasterImageQualityParameter::getQualityCriterion() -> ExportQualityCriterion { return qualityCriterion; }
 
-auto RasterImageQualityParameter::getValue() -> int { return value; }
+auto RasterImageQualityParameter::getValue() -> int64_t { return value; }

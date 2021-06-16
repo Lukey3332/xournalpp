@@ -414,7 +414,7 @@ void PenInputHandler::actionLeaveWindow(InputEvent const& event) {
         gint height = gtk_widget_get_allocated_height(widget);
 
         new std::thread([&, eventX, eventY, width, height]() {
-            int offsetX = 0, offsetY = 0;
+            int64_t offsetX = 0, offsetY = 0;
 
             // TODO(fabian): make offset dependent on how big the distance between pen and view is
             if (eventX < WIDGET_SCROLL_BORDER) {

@@ -31,8 +31,8 @@
 
 constexpr size_t MINPIXSIZE = 5;  // smallest can scale down to, in pixels.
 
-constexpr int DELETE_PADDING = 20;  // ui button padding
-constexpr int ROTATE_PADDING = 8;
+constexpr int64_t DELETE_PADDING = 20;  // ui button padding
+constexpr int64_t ROTATE_PADDING = 8;
 
 EditSelection::EditSelection(UndoRedoHandler* undo, const PageRef& page, XojPageView* view):
         snappingHandler(view->getXournal()->getControl()->getSettings()),
@@ -137,8 +137,8 @@ void EditSelection::contstruct(UndoRedoHandler* undo, XojPageView* view, const P
     this->mouseDownType = CURSOR_SELECTION_NONE;
 
 
-    int dpi = this->view->getXournal()->getControl()->getSettings()->getDisplayDpi();
-    this->btnWidth = std::max(10, dpi / 8);
+    int64_t dpi = this->view->getXournal()->getControl()->getSettings()->getDisplayDpi();
+    this->btnWidth = std::max((int64_t)10, dpi / 8);
 
     this->contents = new EditSelectionContents(this->getRect(), this->snappedBounds, this->sourcePage,
                                                this->sourceLayer, this->view);
@@ -245,7 +245,7 @@ auto EditSelection::getSourceLayer() -> Layer* { return this->sourceLayer; }
 /**
  * Get the X coordinate in View coordinates (absolute)
  */
-auto EditSelection::getXOnViewAbsolute() -> int {
+auto EditSelection::getXOnViewAbsolute() -> int64_t {
     double zoom = view->getXournal()->getZoom();
     return this->view->getX() + this->getXOnView() * zoom;
 }
@@ -253,7 +253,7 @@ auto EditSelection::getXOnViewAbsolute() -> int {
 /**
  * Get the Y coordinate in View coordinates (absolute)
  */
-auto EditSelection::getYOnViewAbsolute() -> int {
+auto EditSelection::getYOnViewAbsolute() -> int64_t {
     double zoom = view->getXournal()->getZoom();
     return this->view->getY() + this->getYOnView() * zoom;
 }
@@ -271,7 +271,7 @@ auto EditSelection::setSize(ToolSize size, const double* thicknessPen, const dou
  * Fills the stroke, return an undo action
  * (Or nullptr if nothing done, e.g. because there is only an image)
  */
-auto EditSelection::setFill(int alphaPen, int alphaHighligther) -> UndoAction* {
+auto EditSelection::setFill(int64_t alphaPen, int64_t alphaHighligther) -> UndoAction* {
     return this->contents->setFill(alphaPen, alphaHighligther);
 }
 
@@ -485,8 +485,8 @@ void EditSelection::mouseMove(double mouseX, double mouseY, bool alt) {
         double minSize = MINPIXSIZE / zoom;
 
         // store pull direction value
-        int xSide = 0;
-        int ySide = 0;
+        int64_t xSide = 0;
+        int64_t ySide = 0;
         if (this->mouseDownType == CURSOR_SELECTION_TOP_LEFT) {
             xSide = -1;
             ySide = -1;
@@ -515,8 +515,8 @@ void EditSelection::mouseMove(double mouseX, double mouseY, bool alt) {
             double nx = xSide * this->width / diag;
             double ny = ySide * this->height / diag;
 
-            int xMul = (xSide + 1) / 2;
-            int yMul = (ySide + 1) / 2;
+            int64_t xMul = (xSide + 1) / 2;
+            int64_t yMul = (ySide + 1) / 2;
             double xOffset =
                     (rx - this->x) - this->width * xMul;  // x-offset from corner/side that is used for resizing
             double yOffset =
@@ -560,7 +560,7 @@ void EditSelection::mouseMove(double mouseX, double mouseY, bool alt) {
 
     if (v && v != this->view) {
         XournalView* xournal = this->view->getXournal();
-        int pageNr = xournal->getControl()->getDocument()->indexOf(v->getPage());
+        int64_t pageNr = xournal->getControl()->getDocument()->indexOf(v->getPage());
 
         xournal->pageSelected(pageNr);
 
@@ -622,8 +622,8 @@ void EditSelection::translateToView(XojPageView* v) {
 
     double ox = this->snappedBounds.x - this->x;
     double oy = this->snappedBounds.y - this->y;
-    int aX1 = getXOnViewAbsolute();
-    int aY1 = getYOnViewAbsolute();
+    int64_t aX1 = getXOnViewAbsolute();
+    int64_t aY1 = getYOnViewAbsolute();
 
     this->x = (aX1 - v->getX()) / zoom;
     this->y = (aY1 - v->getY()) / zoom;
@@ -632,8 +632,8 @@ void EditSelection::translateToView(XojPageView* v) {
 
     this->view = v;
 
-    //	int aX2 = getXOnViewAbsolute();
-    //	int aY2 = getYOnViewAbsolute();
+    //	int64_t aX2 = getXOnViewAbsolute();
+    //	int64_t aY2 = getYOnViewAbsolute();
     //
     //	if (aX1 != aX2)
     //	{
@@ -700,8 +700,8 @@ void EditSelection::moveSelection(double dx, double dy) {
  * If the selection is outside the visible area correct the coordinates
  */
 void EditSelection::ensureWithinVisibleArea() {
-    int viewx = this->view->getX();
-    int viewy = this->view->getY();
+    int64_t viewx = this->view->getX();
+    int64_t viewy = this->view->getY();
     double zoom = this->view->getXournal()->getZoom();
 
     double sin = std::sin(this->rotation);
@@ -715,9 +715,9 @@ void EditSelection::ensureWithinVisibleArea() {
 
     // need to modify this to take into account the position
     // of the object, plus typecast because XojPageView takes ints
-    this->view->getXournal()->ensureRectIsVisible(static_cast<int>(viewx + minx * zoom),
-                                                  static_cast<int>(viewy + miny * zoom), static_cast<int>(w * zoom),
-                                                  static_cast<int>(h * zoom));
+    this->view->getXournal()->ensureRectIsVisible(static_cast<int64_t>(viewx + minx * zoom),
+                                                  static_cast<int64_t>(viewy + miny * zoom), static_cast<int64_t>(w * zoom),
+                                                  static_cast<int64_t>(h * zoom));
 }
 
 /**
@@ -736,8 +736,8 @@ auto EditSelection::getSelectionTypeForPos(double x, double y, double zoom) -> C
     cairo_matrix_transform_point(&this->cmatrix, &x, &y);
 
 
-    const int EDGE_PADDING = (this->btnWidth / 2) + 2;
-    const int BORDER_PADDING = (this->btnWidth / 2);
+    const int64_t EDGE_PADDING = (this->btnWidth / 2) + 2;
+    const int64_t BORDER_PADDING = (this->btnWidth / 2);
 
     if (x1 - EDGE_PADDING <= x && x <= x1 + EDGE_PADDING && y1 - EDGE_PADDING <= y && y <= y1 + EDGE_PADDING) {
         return CURSOR_SELECTION_TOP_LEFT;

@@ -26,7 +26,7 @@ public:
 
 public:
     virtual void write(const char* str);
-    virtual void write(const char* data, int len) = 0;
+    virtual void write(const char* data, int64_t len) = 0;
     virtual void write(const string& str);
 
     virtual void close() = 0;
@@ -38,7 +38,7 @@ public:
     virtual ~GzOutputStream();
 
 public:
-    virtual void write(const char* data, int len);
+    virtual void write(const char* data, int64_t len);
 
     virtual void close();
 

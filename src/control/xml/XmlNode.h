@@ -30,13 +30,13 @@ public:
     void setAttrib(const char* attrib, string value);
     void setAttrib(const char* attrib, const char* value);
     void setAttrib(const char* attrib, double value);
-    void setAttrib(const char* attrib, int value);
+    void setAttrib(const char* attrib, int64_t value);
     void setAttrib(const char* attrib, size_t value);
 
     /**
      * The double array is now owned by XmlNode and automatically deleted!
      */
-    void setAttrib(const char* attrib, double* value, int count);
+    void setAttrib(const char* attrib, double* value, int64_t count);
 
     void writeOut(OutputStream* out, ProgressListener* _listener);
 

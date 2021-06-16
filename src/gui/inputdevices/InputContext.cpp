@@ -44,7 +44,7 @@ void InputContext::connect(GtkWidget* pWidget) {
     this->widget = pWidget;
     gtk_widget_set_support_multidevice(widget, true);
 
-    int mask =
+    int64_t mask =
             // Key handling
             GDK_KEY_PRESS_MASK |
 

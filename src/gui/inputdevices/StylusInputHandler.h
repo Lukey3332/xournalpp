@@ -46,7 +46,7 @@ private:
      * If 0: Start the action (on the next button-1-press- or motion-event)\n
      * If -1: Stylus not touching or action already started, handle the event normally
      */
-    int eventsToIgnore = -1;
+    int64_t eventsToIgnore = -1;
 
     void setPressedState(InputEvent const& event);
 };

@@ -28,7 +28,7 @@ class Control;
 /**
  * Count of last background colors
  */
-const int LAST_BACKGROUND_COLOR_COUNT = 9;
+const int64_t LAST_BACKGROUND_COLOR_COUNT = 9;
 
 
 class SelectBackgroundColorDialog {

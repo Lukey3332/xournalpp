@@ -35,7 +35,7 @@ public:
     /**
      *  show(x,y): Show Toolbox at centered at x,y relative to main window.
      */
-    void show(int x, int y);
+    void show(int64_t x, int64_t y);
 
     /**
      * showForConfiguration
@@ -77,7 +77,7 @@ private:
      * Return number of widgets in toolbox.
      * Note this includes non-tools such as spacers and separators.
      */
-    int countWidgets();
+    int64_t countWidgets();
 
 
 private:
@@ -87,8 +87,8 @@ private:
     /**
      * Communicating with getOverlayPosition callback
      * */
-    int floatingToolboxX = 0;
-    int floatingToolboxY = 0;
+    int64_t floatingToolboxX = 0;
+    int64_t floatingToolboxY = 0;
     FloatingToolBoxState floatingToolboxState = recalcSize;
-    int numWidgets = 0;
+    int64_t numWidgets = 0;
 };

@@ -170,7 +170,7 @@ void SettingsDialog::initLanguageSettings() {
     languageConfig = std::make_unique<LanguageConfigGui>(getGladeSearchPath(), get("hboxLanguageSelect"), settings);
 }
 
-void SettingsDialog::initMouseButtonEvents(const char* hbox, int button, bool withDevice) {
+void SettingsDialog::initMouseButtonEvents(const char* hbox, int64_t button, bool withDevice) {
     this->buttonConfigs.push_back(new ButtonConfigGui(getGladeSearchPath(), get(hbox), settings, button, withDevice));
 }
 
@@ -185,7 +185,7 @@ void SettingsDialog::initMouseButtonEvents() {
     initMouseButtonEvents("hboxDefaultTool", BUTTON_DEFAULT);
 }
 
-void SettingsDialog::setDpi(int dpi) {
+void SettingsDialog::setDpi(int64_t dpi) {
     if (this->dpi == dpi) {
         return;
     }
@@ -225,7 +225,7 @@ void SettingsDialog::show(GtkWindow* parent) {
     }
 
     gtk_window_set_transient_for(GTK_WINDOW(this->window), parent);
-    int res = gtk_dialog_run(GTK_DIALOG(this->window));
+    int64_t res = gtk_dialog_run(GTK_DIALOG(this->window));
 
     if (res == 1) {
         this->save();
@@ -287,13 +287,13 @@ void SettingsDialog::updatePressureSensitivityOptions() {
 
 void SettingsDialog::customHandRecognitionToggled() {
     GtkWidget* cbTouchDisableMethod = get("cbTouchDisableMethod");
-    int touchMethod = gtk_combo_box_get_active(GTK_COMBO_BOX(cbTouchDisableMethod));
+    int64_t touchMethod = gtk_combo_box_get_active(GTK_COMBO_BOX(cbTouchDisableMethod));
     gtk_widget_set_sensitive(get("boxCustomTouchDisableSettings"), touchMethod == 2);
 }
 
 void SettingsDialog::customStylusIconTypeChanged() {
     GtkWidget* cbStylusCursorType = get("cbStylusCursorType");
-    int stylusCursorType = gtk_combo_box_get_active(GTK_COMBO_BOX(cbStylusCursorType));
+    int64_t stylusCursorType = gtk_combo_box_get_active(GTK_COMBO_BOX(cbStylusCursorType));
     bool showCursorHighlightOptions = stylusCursorType != STYLUS_CURSOR_NONE;
     gtk_widget_set_sensitive(get("highlightCursorGrid"), showCursorHighlightOptions);
 }
@@ -377,10 +377,10 @@ void SettingsDialog::load() {
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(sbStabilizerSigma), settings->getStabilizerSigma());
 
     GtkComboBox* cbStabilizerAveragingMethods = GTK_COMBO_BOX(get("cbStabilizerAveragingMethods"));
-    gtk_combo_box_set_active(cbStabilizerAveragingMethods, static_cast<int>(settings->getStabilizerAveragingMethod()));
+    gtk_combo_box_set_active(cbStabilizerAveragingMethods, static_cast<int64_t>(settings->getStabilizerAveragingMethod()));
     showStabilizerAvMethodOptions(settings->getStabilizerAveragingMethod());
     GtkComboBox* cbStabilizerPreprocessors = GTK_COMBO_BOX(get("cbStabilizerPreprocessors"));
-    gtk_combo_box_set_active(cbStabilizerPreprocessors, static_cast<int>(settings->getStabilizerPreprocessor()));
+    gtk_combo_box_set_active(cbStabilizerPreprocessors, static_cast<int64_t>(settings->getStabilizerPreprocessor()));
     showStabilizerPreprocessorOptions(settings->getStabilizerPreprocessor());
     /***********/
 
@@ -434,9 +434,9 @@ void SettingsDialog::load() {
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(spTouchZoomStartThreshold), settings->getTouchZoomStartThreshold());
 
     {
-        int time = 0;
+        int64_t time = 0;
         double length = 0;
-        int successive = 0;
+        int64_t successive = 0;
         settings->getStrokeFilter(&time, &length, &successive);
 
         GtkWidget* spStrokeIgnoreTime = get("spStrokeIgnoreTime");
@@ -541,7 +541,7 @@ void SettingsDialog::load() {
 
     string disableMethod;
     touch.getString("method", disableMethod);
-    int methodId = 0;
+    int64_t methodId = 0;
     if (disableMethod == "X11") {
         methodId = 1;
     } else if (disableMethod == "custom") {
@@ -558,7 +558,7 @@ void SettingsDialog::load() {
     touch.getString("cmdDisable", cmd);
     gtk_entry_set_text(GTK_ENTRY(get("txtDisableTouchCommand")), cmd.c_str());
 
-    int timeoutMs = 1000;
+    int64_t timeoutMs = 1000;
     touch.getInt("timeout", timeoutMs);
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(get("spTouchDisableTimeout")), timeoutMs / 1000.0);
 
@@ -588,7 +588,7 @@ void SettingsDialog::load() {
         }
     }
 
-    switch (static_cast<int>(settings->getAudioSampleRate())) {
+    switch (static_cast<int64_t>(settings->getAudioSampleRate())) {
         case 16000:
             gtk_combo_box_set_active(GTK_COMBO_BOX(get("cbAudioSampleRate")), 0);
             break;
@@ -748,11 +748,11 @@ void SettingsDialog::save() {
     settings->setMenubarVisible(getCheckbox("cbHideMenubarStartup"));
 
     constexpr auto spinAsUint = [&](GtkSpinButton* btn) {
-        int v = gtk_spin_button_get_value_as_int(btn);
-        return v < 0 ? 0U : static_cast<unsigned int>(v);
+        int64_t v = gtk_spin_button_get_value_as_int(btn);
+        return v < 0 ? 0U : static_cast<uint64_t>(v);
     };
-    unsigned int preloadPagesBefore = spinAsUint(GTK_SPIN_BUTTON(get("preloadPagesBefore")));
-    unsigned int preloadPagesAfter = spinAsUint(GTK_SPIN_BUTTON(get("preloadPagesAfter")));
+    uint64_t preloadPagesBefore = spinAsUint(GTK_SPIN_BUTTON(get("preloadPagesBefore")));
+    uint64_t preloadPagesAfter = spinAsUint(GTK_SPIN_BUTTON(get("preloadPagesAfter")));
     settings->setPreloadPagesAfter(preloadPagesAfter);
     settings->setPreloadPagesBefore(preloadPagesBefore);
     settings->setEagerPageCleanup(getCheckbox("cbEagerPageCleanup"));
@@ -766,19 +766,19 @@ void SettingsDialog::save() {
     }
 
     GtkWidget* spAutosaveTimeout = get("spAutosaveTimeout");
-    int autosaveTimeout = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spAutosaveTimeout));
+    int64_t autosaveTimeout = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spAutosaveTimeout));
     settings->setAutosaveTimeout(autosaveTimeout);
 
     if (getCheckbox("cbIgnoreFirstStylusEvents")) {
         GtkWidget* spNumIgnoredStylusEvents = get("spNumIgnoredStylusEvents");
-        int numIgnoredStylusEvents = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spNumIgnoredStylusEvents));
+        int64_t numIgnoredStylusEvents = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spNumIgnoredStylusEvents));
         settings->setIgnoredStylusEvents(numIgnoredStylusEvents);
     } else {
         settings->setIgnoredStylusEvents(0);  // This means nothing will be ignored
     }
 
     GtkWidget* spPairsOffset = get("spPairsOffset");
-    int numPairsOffset = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spPairsOffset));
+    int64_t numPairsOffset = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spPairsOffset));
     settings->setPairsOffset(numPairsOffset);
 
     GtkWidget* spZoomStep = get("spZoomStep");
@@ -791,23 +791,23 @@ void SettingsDialog::save() {
 
 
     GtkWidget* spAddHorizontalSpace = get("spAddHorizontalSpace");
-    int addHorizontalSpaceAmount = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spAddHorizontalSpace));
+    int64_t addHorizontalSpaceAmount = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spAddHorizontalSpace));
     settings->setAddHorizontalSpaceAmount(addHorizontalSpaceAmount);
 
     GtkWidget* spAddVerticalSpace = get("spAddVerticalSpace");
-    int addVerticalSpaceAmount = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spAddVerticalSpace));
+    int64_t addVerticalSpaceAmount = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spAddVerticalSpace));
     settings->setAddVerticalSpaceAmount(addVerticalSpaceAmount);
 
     GtkWidget* spDrawDirModsRadius = get("spDrawDirModsRadius");
-    int drawDirModsRadius = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spDrawDirModsRadius));
+    int64_t drawDirModsRadius = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spDrawDirModsRadius));
     settings->setDrawDirModsRadius(drawDirModsRadius);
 
     GtkWidget* spStrokeIgnoreTime = get("spStrokeIgnoreTime");
-    int strokeIgnoreTime = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spStrokeIgnoreTime));
+    int64_t strokeIgnoreTime = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spStrokeIgnoreTime));
     GtkWidget* spStrokeIgnoreLength = get("spStrokeIgnoreLength");
     double strokeIgnoreLength = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spStrokeIgnoreLength));
     GtkWidget* spStrokeSuccessiveTime = get("spStrokeSuccessiveTime");
-    int strokeSuccessiveTime = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spStrokeSuccessiveTime));
+    int64_t strokeSuccessiveTime = gtk_spin_button_get_value(GTK_SPIN_BUTTON(spStrokeSuccessiveTime));
     settings->setStrokeFilter(strokeIgnoreTime, strokeIgnoreLength, strokeSuccessiveTime);
 
     GtkWidget* spTouchZoomStartThreshold = get("spTouchZoomStartThreshold");
@@ -829,7 +829,7 @@ void SettingsDialog::save() {
 
     SElement& touch = settings->getCustomElement("touch");
     touch.setBool("disableTouch", getCheckbox("cbDisableTouchOnPenNear"));
-    int touchMethod = gtk_combo_box_get_active(GTK_COMBO_BOX(get("cbTouchDisableMethod")));
+    int64_t touchMethod = gtk_combo_box_get_active(GTK_COMBO_BOX(get("cbTouchDisableMethod")));
 
     switch (touchMethod) {
         case 1:
@@ -846,7 +846,7 @@ void SettingsDialog::save() {
     touch.setString("cmdDisable", gtk_entry_get_text(GTK_ENTRY(get("txtDisableTouchCommand"))));
 
     touch.setInt("timeout",
-                 static_cast<int>(gtk_spin_button_get_value(GTK_SPIN_BUTTON(get("spTouchDisableTimeout"))) * 1000));
+                 static_cast<int64_t>(gtk_spin_button_get_value(GTK_SPIN_BUTTON(get("spTouchDisableTimeout"))) * 1000));
 
     settings->setSnapRotationTolerance(
             static_cast<double>(gtk_spin_button_get_value(GTK_SPIN_BUTTON(get("spSnapRotationTolerance")))));
@@ -855,16 +855,16 @@ void SettingsDialog::save() {
     settings->setSnapGridSize(
             static_cast<double>(gtk_spin_button_get_value(GTK_SPIN_BUTTON(get("spSnapGridSize"))) * DEFAULT_GRID_SIZE));
 
-    int selectedInputDeviceIndex = gtk_combo_box_get_active(GTK_COMBO_BOX(get("cbAudioInputDevice"))) - 1;
-    if (selectedInputDeviceIndex >= 0 && selectedInputDeviceIndex < static_cast<int>(this->audioInputDevices.size())) {
-        settings->setAudioInputDevice(static_cast<int>(this->audioInputDevices[selectedInputDeviceIndex].getIndex()));
+    int64_t selectedInputDeviceIndex = gtk_combo_box_get_active(GTK_COMBO_BOX(get("cbAudioInputDevice"))) - 1;
+    if (selectedInputDeviceIndex >= 0 && selectedInputDeviceIndex < static_cast<int64_t>(this->audioInputDevices.size())) {
+        settings->setAudioInputDevice(static_cast<int64_t>(this->audioInputDevices[selectedInputDeviceIndex].getIndex()));
     }
 
-    int selectedOutputDeviceIndex = gtk_combo_box_get_active(GTK_COMBO_BOX(get("cbAudioOutputDevice"))) - 1;
+    int64_t selectedOutputDeviceIndex = gtk_combo_box_get_active(GTK_COMBO_BOX(get("cbAudioOutputDevice"))) - 1;
     if (selectedOutputDeviceIndex >= 0 &&
-        selectedOutputDeviceIndex < static_cast<int>(this->audioOutputDevices.size())) {
+        selectedOutputDeviceIndex < static_cast<int64_t>(this->audioOutputDevices.size())) {
         settings->setAudioOutputDevice(
-                static_cast<int>(this->audioOutputDevices[selectedOutputDeviceIndex].getIndex()));
+                static_cast<int64_t>(this->audioOutputDevices[selectedOutputDeviceIndex].getIndex()));
     }
 
     switch (gtk_combo_box_get_active(GTK_COMBO_BOX(get("cbAudioSampleRate")))) {

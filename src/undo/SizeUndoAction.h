@@ -29,7 +29,7 @@ public:
     virtual string getText();
 
     void addStroke(Stroke* s, double originalWidth, double newWidth, vector<double> originalPressure,
-                   vector<double> newPressure, int pressureCount);
+                   vector<double> newPressure, int64_t pressureCount);
 
 public:
     static vector<double> getPressure(Stroke* s);

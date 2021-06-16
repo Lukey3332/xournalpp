@@ -227,7 +227,7 @@ auto Control::checkChangedDocument(Control* control) -> bool {
         return true;
     }
     for (auto const& page: control->changedPages) {
-        int p = control->doc->indexOf(page);
+        int64_t p = control->doc->indexOf(page);
         if (p != -1) {
             control->firePageChanged(p);
         }
@@ -330,7 +330,7 @@ void Control::enableAutosave(bool enable) {
     }
 
     if (enable) {
-        int timeout = settings->getAutosaveTimeout() * 60;
+        int64_t timeout = settings->getAutosaveTimeout() * 60;
         this->autosaveTimeout = g_timeout_add_seconds(timeout, reinterpret_cast<GSourceFunc>(autosaveCallback), this);
     }
 }
@@ -345,8 +345,8 @@ void Control::updatePageNumbers(size_t page, size_t pdfPage) {
 
     this->metadata->storeMetadata(this->doc->getEvMetadataFilename(), page, getZoomControl()->getZoomReal());
 
-    int current = getCurrentPageNo();
-    int count = this->doc->getPageCount();
+    int64_t current = getCurrentPageNo();
+    int64_t count = this->doc->getPageCount();
 
     fireEnableAction(ACTION_GOTO_FIRST, current != 0);
     fireEnableAction(ACTION_GOTO_BACK, current != 0);
@@ -973,7 +973,7 @@ auto Control::paste() -> bool {
 }
 
 void Control::selectFillAlpha(bool pen) {
-    int alpha = 0;
+    int64_t alpha = 0;
 
     if (pen) {
         alpha = toolHandler->getPenFill();
@@ -1072,7 +1072,7 @@ void Control::customizeToolbars() {
                                           this->win->getSelectedToolbar()->getName()));
 
         gtk_window_set_transient_for(GTK_WINDOW(dialog), getGtkWindow());
-        int res = gtk_dialog_run(GTK_DIALOG(dialog));
+        int64_t res = gtk_dialog_run(GTK_DIALOG(dialog));
         gtk_widget_destroy(dialog);
 
         if (res == -8)  // Yes
@@ -1311,7 +1311,7 @@ void Control::gotoPage() {
     auto* dlg = new GotoDialog(this->gladeSearchPath, this->doc->getPageCount());
 
     dlg->show(GTK_WINDOW(this->win->getWindow()));
-    int page = dlg->getSelectedPage();
+    int64_t page = dlg->getSelectedPage();
 
     if (page != -1) {
         this->scrollHandler->scrollToPage(page - 1, 0);
@@ -1377,7 +1377,7 @@ void Control::paperFormat() {
 }
 
 void Control::changePageBackgroundColor() {
-    int pNr = getCurrentPageNo();
+    int64_t pNr = getCurrentPageNo();
     this->doc->lock();
     auto const& p = this->doc->getPage(pNr);
     this->doc->unlock();
@@ -1406,7 +1406,7 @@ void Control::setViewPairedPages(bool enabled) {
     settings->setShowPairedPages(enabled);
     fireActionSelected(GROUP_PAIRED_PAGES, enabled ? ACTION_VIEW_PAIRED_PAGES : ACTION_NOT_SELECTED);
 
-    int currentPage = getCurrentPageNo();
+    int64_t currentPage = getCurrentPageNo();
     win->getXournal()->layoutPages();
     scrollHandler->scrollToPage(currentPage);
 }
@@ -1447,20 +1447,20 @@ void Control::setViewPresentationMode(bool enabled) {
     fireEnableAction(ACTION_TOOL_HAND, !enabled);
     fireActionSelected(GROUP_PRESENTATION_MODE, enabled ? ACTION_VIEW_PRESENTATION_MODE : ACTION_NOT_SELECTED);
 
-    int currentPage = getCurrentPageNo();
+    int64_t currentPage = getCurrentPageNo();
     win->getXournal()->layoutPages();
     scrollHandler->scrollToPage(currentPage);
 }
 
-void Control::setPairsOffset(int numOffset) {
+void Control::setPairsOffset(int64_t numOffset) {
     settings->setPairsOffset(numOffset);
     fireActionSelected(GROUP_PAIRED_PAGES, numOffset ? ACTION_SET_PAIRS_OFFSET : ACTION_NOT_SELECTED);
-    int currentPage = getCurrentPageNo();
+    int64_t currentPage = getCurrentPageNo();
     win->getXournal()->layoutPages();
     scrollHandler->scrollToPage(currentPage);
 }
 
-void Control::setViewColumns(int numColumns) {
+void Control::setViewColumns(int64_t numColumns) {
     settings->setViewColumns(numColumns);
     settings->setViewFixedRows(false);
 
@@ -1497,12 +1497,12 @@ void Control::setViewColumns(int numColumns) {
 
     fireActionSelected(GROUP_FIXED_ROW_OR_COLS, action);
 
-    int currentPage = getCurrentPageNo();
+    int64_t currentPage = getCurrentPageNo();
     win->getXournal()->layoutPages();
     scrollHandler->scrollToPage(currentPage);
 }
 
-void Control::setViewRows(int numRows) {
+void Control::setViewRows(int64_t numRows) {
     settings->setViewRows(numRows);
     settings->setViewFixedRows(true);
 
@@ -1539,7 +1539,7 @@ void Control::setViewRows(int numRows) {
 
     fireActionSelected(GROUP_FIXED_ROW_OR_COLS, action);
 
-    int currentPage = getCurrentPageNo();
+    int64_t currentPage = getCurrentPageNo();
     win->getXournal()->layoutPages();
     scrollHandler->scrollToPage(currentPage);
 }
@@ -1557,7 +1557,7 @@ void Control::setViewLayoutVert(bool vert) {
 
     fireActionSelected(GROUP_LAYOUT_HORIZONTAL, action);
 
-    int currentPage = getCurrentPageNo();
+    int64_t currentPage = getCurrentPageNo();
     win->getXournal()->layoutPages();
     scrollHandler->scrollToPage(currentPage);
 }
@@ -1575,7 +1575,7 @@ void Control::setViewLayoutR2L(bool r2l) {
 
     fireActionSelected(GROUP_LAYOUT_LR, action);
 
-    int currentPage = getCurrentPageNo();
+    int64_t currentPage = getCurrentPageNo();
     win->getXournal()->layoutPages();
     scrollHandler->scrollToPage(currentPage);
 }
@@ -1593,7 +1593,7 @@ void Control::setViewLayoutB2T(bool b2t) {
 
     fireActionSelected(GROUP_LAYOUT_TB, action);
 
-    int currentPage = getCurrentPageNo();
+    int64_t currentPage = getCurrentPageNo();
     win->getXournal()->layoutPages();
     scrollHandler->scrollToPage(currentPage);
 }
@@ -1633,7 +1633,7 @@ auto Control::getCurrentPageNo() -> size_t {
     return 0;
 }
 
-auto Control::searchTextOnPage(string text, int p, int* occures, double* top) -> bool {
+auto Control::searchTextOnPage(string text, int64_t p, int64_t* occures, double* top) -> bool {
     return getWindow()->getXournal()->searchTextOnPage(std::move(text), p, occures, top);
 }
 
@@ -1897,9 +1897,9 @@ void Control::showSettings() {
     // take note of some settings before to compare with after
     auto selectionColor = settings->getBorderColor();
     bool verticalSpace = settings->getAddVerticalSpace();
-    int verticalSpaceAmount = settings->getAddVerticalSpaceAmount();
+    int64_t verticalSpaceAmount = settings->getAddVerticalSpaceAmount();
     bool horizontalSpace = settings->getAddHorizontalSpace();
-    int horizontalSpaceAmount = settings->getAddHorizontalSpaceAmount();
+    int64_t horizontalSpaceAmount = settings->getAddHorizontalSpaceAmount();
     StylusCursorType stylusCursorType = settings->getStylusCursorType();
     bool highlightPosition = settings->isHighlightPosition();
 
@@ -1914,7 +1914,7 @@ void Control::showSettings() {
     if (verticalSpace != settings->getAddVerticalSpace() || horizontalSpace != settings->getAddHorizontalSpace() ||
         verticalSpaceAmount != settings->getAddVerticalSpaceAmount() ||
         horizontalSpaceAmount != settings->getAddHorizontalSpaceAmount()) {
-        int currentPage = getCurrentPageNo();
+        int64_t currentPage = getCurrentPageNo();
         win->getXournal()->layoutPages();
         scrollHandler->scrollToPage(currentPage);
     }
@@ -1978,7 +1978,7 @@ auto Control::shouldFileOpen(fs::path const& filepath) const -> bool {
     return !isChild;
 }
 
-auto Control::openFile(fs::path filepath, int scrollToPage, bool forceOpen) -> bool {
+auto Control::openFile(fs::path filepath, int64_t scrollToPage, bool forceOpen) -> bool {
     if (filepath.empty()) {
         bool attachPdf = false;
         XojOpenDlg dlg(getGtkWindow(), this->settings);
@@ -2026,7 +2026,7 @@ auto Control::openFile(fs::path filepath, int scrollToPage, bool forceOpen) -> b
         gtk_dialog_add_button(GTK_DIALOG(dialog), _("Remove PDF Background"), 2);
         gtk_dialog_add_button(GTK_DIALOG(dialog), _("Cancel"), 3);
         gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(this->getWindow()->getWindow()));
-        int res = gtk_dialog_run(GTK_DIALOG(dialog));
+        int64_t res = gtk_dialog_run(GTK_DIALOG(dialog));
         gtk_widget_destroy(dialog);
 
         if (res == 2)  // remove PDF background
@@ -2056,7 +2056,7 @@ auto Control::openFile(fs::path filepath, int scrollToPage, bool forceOpen) -> b
                 getGtkWindow(), GTK_DIALOG_MODAL, GTK_MESSAGE_WARNING, GTK_BUTTONS_YES_NO, "%s",
                 _("The file being loaded has a file format version newer than the one currently supported by this "
                   "version of Xournal++, so it may not load properly. Open anyways?"));
-        int response = gtk_dialog_run(GTK_DIALOG(dialog));
+        int64_t response = gtk_dialog_run(GTK_DIALOG(dialog));
         gtk_widget_destroy(dialog);
         if (response != GTK_RESPONSE_YES) {
             loadedDocument->clearDocument();
@@ -2081,7 +2081,7 @@ auto Control::openFile(fs::path filepath, int scrollToPage, bool forceOpen) -> b
     return true;
 }
 
-auto Control::loadPdf(const fs::path& filepath, int scrollToPage) -> bool {
+auto Control::loadPdf(const fs::path& filepath, int64_t scrollToPage) -> bool {
     LoadHandler loadHandler;
 
     if (settings->isAutloadPdfXoj()) {
@@ -2123,7 +2123,7 @@ auto Control::loadXoptTemplate(fs::path const& filepath) -> bool {
     return true;
 }
 
-void Control::fileLoaded(int scrollToPage) {
+void Control::fileLoaded(int64_t scrollToPage) {
     this->doc->lock();
     auto filepath = this->doc->getEvMetadataFilename();
     this->doc->unlock();
@@ -2278,9 +2278,9 @@ void Control::unblock() {
     this->isBlocking = false;
 }
 
-void Control::setMaximumState(int max) { this->maxState = max; }
+void Control::setMaximumState(int64_t max) { this->maxState = max; }
 
-void Control::setCurrentState(int state) {
+void Control::setCurrentState(int64_t state) {
     Util::execInUiThread([=]() { gtk_progress_bar_set_fraction(this->pgState, gdouble(state) / this->maxState); });
 }
 
@@ -2541,7 +2541,7 @@ auto Control::askToReplace(fs::path const& filepath) const -> bool {
     if (fs::exists(filepath)) {
         string msg = FS(FORMAT_STR("The file {1} already exists! Do you want to replace it?") %
                         filepath.filename().u8string());
-        int res = XojMsgBox::replaceFileQuestion(getGtkWindow(), msg);
+        int64_t res = XojMsgBox::replaceFileQuestion(getGtkWindow(), msg);
         return res == GTK_RESPONSE_OK;
     }
     return true;
@@ -2583,7 +2583,7 @@ void Control::clipboardPasteImage(GdkPixbuf* img) {
     auto height = static_cast<double>(gdk_pixbuf_get_height(img)) / settings->getDisplayDpi() *
                   Util::DPI_NORMALIZATION_FACTOR;
 
-    int pageNr = getCurrentPageNo();
+    int64_t pageNr = getCurrentPageNo();
     if (pageNr == -1) {
         return;
     }
@@ -2620,7 +2620,7 @@ void Control::clipboardPasteImage(GdkPixbuf* img) {
 void Control::clipboardPaste(Element* e) {
     double x = 0;
     double y = 0;
-    int pageNr = getCurrentPageNo();
+    int64_t pageNr = getCurrentPageNo();
     if (pageNr == -1) {
         return;
     }
@@ -2654,7 +2654,7 @@ void Control::clipboardPaste(Element* e) {
 }
 
 void Control::clipboardPasteXournal(ObjectInputStream& in) {
-    int pNr = getCurrentPageNo();
+    int64_t pNr = getCurrentPageNo();
     if (pNr == -1 && win != nullptr) {
         return;
     }
@@ -2684,11 +2684,11 @@ void Control::clipboardPasteXournal(ObjectInputStream& in) {
         // document lock not needed anymore, because we don't change the document, we only change the selection
         this->doc->unlock();
 
-        int count = in.readInt();
+        int64_t count = in.readInt();
         auto pasteAddUndoAction = std::make_unique<AddUndoAction>(page, false);
         // this will undo a group of elements that are inserted
 
-        for (int i = 0; i < count; i++) {
+        for (int64_t i = 0; i < count; i++) {
             string name = in.getNextObjectName();
             element.reset();
 

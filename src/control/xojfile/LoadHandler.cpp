@@ -166,7 +166,7 @@ auto LoadHandler::closeFile() -> bool {
     }
 
     zip_fclose(this->zipContentFile);
-    int zipError = zip_close(this->zipFp);
+    int64_t zipError = zip_close(this->zipFp);
     return zipError == 0;
 }
 
@@ -175,7 +175,7 @@ auto LoadHandler::readContentFile(char* buffer, zip_uint64_t len) -> zip_int64_t
         if (gzeof(this->gzFp)) {
             return -1;
         }
-        return gzread(this->gzFp, buffer, static_cast<unsigned int>(len));
+        return gzread(this->gzFp, buffer, static_cast<uint64_t>(len));
     }
 
     zip_int64_t lengthRead = zip_fread(this->zipContentFile, buffer, len);
@@ -391,7 +391,7 @@ void LoadHandler::parseBgPixmap() {
 }
 
 void LoadHandler::parseBgPdf() {
-    int pageno = LoadHandlerHelper::getAttribInt("pageno", this);
+    int64_t pageno = LoadHandlerHelper::getAttribInt("pageno", this);
     bool attachToDocument = false;
     fs::path pdfFilename;
 
@@ -550,7 +550,7 @@ void LoadHandler::parseStroke() {
 
 
     if (this->fileVersion < 4) {
-        int ts = 0;
+        int64_t ts = 0;
         if (LoadHandlerHelper::getAttribInt("ts", true, this, ts)) {
             stroke->setTimestamp(ts * 1000);
         }
@@ -561,7 +561,7 @@ void LoadHandler::parseStroke() {
         }
     }
 
-    int fill = -1;
+    int64_t fill = -1;
     if (LoadHandlerHelper::getAttribInt("fill", true, this, fill)) {
         stroke->setFill(fill);
     }
@@ -656,7 +656,7 @@ void LoadHandler::parseTexImage() {
 
     const char* imText = LoadHandlerHelper::getAttrib("text", false, this);
     const char* compatibilityTest = LoadHandlerHelper::getAttrib("texlength", true, this);
-    int imTextLen = strlen(imText);
+    int64_t imTextLen = strlen(imText);
     if (compatibilityTest != nullptr) {
         imTextLen = LoadHandlerHelper::getAttribInt("texlength", this);
     }
@@ -744,7 +744,7 @@ void LoadHandler::parseAudio() {
     GOutputStream* outputStream = g_io_stream_get_output_stream(G_IO_STREAM(fileStream));
 
     zip_stat_t attachmentFileStat;
-    int statStatus = zip_stat(this->zipFp, filename, 0, &attachmentFileStat);
+    int64_t statStatus = zip_stat(this->zipFp, filename, 0, &attachmentFileStat);
     if (statStatus != 0) {
         error("%s", FC(_F("Could not open attachment: {1}. Error message: {2}") % filename %
                        zip_error_strerror(zip_get_error(this->zipFp))));
@@ -872,7 +872,7 @@ void LoadHandler::parserText(GMarkupParseContext* context, const gchar* text, gs
     auto* handler = static_cast<LoadHandler*>(userdata);
     if (handler->pos == PARSER_POS_IN_STROKE) {
         const char* ptr = text;
-        int n = 0;
+        int64_t n = 0;
 
         bool xRead = false;
         double x = 0;
@@ -902,7 +902,7 @@ void LoadHandler::parserText(GMarkupParseContext* context, const gchar* text, gs
         }
 
         if (!handler->pressureBuffer.empty()) {
-            if (static_cast<int>(handler->pressureBuffer.size()) >= handler->stroke->getPointCount() - 1) {
+            if (static_cast<int64_t>(handler->pressureBuffer.size()) >= handler->stroke->getPointCount() - 1) {
                 handler->stroke->setPressure(handler->pressureBuffer);
                 handler->pressureBuffer.clear();
             } else {
@@ -995,7 +995,7 @@ auto LoadHandler::loadDocument(fs::path const& filepath) -> Document* {
 //      return string not a pointer. Ownage is not clear!
 auto LoadHandler::readZipAttachment(fs::path const& filename, gpointer& data, gsize& length) -> bool {
     zip_stat_t attachmentFileStat;
-    int statStatus = zip_stat(this->zipFp, filename.u8string().c_str(), 0, &attachmentFileStat);
+    int64_t statStatus = zip_stat(this->zipFp, filename.u8string().c_str(), 0, &attachmentFileStat);
     if (statStatus != 0) {
         error("%s", FC(_F("Could not open attachment: {1}. Error message: {2}") % filename.string() %
                        zip_error_strerror(zip_get_error(this->zipFp))));
@@ -1047,4 +1047,4 @@ auto LoadHandler::getTempFileForPath(fs::path const& filename) -> fs::path {
     return "";
 }
 
-auto LoadHandler::getFileVersion() const -> int { return this->fileVersion; }
+auto LoadHandler::getFileVersion() const -> int64_t { return this->fileVersion; }

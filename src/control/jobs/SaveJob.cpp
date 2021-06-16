@@ -33,7 +33,7 @@ void SaveJob::afterRun() {
 }
 
 void SaveJob::updatePreview(Control* control) {
-    const int previewSize = 128;
+    const int64_t previewSize = 128;
 
     Document* doc = control->getDocument();
 
@@ -61,7 +61,7 @@ void SaveJob::updatePreview(Control* control) {
         cairo_scale(cr, zoom, zoom);
 
         if (page->getBackgroundType().isPdfPage()) {
-            int pgNo = page->getPdfPageNr();
+            int64_t pgNo = page->getPdfPageNr();
             XojPdfPageSPtr popplerPage = doc->getPdfPage(pgNo);
             if (popplerPage) {
                 popplerPage->render(cr, false);

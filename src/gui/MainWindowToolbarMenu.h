@@ -38,7 +38,7 @@ private:
     void freeToolMenu();
     void selectToolbar(Settings* settings, ToolMenuHandler* toolbar);
     void removeOldElements(GtkMenuShell* menubar);
-    void addToolbarMenuEntry(ToolbarData* d, GtkMenuShell* menubar, int& menuPos);
+    void addToolbarMenuEntry(ToolbarData* d, GtkMenuShell* menubar, int64_t& menuPos);
     void menuClicked(GtkCheckMenuItem* menuitem, MenuSelectToolbarData* data);
 
     static void tbSelectMenuitemActivated(GtkCheckMenuItem* menuitem, MenuSelectToolbarData* data);

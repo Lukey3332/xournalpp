@@ -37,8 +37,8 @@ void XojPage::addLayer(Layer* layer) {
     this->currentLayer = npos;
 }
 
-void XojPage::insertLayer(Layer* layer, int index) {
-    if (index >= static_cast<int>(this->layer.size())) {
+void XojPage::insertLayer(Layer* layer, int64_t index) {
+    if (index >= static_cast<int64_t>(this->layer.size())) {
         addLayer(layer);
         return;
     }
@@ -48,7 +48,7 @@ void XojPage::insertLayer(Layer* layer, int index) {
 }
 
 void XojPage::removeLayer(Layer* layer) {
-    for (unsigned int i = 0; i < this->layer.size(); i++) {
+    for (uint64_t i = 0; i < this->layer.size(); i++) {
         if (layer == this->layer[i]) {
             this->layer.erase(this->layer.begin() + i);
             break;
@@ -57,7 +57,7 @@ void XojPage::removeLayer(Layer* layer) {
     this->currentLayer = npos;
 }
 
-void XojPage::setSelectedLayerId(int id) { this->currentLayer = id; }
+void XojPage::setSelectedLayerId(int64_t id) { this->currentLayer = id; }
 
 auto XojPage::getLayers() -> vector<Layer*>* { return &this->layer; }
 
@@ -66,7 +66,7 @@ auto XojPage::getLayerCount() -> size_t { return this->layer.size(); }
 /**
  * Layer ID 0 = Background, Layer ID 1 = Layer 1
  */
-auto XojPage::getSelectedLayerId() -> int {
+auto XojPage::getSelectedLayerId() -> int64_t {
     if (this->currentLayer == npos) {
         this->currentLayer = this->layer.size();
     }
@@ -74,7 +74,7 @@ auto XojPage::getSelectedLayerId() -> int {
     return this->currentLayer;
 }
 
-void XojPage::setLayerVisible(int layerId, bool visible) {
+void XojPage::setLayerVisible(int64_t layerId, bool visible) {
     if (layerId < 0) {
         return;
     }
@@ -85,14 +85,14 @@ void XojPage::setLayerVisible(int layerId, bool visible) {
     }
 
     layerId--;
-    if (layerId >= static_cast<int>(this->layer.size())) {
+    if (layerId >= static_cast<int64_t>(this->layer.size())) {
         return;
     }
 
     this->layer[layerId]->setVisible(visible);
 }
 
-auto XojPage::isLayerVisible(int layerId) -> bool {
+auto XojPage::isLayerVisible(int64_t layerId) -> bool {
     if (layerId < 0) {
         return false;
     }
@@ -102,7 +102,7 @@ auto XojPage::isLayerVisible(int layerId) -> bool {
     }
 
     layerId--;
-    if (layerId >= static_cast<int>(this->layer.size())) {
+    if (layerId >= static_cast<int64_t>(this->layer.size())) {
         return false;
     }
 

@@ -9,6 +9,8 @@
  * @license GNU GPLv2 or later
  */
 
+#include <cstdint>
+
 #pragma once
 
 typedef struct {
@@ -17,4 +19,4 @@ typedef struct {
 } FormatUnits;
 
 extern const FormatUnits XOJ_UNITS[];
-extern const int XOJ_UNIT_COUNT;
+extern const int64_t XOJ_UNIT_COUNT;

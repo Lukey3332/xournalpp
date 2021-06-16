@@ -32,7 +32,7 @@ void PluginDialog::saveSettings() {
 
 void PluginDialog::show(GtkWindow* parent) {
     gtk_window_set_transient_for(GTK_WINDOW(this->window), parent);
-    int returnCode = gtk_dialog_run(GTK_DIALOG(this->window));
+    int64_t returnCode = gtk_dialog_run(GTK_DIALOG(this->window));
     gtk_widget_hide(this->window);
 
     if (returnCode == 2) {

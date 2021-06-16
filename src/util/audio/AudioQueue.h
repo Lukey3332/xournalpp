@@ -115,19 +115,19 @@ public:
         return retLock;
     }
 
-    void setAudioAttributes(double lSampleRate, unsigned int lChannels) {
+    void setAudioAttributes(double lSampleRate, uint64_t lChannels) {
         std::lock_guard<std::mutex> lock(internalLock);
         this->sampleRate = lSampleRate;
         this->channels = lChannels;
     }
 
     /**
-     * @return std::pair<double, int>,
-     * std::pair<double, int>::first is the sample rate and std::pair<double, int>::second the channel count.
+     * @return std::pair<double, int64_t>,
+     * std::pair<double, int64_t>::first is the sample rate and std::pair<double, int64_t>::second the channel count.
      */
-    [[nodiscard]] std::pair<double, int> getAudioAttributes() {
+    [[nodiscard]] std::pair<double, int64_t> getAudioAttributes() {
         std::lock_guard<std::mutex> lock(internalLock);
-        return {this->sampleRate, static_cast<int>(this->channels)};
+        return {this->sampleRate, static_cast<int64_t>(this->channels)};
     }
 
 private:
@@ -140,7 +140,7 @@ private:
     std::condition_variable popLockCondition;
 
     double sampleRate{std::numeric_limits<double>::quiet_NaN()};
-    unsigned int channels{0};
+    uint64_t channels{0};
 
     bool streamEnd{false};
     bool pushNotified{false};

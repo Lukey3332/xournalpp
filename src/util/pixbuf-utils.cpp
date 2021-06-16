@@ -50,8 +50,8 @@
 const cairo_user_data_key_t pixel_key = {0};
 const cairo_user_data_key_t format_key = {0};
 
-auto f_image_surface_create(cairo_format_t format, int width, int height) -> cairo_surface_t* {
-    int size = 0;
+auto f_image_surface_create(cairo_format_t format, int64_t width, int64_t height) -> cairo_surface_t* {
+    int64_t size = 0;
 
     switch (format) {
         case CAIRO_FORMAT_ARGB32:
@@ -90,9 +90,9 @@ auto f_image_surface_get_format(cairo_surface_t* surface) -> cairo_format_t {
     return static_cast<cairo_format_t> GPOINTER_TO_INT(cairo_surface_get_user_data(surface, &format_key));
 }
 
-auto f_image_surface_get_width(cairo_surface_t* surface) -> int { return cairo_image_surface_get_width(surface); }
+auto f_image_surface_get_width(cairo_surface_t* surface) -> int64_t { return cairo_image_surface_get_width(surface); }
 
-auto f_image_surface_get_height(cairo_surface_t* surface) -> int { return cairo_image_surface_get_height(surface); }
+auto f_image_surface_get_height(cairo_surface_t* surface) -> int64_t { return cairo_image_surface_get_height(surface); }
 
 /* Public functions.  */
 
@@ -100,8 +100,8 @@ auto f_pixbuf_to_cairo_surface(GdkPixbuf* pixbuf) -> cairo_surface_t* {
     gint width = gdk_pixbuf_get_width(pixbuf);
     gint height = gdk_pixbuf_get_height(pixbuf);
     guchar* gdk_pixels = gdk_pixbuf_get_pixels(pixbuf);
-    int gdk_rowstride = gdk_pixbuf_get_rowstride(pixbuf);
-    int n_channels = gdk_pixbuf_get_n_channels(pixbuf);
+    int64_t gdk_rowstride = gdk_pixbuf_get_rowstride(pixbuf);
+    int64_t n_channels = gdk_pixbuf_get_n_channels(pixbuf);
 
     cairo_format_t format{};
     if (n_channels == 3) {
@@ -113,7 +113,7 @@ auto f_pixbuf_to_cairo_surface(GdkPixbuf* pixbuf) -> cairo_surface_t* {
     cairo_surface_t* surface = f_image_surface_create(format, width, height);
     auto* cairo_pixels = static_cast<guchar*>(f_image_surface_get_data(surface));
 
-    for (int j = height; j; j--) {
+    for (int64_t j = height; j; j--) {
         guchar* p = gdk_pixels;
         guchar* q = cairo_pixels;
 
@@ -183,8 +183,8 @@ static auto gdk_cairo_format_for_content(cairo_content_t content) -> cairo_forma
     }
 }
 
-static auto gdk_cairo_surface_coerce_to_image(cairo_surface_t* surface, cairo_content_t content, int src_x, int src_y,
-                                              int width, int height) -> cairo_surface_t* {
+static auto gdk_cairo_surface_coerce_to_image(cairo_surface_t* surface, cairo_content_t content, int64_t src_x, int64_t src_y,
+                                              int64_t width, int64_t height) -> cairo_surface_t* {
     cairo_surface_t* copy = cairo_image_surface_create(gdk_cairo_format_for_content(content), width, height);
 
     cairo_t* cr = cairo_create(copy);
@@ -196,14 +196,14 @@ static auto gdk_cairo_surface_coerce_to_image(cairo_surface_t* surface, cairo_co
     return copy;
 }
 
-static void convert_alpha(guchar* dest_data, int dest_stride, guchar* src_data, int src_stride, int src_x, int src_y,
-                          int width, int height) {
+static void convert_alpha(guchar* dest_data, int64_t dest_stride, guchar* src_data, int64_t src_stride, int64_t src_x, int64_t src_y,
+                          int64_t width, int64_t height) {
     src_data += src_stride * src_y + src_x * 4;
 
-    for (int y = 0; y < height; y++) {
+    for (int64_t y = 0; y < height; y++) {
         auto* src = reinterpret_cast<guint32*>(src_data);
 
-        for (int x = 0; x < width; x++) {
+        for (int64_t x = 0; x < width; x++) {
             guint alpha = src[x] >> 24;
 
             if (alpha == 0) {
@@ -223,14 +223,14 @@ static void convert_alpha(guchar* dest_data, int dest_stride, guchar* src_data, 
     }
 }
 
-static void convert_no_alpha(guchar* dest_data, int dest_stride, guchar* src_data, int src_stride, int src_x, int src_y,
-                             int width, int height) {
+static void convert_no_alpha(guchar* dest_data, int64_t dest_stride, guchar* src_data, int64_t src_stride, int64_t src_x, int64_t src_y,
+                             int64_t width, int64_t height) {
     src_data += src_stride * src_y + src_x * 4;
 
-    for (int y = 0; y < height; y++) {
+    for (int64_t y = 0; y < height; y++) {
         auto* src = reinterpret_cast<guint32*>(src_data);
 
-        for (int x = 0; x < width; x++) {
+        for (int64_t x = 0; x < width; x++) {
             dest_data[x * 3 + 0] = src[x] >> 16U;
             dest_data[x * 3 + 1] = src[x] >> 8U;
             dest_data[x * 3 + 2] = src[x];

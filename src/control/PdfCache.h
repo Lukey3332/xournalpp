@@ -26,7 +26,7 @@ class PdfCacheEntry;
 
 class PdfCache {
 public:
-    PdfCache(int size);
+    PdfCache(int64_t size);
     virtual ~PdfCache();
 
 private:

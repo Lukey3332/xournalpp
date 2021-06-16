@@ -18,24 +18,24 @@ private:
     Shadow();
     virtual ~Shadow();
 
-    static void drawShadowEdge(cairo_t* cr, int x, int y, int width, int height, const unsigned char* edge, double r,
+    static void drawShadowEdge(cairo_t* cr, int64_t x, int64_t y, int64_t width, int64_t height, const unsigned char* edge, double r,
                                double g, double b);
-    void drawShadowImpl(cairo_t* cr, int x, int y, int width, int height);
+    void drawShadowImpl(cairo_t* cr, int64_t x, int64_t y, int64_t width, int64_t height);
 
-    static void paintEdge(cairo_t* cr, cairo_surface_t* image, int x, int y, int width, int height);
+    static void paintEdge(cairo_t* cr, cairo_surface_t* image, int64_t x, int64_t y, int64_t width, int64_t height);
 
-    void drawShadowTop(cairo_t* cr, int x, int y, int width, double r, double g, double b);
-    void drawShadowLeft(cairo_t* cr, int x, int y, int height, double r, double g, double b);
-    void drawShadowRight(cairo_t* cr, int x, int y, int height, double r, double g, double b);
-    void drawShadowBottom(cairo_t* cr, int x, int y, int width, double r, double g, double b);
+    void drawShadowTop(cairo_t* cr, int64_t x, int64_t y, int64_t width, double r, double g, double b);
+    void drawShadowLeft(cairo_t* cr, int64_t x, int64_t y, int64_t height, double r, double g, double b);
+    void drawShadowRight(cairo_t* cr, int64_t x, int64_t y, int64_t height, double r, double g, double b);
+    void drawShadowBottom(cairo_t* cr, int64_t x, int64_t y, int64_t width, double r, double g, double b);
 
 public:
     /**
      * This is the public interface of this class
      */
-    static void drawShadow(cairo_t* cr, int x, int y, int width, int height);
-    static int getShadowBottomRightSize();
-    static int getShadowTopLeftSize();
+    static void drawShadow(cairo_t* cr, int64_t x, int64_t y, int64_t width, int64_t height);
+    static int64_t getShadowBottomRightSize();
+    static int64_t getShadowTopLeftSize();
 
 private:
     static Shadow* instance;

@@ -35,10 +35,10 @@ auto main(int argc, char* argv[]) -> int {
 #endif
 
     // Use this two line to test the crash handler...
-    // int* crash = nullptr;
+    // int64_t* crash = nullptr;
     // *crash = 0;
 
-    int result = XournalMain::run(argc, argv);
+    int64_t result = XournalMain::run(argc, argv);
 
 #ifdef DEV_CALL_LOG
     Log::closelog();

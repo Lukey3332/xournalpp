@@ -15,12 +15,12 @@
 
 class IntAttribute: public XMLAttribute {
 public:
-    IntAttribute(const char* name, int value);
+    IntAttribute(const char* name, int64_t value);
     virtual ~IntAttribute();
 
 public:
     virtual void writeOut(OutputStream* out);
 
 private:
-    int value;
+    int64_t value;
 };

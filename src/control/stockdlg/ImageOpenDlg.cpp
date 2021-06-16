@@ -59,8 +59,8 @@ auto ImageOpenDlg::show(GtkWindow* win, Settings* settings, bool localOnly, bool
 // Source: Empathy
 
 auto ImageOpenDlg::pixbufScaleDownIfNecessary(GdkPixbuf* pixbuf, gint maxSize) -> GdkPixbuf* {
-    int width = gdk_pixbuf_get_width(pixbuf);
-    int height = gdk_pixbuf_get_height(pixbuf);
+    int64_t width = gdk_pixbuf_get_width(pixbuf);
+    int64_t height = gdk_pixbuf_get_height(pixbuf);
 
     if (width > maxSize || height > maxSize) {
         double factor = static_cast<gdouble>(maxSize) / std::max(width, height);

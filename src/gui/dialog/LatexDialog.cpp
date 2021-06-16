@@ -46,8 +46,8 @@ void LatexDialog::setTempRender(PopplerDocument* pdf) {
         zoom = 1200 / pageWidth;
     }
 
-    this->scaledRender = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, static_cast<int>(pageWidth * zoom),
-                                                    static_cast<int>(pageHeight * zoom));
+    this->scaledRender = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, static_cast<int64_t>(pageWidth * zoom),
+                                                    static_cast<int64_t>(pageHeight * zoom));
     cairo_t* cr = cairo_create(this->scaledRender);
 
     cairo_scale(cr, zoom, zoom);
@@ -84,7 +84,7 @@ void LatexDialog::show(GtkWindow* parent, bool selectText) {
     }
 
     gtk_window_set_transient_for(GTK_WINDOW(this->window), parent);
-    int res = gtk_dialog_run(GTK_DIALOG(this->window));
+    int64_t res = gtk_dialog_run(GTK_DIALOG(this->window));
     this->finalLatex = res == GTK_RESPONSE_OK ? this->getBufferContents() : "";
 
     gtk_widget_hide(this->window);

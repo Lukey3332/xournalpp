@@ -163,7 +163,7 @@ auto PageTemplateDialog::isSaved() const -> bool { return saved; }
 
 void PageTemplateDialog::show(GtkWindow* parent) {
     gtk_window_set_transient_for(GTK_WINDOW(this->window), parent);
-    int ret = gtk_dialog_run(GTK_DIALOG(this->window));
+    int64_t ret = gtk_dialog_run(GTK_DIALOG(this->window));
 
     if (ret == 1)  // OK
     {

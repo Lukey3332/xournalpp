@@ -38,14 +38,14 @@ auto ToolbarEntry::getName() -> string { return this->name; }
 
 void ToolbarEntry::setName(string name) { this->name = std::move(name); }
 
-auto ToolbarEntry::addItem(string item) -> int {
+auto ToolbarEntry::addItem(string item) -> int64_t {
     auto* it = new ToolbarItem(std::move(item));
     entries.push_back(it);
 
     return it->getId();
 }
 
-auto ToolbarEntry::removeItemById(int id) -> bool {
+auto ToolbarEntry::removeItemById(int64_t id) -> bool {
     for (auto it = this->entries.begin(); it != this->entries.end(); it++) {
         if ((*it)->getId() == id) {
             delete *it;
@@ -56,9 +56,9 @@ auto ToolbarEntry::removeItemById(int id) -> bool {
     return false;
 }
 
-auto ToolbarEntry::insertItem(string item, int position) -> int {
+auto ToolbarEntry::insertItem(string item, int64_t position) -> int64_t {
     auto* it = new ToolbarItem(std::move(item));
-    if (position >= static_cast<int>(entries.size())) {
+    if (position >= static_cast<int64_t>(entries.size())) {
         entries.push_back(it);
         return it->getId();
     }

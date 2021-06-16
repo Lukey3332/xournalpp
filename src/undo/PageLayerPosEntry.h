@@ -14,7 +14,7 @@
 template <class T>
 class PageLayerPosEntry {
 public:
-    PageLayerPosEntry(Layer* layer, T* element, int pos) {
+    PageLayerPosEntry(Layer* layer, T* element, int64_t pos) {
         this->element = element;
         this->pos = pos;
         this->layer = layer;
@@ -26,7 +26,7 @@ private:
 public:
     Layer* layer;
     T* element;
-    int pos;
+    int64_t pos;
 
-    static int cmp(PageLayerPosEntry<T>* a, PageLayerPosEntry<T>* b) { return a->pos - b->pos; }
+    static int64_t cmp(PageLayerPosEntry<T>* a, PageLayerPosEntry<T>* b) { return a->pos - b->pos; }
 };

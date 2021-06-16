@@ -43,8 +43,8 @@ void EllipseHandler::drawShape(Point& c, const PositionInputData& pos) {
 
         if (this->modShift)  // make circle
         {
-            int signW = width > 0 ? 1 : -1;
-            int signH = height > 0 ? 1 : -1;
+            int64_t signW = width > 0 ? 1 : -1;
+            int64_t signH = height > 0 ? 1 : -1;
             width = (this->modControl) ? sqrt(pow(width, 2) + pow(height, 2)) :
                                          std::max(width * signW, height * signH) * signW;
             height = (width * signW) * signH;
@@ -52,7 +52,7 @@ void EllipseHandler::drawShape(Point& c, const PositionInputData& pos) {
 
         double diameterX = 0;
         double diameterY = 0;
-        int npts = 0;
+        int64_t npts = 0;
         double center_x = 0;
         double center_y = 0;
         double angle = 0;
@@ -61,14 +61,14 @@ void EllipseHandler::drawShape(Point& c, const PositionInputData& pos) {
         if (!this->modControl) {
             diameterX = width;
             diameterY = height;
-            npts = static_cast<int>(std::abs(diameterX * 2.0));
+            npts = static_cast<int64_t>(std::abs(diameterX * 2.0));
             center_x = this->startPoint.x + width / 2.0;
             center_y = this->startPoint.y + height / 2.0;
             angle = 0;
         } else {  // control key down, draw centered at cursor
             diameterX = width * 2.0;
             diameterY = height * 2.0;
-            npts = static_cast<int>(std::abs(diameterX) + std::abs(diameterY));
+            npts = static_cast<int64_t>(std::abs(diameterX) + std::abs(diameterY));
             center_x = this->startPoint.x;
             center_y = this->startPoint.y;
             angle = 0;
@@ -79,8 +79,8 @@ void EllipseHandler::drawShape(Point& c, const PositionInputData& pos) {
 
         // remove previous points
         stroke->deletePointsFrom(0);
-        for (int j = 0; j <= npts; j++) {
-            int i = j % npts;  // so that we end exactly where we started.
+        for (int64_t j = 0; j <= npts; j++) {
+            int64_t i = j % npts;  // so that we end exactly where we started.
             double xp = center_x + diameterX / 2.0 * cos((2 * M_PI * i) / npts + angle + M_PI);
             double yp = center_y + diameterY / 2.0 * sin((2 * M_PI * i) / npts + angle + M_PI);
             stroke->addPoint(Point(xp, yp));

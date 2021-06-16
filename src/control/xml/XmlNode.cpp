@@ -47,14 +47,14 @@ void XmlNode::setAttrib(const char* attrib, string value) { putAttrib(new TextAt
 
 void XmlNode::setAttrib(const char* attrib, double value) { putAttrib(new DoubleAttribute(attrib, value)); }
 
-void XmlNode::setAttrib(const char* attrib, int value) { putAttrib(new IntAttribute(attrib, value)); }
+void XmlNode::setAttrib(const char* attrib, int64_t value) { putAttrib(new IntAttribute(attrib, value)); }
 
 void XmlNode::setAttrib(const char* attrib, size_t value) { putAttrib(new SizeTAttribute(attrib, value)); }
 
 /**
  * The double array is now owned by XmlNode and automatically deleted!
  */
-void XmlNode::setAttrib(const char* attrib, double* value, int count) {
+void XmlNode::setAttrib(const char* attrib, double* value, int64_t count) {
     putAttrib(new DoubleArrayAttribute(attrib, std::vector<double>{value, value + count}));
     g_free(value);
 }

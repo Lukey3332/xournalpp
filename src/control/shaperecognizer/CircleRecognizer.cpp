@@ -12,7 +12,7 @@
  * Create circle stroke for inertia
  */
 auto CircleRecognizer::makeCircleShape(Stroke* originalStroke, Inertia& inertia) -> Stroke* {
-    int npts = static_cast<int>(2 * inertia.rad());
+    int64_t npts = static_cast<int64_t>(2 * inertia.rad());
     if (npts < 24) {
         npts = 24;  // min. number of points
     }
@@ -20,7 +20,7 @@ auto CircleRecognizer::makeCircleShape(Stroke* originalStroke, Inertia& inertia)
     auto* s = new Stroke();
     s->applyStyleFrom(originalStroke);
 
-    for (int i = 0; i <= npts; i++) {
+    for (int64_t i = 0; i <= npts; i++) {
         double x = inertia.centerX() + inertia.rad() * cos((2 * M_PI * i) / npts);
         double y = inertia.centerY() + inertia.rad() * sin((2 * M_PI * i) / npts);
         s->addPoint(Point(x, y));

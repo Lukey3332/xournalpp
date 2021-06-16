@@ -19,7 +19,7 @@
 
 class CopyUndoAction: public UndoAction {
 public:
-    CopyUndoAction(const PageRef& pageref, int pageNr);
+    CopyUndoAction(const PageRef& pageref, int64_t pageNr);
     virtual ~CopyUndoAction();
 
 public:
@@ -29,5 +29,5 @@ public:
     virtual string getText();
 
 private:
-    int pageNr;
+    int64_t pageNr;
 };

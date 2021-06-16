@@ -26,24 +26,24 @@ using Color = uint32_t;
 struct Color {
     constexpr Color() = default;
 
-    template <typename T, std::enable_if_t<std::is_same_v<T, uint32_t>, int> = 0>
+    template <typename T, std::enable_if_t<std::is_same_v<T, uint32_t>, int64_t> = 0>
     constexpr Color(T t): val(uint32_t(t)) {}
-    template <typename T, std::enable_if_t<std::is_unsigned_v<T> && !std::is_same_v<T, uint32_t>, int> = 0>
+    template <typename T, std::enable_if_t<std::is_unsigned_v<T> && !std::is_same_v<T, uint32_t>, int64_t> = 0>
     constexpr explicit Color(T t): val(uint32_t(t)) {}
-    template <typename T, std::enable_if_t<std::is_signed_v<T>, int> = 0>
+    template <typename T, std::enable_if_t<std::is_signed_v<T>, int64_t> = 0>
     constexpr explicit Color(T t): val(uint32_t(t)) {}
 
     constexpr explicit operator uint32_t&() { return val; }
 
-    template <typename T, std::enable_if_t<std::is_same_v<T, uint32_t>, int> = 0>
+    template <typename T, std::enable_if_t<std::is_same_v<T, uint32_t>, int64_t> = 0>
     constexpr explicit operator T() const {
         return val;
     }
-    template <typename T, std::enable_if_t<std::is_unsigned_v<T> && !std::is_same_v<T, uint32_t>, int> = 0>
+    template <typename T, std::enable_if_t<std::is_unsigned_v<T> && !std::is_same_v<T, uint32_t>, int64_t> = 0>
     constexpr explicit operator T() const {
         return val;
     }
-    template <typename T, std::enable_if_t<std::is_signed_v<T>, int> = 0>
+    template <typename T, std::enable_if_t<std::is_signed_v<T>, int64_t> = 0>
     constexpr explicit operator T() const {
         return val;
     }

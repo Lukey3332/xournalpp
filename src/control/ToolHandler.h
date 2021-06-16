@@ -109,9 +109,9 @@ public:
      * @brief Get the Fill of the active tool
      *
      * @return -1 if fill is disabled
-     * @return int > 0 otherwise
+     * @return int64_t > 0 otherwise
      */
-    int getFill();
+    int64_t getFill();
 
     /**
      * @brief Get the Drawing Type one of selected tools
@@ -188,13 +188,13 @@ public:
 
     void setPenFillEnabled(bool fill, bool fireEvent = true);
     bool getPenFillEnabled();
-    void setPenFill(int alpha);
-    int getPenFill();
+    void setPenFill(int64_t alpha);
+    int64_t getPenFill();
 
     void setHighlighterFillEnabled(bool fill, bool fireEvent = true);
     bool getHighlighterFillEnabled();
-    void setHighlighterFill(int alpha);
-    int getHighlighterFill();
+    void setHighlighterFill(int64_t alpha);
+    int64_t getHighlighterFill();
 
     /**
      * @brief Set the toolbar selected tool to the type

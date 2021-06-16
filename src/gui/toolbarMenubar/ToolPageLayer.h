@@ -61,12 +61,12 @@ protected:
     virtual GtkWidget* getNewToolIcon();
 
 private:
-    void createLayerMenuItem(const string& text, int layerId);
+    void createLayerMenuItem(const string& text, int64_t layerId);
     void layerMenuClicked(GtkWidget* menu);
-    void createLayerMenuItemShow(int layerId);
+    void createLayerMenuItemShow(int64_t layerId);
     void layerMenuShowClicked(GtkWidget* menu);
 
-    void selectLayer(int layerId);
+    void selectLayer(int64_t layerId);
 
 private:
     LayerController* lc = nullptr;
@@ -80,7 +80,7 @@ private:
     map<int, GtkWidget*> showLayerItems;
 
     PopupMenuButton* popupMenuButton = nullptr;
-    int menuY = 0;
+    int64_t menuY = 0;
 
     /**
      * Menu is currently updating - ignore events

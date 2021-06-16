@@ -12,7 +12,7 @@ ObjectInputStream::~ObjectInputStream() {
     }
 }
 
-auto ObjectInputStream::read(const char* data, int len) -> bool {
+auto ObjectInputStream::read(const char* data, int64_t len) -> bool {
     if (this->str) {
         g_string_free(this->str, true);
     }
@@ -53,7 +53,7 @@ auto ObjectInputStream::readObject() -> string {
 }
 
 auto ObjectInputStream::getNextObjectName() -> string {
-    int pos = this->pos;
+    int64_t pos = this->pos;
     checkType('{');
     string name = readString();
 
@@ -64,14 +64,14 @@ auto ObjectInputStream::getNextObjectName() -> string {
 
 void ObjectInputStream::endObject() { checkType('}'); }
 
-auto ObjectInputStream::readInt() -> int {
+auto ObjectInputStream::readInt() -> int64_t {
     checkType('i');
 
     if (this->pos + sizeof(int) >= this->str->len) {
         throw InputStreamException("End reached, but try to read an integer", __FILE__, __LINE__);
     }
 
-    int i = *(reinterpret_cast<int*>(this->str->str + this->pos));
+    int64_t i = *(reinterpret_cast<int64_t*>(this->str->str + this->pos));
     this->pos += sizeof(int);
     return i;
 }
@@ -107,7 +107,7 @@ auto ObjectInputStream::readString() -> string {
         throw InputStreamException("End reached, but try to read an string", __FILE__, __LINE__);
     }
 
-    int len = *(reinterpret_cast<int*>(this->str->str + this->pos));
+    int64_t len = *(reinterpret_cast<int64_t*>(this->str->str + this->pos));
     this->pos += sizeof(int);
 
     if (this->pos + len >= this->str->len) {
@@ -119,17 +119,17 @@ auto ObjectInputStream::readString() -> string {
     return s;
 }
 
-void ObjectInputStream::readData(void** data, int* length) {
+void ObjectInputStream::readData(void** data, int64_t* length) {
     checkType('b');
 
     if (this->pos + 2 * sizeof(int) >= this->str->len) {
         throw InputStreamException("End reached, but try to read data", __FILE__, __LINE__);
     }
 
-    int len = *(reinterpret_cast<int*>(this->str->str + this->pos));
+    int64_t len = *(reinterpret_cast<int64_t*>(this->str->str + this->pos));
     this->pos += sizeof(int);
 
-    int width = *(reinterpret_cast<int*>(this->str->str + this->pos));
+    int64_t width = *(reinterpret_cast<int64_t*>(this->str->str + this->pos));
     this->pos += sizeof(int);
 
     if (this->pos + (len * width) >= this->str->len) {
@@ -151,19 +151,19 @@ void ObjectInputStream::readData(void** data, int* length) {
 
 class PngDatasource {
 public:
-    PngDatasource(char* start, int len) {
+    PngDatasource(char* start, int64_t len) {
         this->data = start;
         this->len = len;
         this->pos = 0;
     }
 
     char* data;
-    int len;
-    int pos;
+    int64_t len;
+    int64_t pos;
 };
 
-auto cairoReadFunction(PngDatasource* obj, unsigned char* data, unsigned int length) -> cairo_status_t {
-    for (unsigned int i = 0; i < length; i++, obj->pos++) {
+auto cairoReadFunction(PngDatasource* obj, unsigned char* data, uint64_t length) -> cairo_status_t {
+    for (uint64_t i = 0; i < length; i++, obj->pos++) {
         if (obj->pos >= obj->len) {
             return CAIRO_STATUS_READ_ERROR;
         }
@@ -180,7 +180,7 @@ auto ObjectInputStream::readImage() -> cairo_surface_t* {
         throw InputStreamException("End reached, but try to read an image", __FILE__, __LINE__);
     }
 
-    int len = *(reinterpret_cast<int*>(this->str->str + this->pos));
+    int64_t len = *(reinterpret_cast<int64_t*>(this->str->str + this->pos));
     // this->pos += sizeof(int);
     // totally not equivalent!
     this->pos += sizeof(gsize);

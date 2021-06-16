@@ -2,7 +2,7 @@
 
 constexpr auto sample_buffer_size = size_t{16384U};
 
-auto VorbisProducer::start(const std::string& filename, unsigned int timestamp) -> bool {
+auto VorbisProducer::start(const std::string& filename, uint64_t timestamp) -> bool {
     SF_INFO sfInfo{};
     auto SNDFILE_deleter = [](SNDFILE* p) { sf_close(p); };
     std::unique_ptr<SNDFILE, decltype(SNDFILE_deleter)> sfFile = {sf_open(filename.c_str(), SFM_READ, &sfInfo),
@@ -21,7 +21,7 @@ auto VorbisProducer::start(const std::string& filename, unsigned int timestamp) 
         g_warning("VorbisProducer: Seeking outside of audio file extent");
     }
 
-    this->audioQueue.setAudioAttributes(sfInfo.samplerate, static_cast<unsigned int>(sfInfo.channels));
+    this->audioQueue.setAudioAttributes(sfInfo.samplerate, static_cast<uint64_t>(sfInfo.channels));
 
     this->producerThread = std::thread([this, sfInfo, sfFile = std::move(sfFile)] {
         size_t numFrames{1};
@@ -66,4 +66,4 @@ void VorbisProducer::stop() {
 }
 
 
-void VorbisProducer::seek(int seconds) { this->seekSeconds = seconds; }
+void VorbisProducer::seek(int64_t seconds) { this->seekSeconds = seconds; }

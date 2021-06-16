@@ -1,10 +1,10 @@
 #include "FillOpacityDialog.h"
 
-FillOpacityDialog::FillOpacityDialog(GladeSearchpath* gladeSearchPath, int alpha):
+FillOpacityDialog::FillOpacityDialog(GladeSearchpath* gladeSearchPath, int64_t alpha):
         GladeGui(gladeSearchPath, "fillOpacity.glade", "fillOpacityDialog") {
     GtkWidget* scaleAlpha = get("scaleAlpha");
 
-    gtk_range_set_value(GTK_RANGE(scaleAlpha), static_cast<int>(alpha / 255.0 * 100));
+    gtk_range_set_value(GTK_RANGE(scaleAlpha), static_cast<int64_t>(alpha / 255.0 * 100));
 
     setPreviewImage(alpha);
 
@@ -18,11 +18,11 @@ FillOpacityDialog::FillOpacityDialog(GladeSearchpath* gladeSearchPath, int alpha
 
 FillOpacityDialog::~FillOpacityDialog() = default;
 
-const int PREVIEW_WIDTH = 70;
-const int PREVIEW_HEIGTH = 50;
-const int PREVIEW_BORDER = 10;
+const int64_t PREVIEW_WIDTH = 70;
+const int64_t PREVIEW_HEIGTH = 50;
+const int64_t PREVIEW_BORDER = 10;
 
-void FillOpacityDialog::setPreviewImage(int alpha) {
+void FillOpacityDialog::setPreviewImage(int64_t alpha) {
     cairo_surface_t* surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, PREVIEW_WIDTH, PREVIEW_HEIGTH);
     cairo_t* cr = cairo_create(surface);
 
@@ -50,18 +50,18 @@ void FillOpacityDialog::setPreviewImage(int alpha) {
     gtk_image_set_from_surface(GTK_IMAGE(preview), surface);
 }
 
-auto FillOpacityDialog::getResultAlpha() const -> int { return resultAlpha; }
+auto FillOpacityDialog::getResultAlpha() const -> int64_t { return resultAlpha; }
 
 void FillOpacityDialog::show(GtkWindow* parent) {
     gtk_window_set_transient_for(GTK_WINDOW(this->window), parent);
-    int result = gtk_dialog_run(GTK_DIALOG(this->window));
+    int64_t result = gtk_dialog_run(GTK_DIALOG(this->window));
     gtk_widget_hide(this->window);
 
     // OK Button
     if (result == 1) {
 
         GtkWidget* scaleAlpha = get("scaleAlpha");
-        resultAlpha = static_cast<int>(gtk_range_get_value(GTK_RANGE(scaleAlpha)) * 255.0 / 100.0);
+        resultAlpha = static_cast<int64_t>(gtk_range_get_value(GTK_RANGE(scaleAlpha)) * 255.0 / 100.0);
     } else {
         resultAlpha = -1;
     }

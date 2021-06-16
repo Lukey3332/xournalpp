@@ -27,12 +27,12 @@ public:
     explicit AudioPlayer(Control& control, Settings& settings): control(control), settings(settings) {}
 
     ~AudioPlayer();
-    bool start(const string& filename, unsigned int timestamp = 0);
+    bool start(const string& filename, uint64_t timestamp = 0);
     bool isPlaying();
     void stop();
     bool play();
     void pause();
-    void seek(int seconds);
+    void seek(int64_t seconds);
 
     vector<DeviceInfo> getOutputDevices();
 

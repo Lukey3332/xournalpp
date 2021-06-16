@@ -42,7 +42,7 @@ public:
     void setMirror(bool mirror);
 
 private:
-    void setCursor(int id);
+    void setCursor(int64_t id);
 
     GdkCursor* getPenCursor();
 
@@ -50,8 +50,8 @@ private:
     GdkCursor* getHighlighterCursor();
     GdkCursor* getResizeCursor(double deltaAngle);
 
-    GdkCursor* createHighlighterOrPenCursor(int size, double alpha);
-    GdkCursor* createCustomDrawDirCursor(int size, bool shift, bool ctrl);
+    GdkCursor* createHighlighterOrPenCursor(int64_t size, double alpha);
+    GdkCursor* createCustomDrawDirCursor(int64_t size, bool shift, bool ctrl);
 
 private:
     InputDeviceClass inputDevice = INPUT_DEVICE_MOUSE;

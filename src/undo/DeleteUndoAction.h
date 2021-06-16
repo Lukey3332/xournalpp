@@ -30,7 +30,7 @@ public:
     bool undo(Control*) override;
     bool redo(Control*) override;
 
-    void addElement(Layer* layer, Element* e, int pos);
+    void addElement(Layer* layer, Element* e, int64_t pos);
 
     string getText() override;
 

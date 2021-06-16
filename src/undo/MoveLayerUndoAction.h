@@ -22,8 +22,8 @@ class LayerController;
 
 class MoveLayerUndoAction: public UndoAction {
 public:
-    MoveLayerUndoAction(LayerController* layerController, const PageRef& page, Layer* layer, int oldLayerPos,
-                        int newLayerPos);
+    MoveLayerUndoAction(LayerController* layerController, const PageRef& page, Layer* layer, int64_t oldLayerPos,
+                        int64_t newLayerPos);
     virtual ~MoveLayerUndoAction();
 
 public:
@@ -33,8 +33,8 @@ public:
     virtual string getText();
 
 private:
-    int oldLayerPos;
-    int newLayerPos;
+    int64_t oldLayerPos;
+    int64_t newLayerPos;
     LayerController* layerController;
     Layer* layer;
 };

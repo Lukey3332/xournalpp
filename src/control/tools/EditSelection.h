@@ -107,12 +107,12 @@ public:
     /**
      * Get the X coordinate in View coordinates (absolute)
      */
-    int getXOnViewAbsolute();
+    int64_t getXOnViewAbsolute();
 
     /**
      * Get the Y coordinate in View coordinates (absolute)
      */
-    int getYOnViewAbsolute();
+    int64_t getYOnViewAbsolute();
 
 public:
     /**
@@ -150,7 +150,7 @@ public:
      * Fills the stroke, return an undo action
      * (Or nullptr if nothing done, e.g. because there is only an image)
      */
-    UndoAction* setFill(int alphaPen, int alphaHighligther);
+    UndoAction* setFill(int64_t alphaPen, int64_t alphaHighligther);
 
 public:
     /**
@@ -335,7 +335,7 @@ private:  // DATA
      * Size of the editing handles
      */
 
-    int btnWidth{8};
+    int64_t btnWidth{8};
 
     /**
      * The source page (form where the Elements come)

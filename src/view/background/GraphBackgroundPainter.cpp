@@ -42,9 +42,9 @@ void GraphBackgroundPainter::paintBackgroundGraph() {
         // startY = marginTopBottom;
     }
 
-    auto pos = [dr1 = drawRaster1](int i) { return dr1 + i * dr1; };
+    auto pos = [dr1 = drawRaster1](int64_t i) { return dr1 + i * dr1; };
 
-    for (int x = 0; pos(x) < width; ++x) {
+    for (int64_t x = 0; pos(x) < width; ++x) {
         if (pos(x) < margin1 || pos(x) > (width - margin1)) {
             continue;
         }
@@ -52,7 +52,7 @@ void GraphBackgroundPainter::paintBackgroundGraph() {
         cairo_line_to(cr, pos(x), height - marginTopBottom - snappingOffset);
     }
 
-    for (int y = 0; pos(y) < height; ++y) {
+    for (int64_t y = 0; pos(y) < height; ++y) {
         if (pos(y) < margin1 || pos(y) > (height - marginTopBottom)) {
             continue;
         }

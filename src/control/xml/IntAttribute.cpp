@@ -1,6 +1,6 @@
 #include "IntAttribute.h"
 
-IntAttribute::IntAttribute(const char* name, int value): XMLAttribute(name) { this->value = value; }
+IntAttribute::IntAttribute(const char* name, int64_t value): XMLAttribute(name) { this->value = value; }
 
 IntAttribute::~IntAttribute() = default;
 

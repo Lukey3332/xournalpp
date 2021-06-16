@@ -255,7 +255,7 @@ auto Document::fillPageLabels(GtkTreeModel* treeModel, GtkTreePath* path, GtkTre
         return false;
     }
 
-    int page = doc->findPdfPage(link->dest->getPdfPage());
+    int64_t page = doc->findPdfPage(link->dest->getPdfPage());
 
     gchar* pageLabel = nullptr;
     if (page != -1) {

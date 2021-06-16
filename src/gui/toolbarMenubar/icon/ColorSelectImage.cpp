@@ -55,7 +55,7 @@ void ColorSelectImage::setState(ColorIconState state) {
 /**
  * Create a new GtkImage with preview color
  */
-auto ColorSelectImage::newColorIcon(Color color, int size, bool circle) -> GtkWidget* {
+auto ColorSelectImage::newColorIcon(Color color, int64_t size, bool circle) -> GtkWidget* {
     cairo_surface_t* surface = newColorIconSurface(color, size, circle);
     GtkWidget* w = gtk_image_new_from_surface(surface);
     cairo_surface_destroy(surface);
@@ -77,9 +77,9 @@ void ColorSelectImage::drawWidget(cairo_t* cr, const IconConfig& config) {
     cairo_fill(cr);
     Util::cairo_set_source_rgbi(cr, config.color, alpha);
 
-    constexpr int x = 0;
-    int y = (config.height - config.size) / 2;
-    int const width = config.size;
+    constexpr int64_t x = 0;
+    int64_t y = (config.height - config.size) / 2;
+    int64_t const width = config.size;
     double const radius = config.size / 2.0;
 
     if (config.circle) {
@@ -122,7 +122,7 @@ void ColorSelectImage::drawWidget(cairo_t* cr, const IconConfig& config) {
 /**
  * Create a new cairo_surface_t* with preview color
  */
-auto ColorSelectImage::newColorIconSurface(Color color, int size, bool circle) -> cairo_surface_t* {
+auto ColorSelectImage::newColorIconSurface(Color color, int64_t size, bool circle) -> cairo_surface_t* {
     cairo_surface_t* crBuffer = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, size, size);
     cairo_t* cr = cairo_create(crBuffer);
 
@@ -141,7 +141,7 @@ auto ColorSelectImage::newColorIconSurface(Color color, int size, bool circle) -
 /**
  * Create a new GdkPixbuf* with preview color
  */
-auto ColorSelectImage::newColorIconPixbuf(Color color, int size, bool circle) -> GdkPixbuf* {
+auto ColorSelectImage::newColorIconPixbuf(Color color, int64_t size, bool circle) -> GdkPixbuf* {
     cairo_surface_t* surface = newColorIconSurface(color, size, circle);
     GdkPixbuf* pixbuf = xoj_pixbuf_get_from_surface(surface, 0, 0, cairo_image_surface_get_width(surface),
                                                     cairo_image_surface_get_height(surface));

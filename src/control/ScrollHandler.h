@@ -41,7 +41,7 @@ public:
 
     void scrollToAnnotatedPage(bool next);
 
-    bool isPageVisible(size_t page, int* visibleHeight = nullptr);
+    bool isPageVisible(size_t page, int64_t* visibleHeight = nullptr);
 
 public:
     virtual void pageChanged(size_t page);

@@ -8,7 +8,7 @@
 
 class MenuSelectToolbarData {
 public:
-    MenuSelectToolbarData(MainWindowToolbarMenu* tbm, GtkWidget* item, ToolbarData* d, int index) {
+    MenuSelectToolbarData(MainWindowToolbarMenu* tbm, GtkWidget* item, ToolbarData* d, int64_t index) {
         this->tbm = tbm;
         this->item = item;
         this->d = d;
@@ -18,7 +18,7 @@ public:
     MainWindowToolbarMenu* tbm;
     GtkWidget* item;
     ToolbarData* d;
-    int index;
+    int64_t index;
 };
 
 
@@ -82,7 +82,7 @@ void MainWindowToolbarMenu::menuClicked(GtkCheckMenuItem* menuitem, MenuSelectTo
 
     win->toolbarSelected(data->d);
 
-    for (int i = 0; i < static_cast<int>(this->toolbarMenuData.size()); i++) {
+    for (int64_t i = 0; i < static_cast<int64_t>(this->toolbarMenuData.size()); i++) {
         if (data->index == i) {
             continue;
         }
@@ -95,7 +95,7 @@ void MainWindowToolbarMenu::menuClicked(GtkCheckMenuItem* menuitem, MenuSelectTo
     }
 }
 
-void MainWindowToolbarMenu::addToolbarMenuEntry(ToolbarData* d, GtkMenuShell* menubar, int& menuPos) {
+void MainWindowToolbarMenu::addToolbarMenuEntry(ToolbarData* d, GtkMenuShell* menubar, int64_t& menuPos) {
     GtkWidget* item = gtk_check_menu_item_new_with_label(d->getName().c_str());
     gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(item), true);
     gtk_widget_show(item);
@@ -126,7 +126,7 @@ void MainWindowToolbarMenu::updateToolbarMenu(GtkMenuShell* menubar, Settings* s
 
     inPredefinedSection = true;
 
-    int menuPos = 0;
+    int64_t menuPos = 0;
     for (ToolbarData* d: *toolbar->getModel()->getToolbars()) {
         addToolbarMenuEntry(d, menubar, menuPos);
         menuPos++;

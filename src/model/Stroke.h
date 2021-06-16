@@ -49,7 +49,7 @@ public:
      * ...
      *   1: The shape is nearly fully transparent filled
      */
-    int getFill() const;
+    int64_t getFill() const;
 
     /**
      * Option to fill the shape:
@@ -58,20 +58,20 @@ public:
      * ...
      *   1: The shape is nearly fully transparent filled
      */
-    void setFill(int fill);
+    void setFill(int64_t fill);
 
     void addPoint(const Point& p);
     void setLastPoint(double x, double y);
     void setFirstPoint(double x, double y);
     void setLastPoint(const Point& p);
-    int getPointCount() const;
+    int64_t getPointCount() const;
     void freeUnusedPointItems();
     std::vector<Point> const& getPointVector() const;
-    Point getPoint(int index) const;
+    Point getPoint(int64_t index) const;
     const Point* getPoints() const;
 
-    void deletePoint(int index);
-    void deletePointsFrom(int index);
+    void deletePoint(int64_t index);
+    void deletePointsFrom(int64_t index);
 
     void setToolType(StrokeTool type);
     StrokeTool getToolType() const;
@@ -135,5 +135,5 @@ private:
      * ...
      *   1: The shape is nearly fully transparent filled
      */
-    int fill = -1;
+    int64_t fill = -1;
 };

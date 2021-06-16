@@ -24,7 +24,7 @@ public:
 
 public:
     virtual void show(GtkWindow* parent);
-    void initPages(int current, int count);
+    void initPages(int64_t current, int64_t count);
     bool isConfirmed() const;
     PageRangeVector getRange();
     bool progressiveMode();
@@ -54,8 +54,8 @@ public:
     static void selectQualityCriterion(GtkComboBox* comboBox, ExportDialog* self);
 
 private:
-    int currentPage = 0;
-    int pageCount = 0;
+    int64_t currentPage = 0;
+    int64_t pageCount = 0;
 
     bool confirmed = false;
 };

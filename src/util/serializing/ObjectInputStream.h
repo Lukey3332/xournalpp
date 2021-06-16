@@ -23,19 +23,19 @@ public:
     virtual ~ObjectInputStream();
 
 public:
-    bool read(const char* data, int len);
+    bool read(const char* data, int64_t len);
 
     void readObject(const char* name);
     string readObject();
     string getNextObjectName();
     void endObject();
 
-    int readInt();
+    int64_t readInt();
     double readDouble();
     size_t readSizeT();
     string readString();
 
-    void readData(void** data, int* len);
+    void readData(void** data, int64_t* len);
     cairo_surface_t* readImage();
 
 private:

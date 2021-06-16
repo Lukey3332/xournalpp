@@ -89,7 +89,7 @@ void XojPageView::setIsVisible(bool visible) {
     }
 }
 
-auto XojPageView::getLastVisibleTime() -> int {
+auto XojPageView::getLastVisibleTime() -> int64_t {
     if (this->crBuffer == nullptr) {
         return -1;
     }
@@ -106,7 +106,7 @@ void XojPageView::deleteViewBuffer() {
     g_mutex_unlock(&this->drawingMutex);
 }
 
-auto XojPageView::containsPoint(int x, int y, bool local) const -> bool {
+auto XojPageView::containsPoint(int64_t x, int64_t y, bool local) const -> bool {
     if (!local) {
         bool leftOk = this->getX() <= x;
         bool rightOk = x <= this->getX() + this->getDisplayWidth();
@@ -120,13 +120,13 @@ auto XojPageView::containsPoint(int x, int y, bool local) const -> bool {
     return x >= 0 && y >= 0 && x <= this->getWidth() && y <= this->getHeight();
 }
 
-auto XojPageView::searchTextOnPage(string& text, int* occures, double* top) -> bool {
+auto XojPageView::searchTextOnPage(string& text, int64_t* occures, double* top) -> bool {
     if (this->search == nullptr) {
         if (text.empty()) {
             return true;
         }
 
-        int pNr = this->page->getPdfPageNr();
+        int64_t pNr = this->page->getPdfPageNr();
         XojPdfPageSPtr pdf = nullptr;
         if (pNr != -1) {
             Document* doc = xournal->getControl()->getDocument();
@@ -156,7 +156,7 @@ void XojPageView::endText() {
     // Text deleted
     if (txt->getText().empty()) {
         // old element
-        int pos = layer->indexOf(txt);
+        int64_t pos = layer->indexOf(txt);
         if (pos != -1) {
             auto eraseDeleteUndoAction = std::make_unique<DeleteUndoAction>(page, true);
             layer->removeElement(txt, false);
@@ -622,10 +622,10 @@ void XojPageView::repaintArea(double x1, double y1, double x2, double y2) {
 }
 
 void XojPageView::rerenderRect(double x, double y, double width, double height) {
-    int rx = std::lround(std::max(x - 10, 0.0));
-    int ry = std::lround(std::max(y - 10, 0.0));
-    int rwidth = std::lround(width + 20);
-    int rheight = std::lround(height + 20);
+    int64_t rx = std::lround(std::max(x - 10, 0.0));
+    int64_t ry = std::lround(std::max(y - 10, 0.0));
+    int64_t rwidth = std::lround(width + 20);
+    int64_t rheight = std::lround(height + 20);
 
     addRerenderRect(rx, ry, rwidth, rheight);
 }
@@ -701,8 +701,8 @@ void XojPageView::drawLoadingPage(cairo_t* cr) {
     static const string txtLoading = _("Loading...");
 
     double zoom = xournal->getZoom();
-    int dispWidth = getDisplayWidth();
-    int dispHeight = getDisplayHeight();
+    int64_t dispWidth = getDisplayWidth();
+    int64_t dispHeight = getDisplayHeight();
 
     cairo_set_source_rgb(cr, 1, 1, 1);
     cairo_rectangle(cr, 0, 0, dispWidth, dispHeight);
@@ -732,7 +732,7 @@ void XojPageView::paintPageSync(cairo_t* cr, GdkRectangle* rect) {
     }
 
     double zoom = xournal->getZoom();
-    int dispWidth = getDisplayWidth();
+    int64_t dispWidth = getDisplayWidth();
 
     cairo_save(cr);
 
@@ -799,7 +799,7 @@ void XojPageView::paintPageSync(cairo_t* cr, GdkRectangle* rect) {
     }
 
     if (this->inputHandler) {
-        int dpiScaleFactor = xournal->getDpiScaleFactor();
+        int64_t dpiScaleFactor = xournal->getDpiScaleFactor();
         cairo_scale(cr, 1.0 / dpiScaleFactor, 1.0 / dpiScaleFactor);
         this->inputHandler->draw(cr);
     }
@@ -820,7 +820,7 @@ auto XojPageView::paintPage(cairo_t* cr, GdkRectangle* rect) -> bool {
 
 auto XojPageView::isSelected() const -> bool { return selected; }
 
-auto XojPageView::getBufferPixels() -> int {
+auto XojPageView::getBufferPixels() -> int64_t {
     if (crBuffer) {
         return cairo_image_surface_get_width(crBuffer) * cairo_image_surface_get_height(crBuffer);
     }
@@ -831,24 +831,24 @@ auto XojPageView::getSelectionColor() -> GdkRGBA { return Util::rgb_to_GdkRGBA(s
 
 auto XojPageView::getTextEditor() -> TextEditor* { return textEditor; }
 
-auto XojPageView::getX() const -> int { return this->dispX; }
+auto XojPageView::getX() const -> int64_t { return this->dispX; }
 
-void XojPageView::setX(int x) { this->dispX = x; }
+void XojPageView::setX(int64_t x) { this->dispX = x; }
 
-auto XojPageView::getY() const -> int { return this->dispY; }
+auto XojPageView::getY() const -> int64_t { return this->dispY; }
 
-void XojPageView::setY(int y) { this->dispY = y; }
+void XojPageView::setY(int64_t y) { this->dispY = y; }
 
-void XojPageView::setMappedRowCol(int row, int col) {
+void XojPageView::setMappedRowCol(int64_t row, int64_t col) {
     this->mappedRow = row;
     this->mappedCol = col;
 }
 
 
-auto XojPageView::getMappedRow() const -> int { return this->mappedRow; }
+auto XojPageView::getMappedRow() const -> int64_t { return this->mappedRow; }
 
 
-auto XojPageView::getMappedCol() const -> int { return this->mappedCol; }
+auto XojPageView::getMappedCol() const -> int64_t { return this->mappedCol; }
 
 
 auto XojPageView::getPage() -> PageRef { return page; }
@@ -859,11 +859,11 @@ auto XojPageView::getHeight() const -> double { return this->page->getHeight(); 
 
 auto XojPageView::getWidth() const -> double { return this->page->getWidth(); }
 
-auto XojPageView::getDisplayWidth() const -> int {
+auto XojPageView::getDisplayWidth() const -> int64_t {
     return std::lround(this->page->getWidth() * this->xournal->getZoom());
 }
 
-auto XojPageView::getDisplayHeight() const -> int {
+auto XojPageView::getDisplayHeight() const -> int64_t {
     return std::lround(this->page->getHeight() * this->xournal->getZoom());
 }
 

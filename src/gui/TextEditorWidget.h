@@ -99,7 +99,7 @@ static void gtk_xoj_int_txt_toggle_overwrite(GtkWidget* widget) {
     txt->te->toggleOverwrite();
 }
 
-static void add_move_binding(GtkBindingSet* binding_set, guint keyval, guint modmask, int step, gint count) {
+static void add_move_binding(GtkBindingSet* binding_set, guint keyval, guint modmask, int64_t step, gint count) {
     g_assert((modmask & GDK_SHIFT_MASK) == 0);
 
     gint bitmask = 0;

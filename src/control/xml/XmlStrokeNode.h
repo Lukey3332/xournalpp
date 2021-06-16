@@ -21,16 +21,16 @@ public:
     virtual ~XmlStrokeNode();
 
 public:
-    void setWidth(double width, const double* widths, int widthsLength);
+    void setWidth(double width, const double* widths, int64_t widthsLength);
 
     virtual void writeOut(OutputStream* out);
 
 private:
     Point* points;
-    int pointsLength;
+    int64_t pointsLength;
 
     double width;
 
     double* widths;
-    int widthsLength;
+    int64_t widthsLength;
 };

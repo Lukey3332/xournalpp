@@ -33,11 +33,11 @@ void LineBackgroundPainter::paintBackgroundRuled() {
     Util::cairo_set_source_rgbi(cr, this->foregroundColor1);
     cairo_set_line_width(cr, lineWidth * lineWidthFactor);
 
-    int numLines = static_cast<int>((height - headerSize - footerSize) / (rulingSize + lineWidth * lineWidthFactor));
+    int64_t numLines = static_cast<int64_t>((height - headerSize - footerSize) / (rulingSize + lineWidth * lineWidthFactor));
 
     double offset = headerSize;
 
-    for (int i = 0; i < numLines; i++) {
+    for (int64_t i = 0; i < numLines; i++) {
         cairo_move_to(cr, 0, offset);
         cairo_line_to(cr, width, offset);
         offset += rulingSize;

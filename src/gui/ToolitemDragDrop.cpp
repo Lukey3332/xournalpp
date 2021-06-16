@@ -6,7 +6,7 @@
 
 const char* ATTACH_DRAG_DROP_DATA = "XOJ_DRAG_DROP_DATA";
 
-void ToolitemDragDrop::attachMetadata(GtkWidget* w, int id, AbstractToolItem* ait) {
+void ToolitemDragDrop::attachMetadata(GtkWidget* w, int64_t id, AbstractToolItem* ait) {
     ToolItemDragDropData* d = g_new(ToolItemDragDropData, 1);
     d->identify = ToolItemDragDropData_Identify;
     d->id = id;
@@ -28,7 +28,7 @@ auto ToolitemDragDrop::ToolItemDragDropData_new(AbstractToolItem* item) -> ToolI
     return d;
 }
 
-void ToolitemDragDrop::attachMetadata(GtkWidget* w, int id, ToolItemType type) {
+void ToolitemDragDrop::attachMetadata(GtkWidget* w, int64_t id, ToolItemType type) {
     ToolItemDragDropData* d = g_new(ToolItemDragDropData, 1);
     d->identify = ToolItemDragDropData_Identify;
     d->id = id;
@@ -39,7 +39,7 @@ void ToolitemDragDrop::attachMetadata(GtkWidget* w, int id, ToolItemType type) {
     g_object_set_data_full(G_OBJECT(w), ATTACH_DRAG_DROP_DATA, d, static_cast<GDestroyNotify>(g_free));
 }
 
-void ToolitemDragDrop::attachMetadataColor(GtkWidget* w, int id, Color color, AbstractToolItem* item) {
+void ToolitemDragDrop::attachMetadataColor(GtkWidget* w, int64_t id, Color color, AbstractToolItem* item) {
     ToolItemDragDropData* d = g_new(ToolItemDragDropData, 1);
     d->identify = ToolItemDragDropData_Identify;
     d->id = id;

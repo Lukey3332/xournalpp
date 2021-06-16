@@ -40,7 +40,7 @@ void DocumentView::applyColor(cairo_t* cr, Color c, uint8_t alpha) {
     Util::cairo_set_source_rgbi(cr, c, alpha / 255.0);
 }
 
-void DocumentView::drawStroke(cairo_t* cr, Stroke* s, int startPoint, double scaleFactor, bool changeSource,
+void DocumentView::drawStroke(cairo_t* cr, Stroke* s, int64_t startPoint, double scaleFactor, bool changeSource,
                               bool noAlpha) const {
     if (s->getPointCount() < 2) {
         // Should not happen
@@ -76,8 +76,8 @@ void DocumentView::drawImage(cairo_t* cr, Image* i) {
     cairo_get_matrix(cr, &defaultMatrix);
 
     cairo_surface_t* img = i->getImage();
-    int width = cairo_image_surface_get_width(img);
-    int height = cairo_image_surface_get_height(img);
+    int64_t width = cairo_image_surface_get_width(img);
+    int64_t height = cairo_image_surface_get_height(img);
 
     cairo_set_operator(cr, CAIRO_OPERATOR_OVER);
 
@@ -120,8 +120,8 @@ void DocumentView::drawTexImage(cairo_t* cr, TexImage* texImage) {
 
         g_clear_object(&page);
     } else if (img != nullptr) {
-        int width = cairo_image_surface_get_width(img);
-        int height = cairo_image_surface_get_height(img);
+        int64_t width = cairo_image_surface_get_width(img);
+        int64_t height = cairo_image_surface_get_height(img);
 
         cairo_set_operator(cr, CAIRO_OPERATOR_OVER);
 
@@ -158,8 +158,8 @@ void DocumentView::drawLayer(cairo_t* cr, Layer* l) {
     cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
 
 #ifdef DEBUG_SHOW_REPAINT_BOUNDS
-    int drawn = 0;
-    int notDrawn = 0;
+    int64_t drawn = 0;
+    int64_t notDrawn = 0;
 #endif  // DEBUG_SHOW_REPAINT_BOUNDS
     for (Element* e: *l->getElements()) {
 #ifdef DEBUG_SHOW_ELEMENT_BOUNDS
@@ -202,8 +202,8 @@ void DocumentView::paintBackgroundImage() {
         cairo_matrix_t matrix = {0};
         cairo_get_matrix(cr, &matrix);
 
-        int width = gdk_pixbuf_get_width(pixbuff);
-        int height = gdk_pixbuf_get_height(pixbuff);
+        int64_t width = gdk_pixbuf_get_width(pixbuff);
+        int64_t height = gdk_pixbuf_get_height(pixbuff);
 
         double sx = page->getWidth() / width;
         double sy = page->getHeight() / height;
@@ -294,9 +294,9 @@ void DocumentView::drawTransparentBackgroundPattern() {
     Util::cairo_set_source_rgbi(cr, 0x999999U);
 
     bool second = false;
-    for (int y = 0; y < height; y += 8) {
+    for (int64_t y = 0; y < height; y += 8) {
         second = !second;
-        for (int x = second ? 8 : 0; x < width; x += 16) {
+        for (int64_t x = second ? 8 : 0; x < width; x += 16) {
             cairo_rectangle(cr, x, y, 8, 8);
             cairo_fill(cr);
         }
@@ -314,7 +314,7 @@ void DocumentView::drawPage(PageRef page, cairo_t* cr, bool dontRenderEditingStr
                             bool hideImageBackground, bool hideRulingBackground) {
     initDrawing(page, cr, dontRenderEditingStroke);
 
-    bool backgroundVisible = page->isLayerVisible(0);
+    bool backgroundVisible = page->isLayerVisible((int64_t)0);
 
     if (backgroundVisible) {
         drawBackground(hidePdfBackground, hideImageBackground, hideRulingBackground);
@@ -324,7 +324,7 @@ void DocumentView::drawPage(PageRef page, cairo_t* cr, bool dontRenderEditingStr
         drawTransparentBackgroundPattern();
     }
 
-    int layer = 0;
+    int64_t layer = 0;
     for (Layer* l: *page->getLayers()) {
         if (!page->isLayerVisible(l)) {
             continue;

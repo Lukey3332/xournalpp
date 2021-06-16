@@ -37,7 +37,7 @@ const static ToolbarEntryDefintion TOOLBAR_DEFINITIONS[] = {
 };
 
 
-const static int TOOLBAR_DEFINITIONS_LEN = G_N_ELEMENTS(TOOLBAR_DEFINITIONS);
+const static int64_t TOOLBAR_DEFINITIONS_LEN = G_N_ELEMENTS(TOOLBAR_DEFINITIONS);
 
 #define TBFloatFirst 8
 #define TBFloatLast 11

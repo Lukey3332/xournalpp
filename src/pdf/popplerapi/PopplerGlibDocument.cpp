@@ -72,7 +72,7 @@ auto PopplerGlibDocument::load(gpointer data, gsize length, string password, GEr
     }
 
     this->document =
-            poppler_document_new_from_data(static_cast<char*>(data), static_cast<int>(length), password.c_str(), error);
+            poppler_document_new_from_data(static_cast<char*>(data), static_cast<int64_t>(length), password.c_str(), error);
     return this->document != nullptr;
 }
 

@@ -61,7 +61,7 @@ public:
     /**
      * A layer was hidden / showed
      */
-    void layerVisibilityChanged(int layerIndex, bool enabled);
+    void layerVisibilityChanged(int64_t layerIndex, bool enabled);
 
 protected:
     void updateSelectedLayer();

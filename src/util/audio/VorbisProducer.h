@@ -23,15 +23,15 @@
 struct VorbisProducer final {
     explicit VorbisProducer(AudioQueue<float>& audioQueue): audioQueue(audioQueue) {}
 
-    bool start(const std::string& filename, unsigned int timestamp);
+    bool start(const std::string& filename, uint64_t timestamp);
     void abort();
     void stop();
-    void seek(int seconds);
+    void seek(int64_t seconds);
 
 private:
     AudioQueue<float>& audioQueue;
     std::thread producerThread{};
 
     std::atomic<bool> stopProducer{false};
-    std::atomic<int> seekSeconds{0};
+    std::atomic<int64_t> seekSeconds{0};
 };

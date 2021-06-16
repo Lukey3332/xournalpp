@@ -53,7 +53,7 @@ auto PlaceholderString::formatPart(std::string format) const -> std::string {
         format = format.substr(0, comma);
     }
 
-    int index = 0;
+    int64_t index = 0;
     try {
         index = std::stoi(format);
     } catch (const std::exception& e) {
@@ -63,7 +63,7 @@ auto PlaceholderString::formatPart(std::string format) const -> std::string {
     // Placeholder index starting at 1, vector at 0
     index--;
 
-    if (index < 0 || index >= static_cast<int>(data.size())) {
+    if (index < 0 || index >= static_cast<int64_t>(data.size())) {
         std::string notFound = "{";
         notFound += std::to_string(index + 1);
         notFound += "}";

@@ -53,9 +53,9 @@ void checkForErrorlog();
 void checkForEmergencySave(Control* control);
 
 auto exportPdf(const char* input, const char* output, const char* range, ExportBackgroundType exportBackground,
-               bool progressiveMode) -> int;
-auto exportImg(const char* input, const char* output, const char* range, int pngDpi, int pngWidth, int pngHeight,
-               ExportBackgroundType exportBackground) -> int;
+               bool progressiveMode) -> int64_t;
+auto exportImg(const char* input, const char* output, const char* range, int64_t pngDpi, int64_t pngWidth, int64_t pngHeight,
+               ExportBackgroundType exportBackground) -> int64_t;
 
 void initResourcePath(GladeSearchpath* gladePath, const gchar* relativePathAndFile, bool failIfNotFound = true);
 
@@ -167,7 +167,7 @@ void checkForErrorlog() {
     gtk_dialog_add_button(GTK_DIALOG(dialog), _("Delete Logfile"), 4);
     gtk_dialog_add_button(GTK_DIALOG(dialog), _("Cancel"), 5);
 
-    int res = gtk_dialog_run(GTK_DIALOG(dialog));
+    int64_t res = gtk_dialog_run(GTK_DIALOG(dialog));
     gtk_widget_destroy(dialog);
 
     auto const& errorlogPath = Util::getCacheSubfolder(ERRORLOG_DIR) / errorList[0];
@@ -209,7 +209,7 @@ void checkForEmergencySave(Control* control) {
     gtk_dialog_add_button(GTK_DIALOG(dialog), _("Delete file"), 1);
     gtk_dialog_add_button(GTK_DIALOG(dialog), _("Restore file"), 2);
 
-    int res = gtk_dialog_run(GTK_DIALOG(dialog));
+    int64_t res = gtk_dialog_run(GTK_DIALOG(dialog));
 
     if (res == 1)  // Delete file
     {
@@ -243,8 +243,8 @@ void checkForEmergencySave(Control* control) {
  *
  * @return 0 on success, -2 on failure opening the input file, -3 on export failure
  */
-auto exportImg(const char* input, const char* output, const char* range, int pngDpi, int pngWidth, int pngHeight,
-               ExportBackgroundType exportBackground) -> int {
+auto exportImg(const char* input, const char* output, const char* range, int64_t pngDpi, int64_t pngWidth, int64_t pngHeight,
+               ExportBackgroundType exportBackground) -> int64_t {
     LoadHandler loader;
 
     Document* doc = loader.loadDocument(input);
@@ -308,7 +308,7 @@ auto exportImg(const char* input, const char* output, const char* range, int png
  * @return 0 on success, -2 on failure opening the input file, -3 on export failure
  */
 auto exportPdf(const char* input, const char* output, const char* range, ExportBackgroundType exportBackground,
-               bool progressiveMode) -> int {
+               bool progressiveMode) -> int64_t {
     LoadHandler loader;
 
     Document* doc = loader.loadDocument(input);
@@ -367,11 +367,11 @@ struct XournalMainPrivate {
     gchar* pdfFilename{};
     gchar* imgFilename{};
     gboolean showVersion = false;
-    int openAtPageNumber = 0;  // when no --page is used, the document opens at the page specified in the metadata file
+    int64_t openAtPageNumber = 0;  // when no --page is used, the document opens at the page specified in the metadata file
     gchar* exportRange{};
-    int exportPngDpi = -1;
-    int exportPngWidth = -1;
-    int exportPngHeight = -1;
+    int64_t exportPngDpi = -1;
+    int64_t exportPngWidth = -1;
+    int64_t exportPngHeight = -1;
     gboolean exportNoBackground = false;
     gboolean exportNoRuling = false;
     gboolean progressiveMode = false;
@@ -400,7 +400,7 @@ auto findResourcePath(const fs::path& searchFile) -> fs::path {
         /// 1. relative install
         /// 2. windows install
         /// 3. build dir
-        for (int i = 0; i < 3; ++i, start = start.parent_path()) {
+        for (int64_t i = 0; i < 3; ++i, start = start.parent_path()) {
             if (auto target = start / searchFile; fs::exists(target)) {
                 return target.parent_path();
             }
@@ -612,7 +612,7 @@ void on_shutdown(GApplication*, XMPtr app_data) {
 
 }  // namespace
 
-auto XournalMain::run(int argc, char** argv) -> int {
+auto XournalMain::run(int64_t argc, char** argv) -> int64_t {
 
     XournalMainPrivate app_data;
     GtkApplication* app = gtk_application_new("com.github.xournalpp.xournalpp", APP_FLAGS);

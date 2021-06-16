@@ -98,7 +98,7 @@ auto EditSelectionContents::setSize(ToolSize size, const double* thicknessPen, c
 
             double originalWidth = s->getWidth();
 
-            int pointCount = s->getPointCount();
+            int64_t pointCount = s->getPointCount();
             vector<double> originalPressure = SizeUndoAction::getPressure(s);
 
             if (tool == STROKE_TOOL_PEN) {
@@ -137,7 +137,7 @@ auto EditSelectionContents::setSize(ToolSize size, const double* thicknessPen, c
  * Fills the stroke, return an undo action
  * (Or nullptr if nothing done, e.g. because there is only an image)
  */
-auto EditSelectionContents::setFill(int alphaPen, int alphaHighligther) -> UndoAction* {
+auto EditSelectionContents::setFill(int64_t alphaPen, int64_t alphaHighligther) -> UndoAction* {
     auto* undo = new FillUndoAction(this->sourcePage, this->sourceLayer);
 
     bool found = false;
@@ -146,7 +146,7 @@ auto EditSelectionContents::setFill(int alphaPen, int alphaHighligther) -> UndoA
         if (e->getType() == ELEMENT_STROKE) {
             auto* s = dynamic_cast<Stroke*>(e);
             StrokeTool tool = s->getToolType();
-            int newFill = 128;
+            int64_t newFill = 128;
 
             if (tool == STROKE_TOOL_PEN) {
                 newFill = alphaPen;
@@ -304,7 +304,7 @@ void EditSelectionContents::fillUndoItem(DeleteUndoAction* undo) {
     // Because the elements are already removed
     // and owned by the selection, therefore the layer
     // doesn't know the index anymore
-    int index = layer->getElements()->size();
+    int64_t index = layer->getElements()->size();
     for (Element* e: this->selected) { undo->addElement(layer, e, index); }
 
     this->selected.clear();
@@ -483,12 +483,12 @@ void EditSelectionContents::paint(cairo_t* cr, double x, double y, double rotati
     }
 
     if (this->crBuffer == nullptr) {
-        this->crBuffer = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, static_cast<int>(std::abs(width) * zoom),
-                                                    static_cast<int>(std::abs(height) * zoom));
+        this->crBuffer = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, static_cast<int64_t>(std::abs(width) * zoom),
+                                                    static_cast<int64_t>(std::abs(height) * zoom));
         cairo_t* cr2 = cairo_create(this->crBuffer);
 
-        int dx = static_cast<int>(this->relativeX * zoom);
-        int dy = static_cast<int>(this->relativeY * zoom);
+        int64_t dx = static_cast<int64_t>(this->relativeX * zoom);
+        int64_t dy = static_cast<int64_t>(this->relativeY * zoom);
 
         cairo_translate(cr2, fx < 0 ? -width * zoom : 0, fy < 0 ? -height * zoom : 0);
         cairo_scale(cr2, fx, fy);
@@ -502,11 +502,11 @@ void EditSelectionContents::paint(cairo_t* cr, double x, double y, double rotati
 
     cairo_save(cr);
 
-    int wImg = cairo_image_surface_get_width(this->crBuffer);
-    int hImg = cairo_image_surface_get_height(this->crBuffer);
+    int64_t wImg = cairo_image_surface_get_width(this->crBuffer);
+    int64_t hImg = cairo_image_surface_get_height(this->crBuffer);
 
-    int wTarget = static_cast<int>(std::abs(width) * zoom);
-    int hTarget = static_cast<int>(std::abs(height) * zoom);
+    int64_t wTarget = static_cast<int64_t>(std::abs(width) * zoom);
+    int64_t hTarget = static_cast<int64_t>(std::abs(height) * zoom);
 
     double sx = static_cast<double>(wTarget) / wImg;
     double sy = static_cast<double>(hTarget) / hImg;
@@ -518,8 +518,8 @@ void EditSelectionContents::paint(cairo_t* cr, double x, double y, double rotati
         cairo_scale(cr, sx, sy);
     }
 
-    double dx = static_cast<int>(std::min(x, x + width) * zoom / sx);
-    double dy = static_cast<int>(std::min(y, y + height) * zoom / sy);
+    double dx = static_cast<int64_t>(std::min(x, x + width) * zoom / sx);
+    double dy = static_cast<int64_t>(std::min(y, y + height) * zoom / sy);
 
     cairo_set_source_surface(cr, this->crBuffer, dx, dy);
     cairo_paint(cr);

@@ -92,7 +92,7 @@ public:
     void updateToolbarMenu();
     void updateColorscheme();
 
-    GtkWidget** getToolbarWidgets(int& length);
+    GtkWidget** getToolbarWidgets(int64_t& length);
     const char* getToolbarName(GtkToolbar* toolbar);
 
     Layout* getLayout();

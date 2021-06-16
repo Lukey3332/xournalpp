@@ -143,7 +143,7 @@ auto MetadataManager::getForFile(fs::path const& file) -> MetadataEntry {
         }
     }
 
-    for (int i = 20; i < static_cast<int>(files.size()); i++) {
+    for (int64_t i = 20; i < static_cast<int64_t>(files.size()); i++) {
         auto path = files[i].metadataFile;
         deleteMetadataFile(path);
     }
@@ -179,7 +179,7 @@ void MetadataManager::storeMetadata(MetadataEntry* m) {
 /**
  * Store the current data into metadata
  */
-void MetadataManager::storeMetadata(fs::path const& file, int page, double zoom) {
+void MetadataManager::storeMetadata(fs::path const& file, int64_t page, double zoom) {
     if (file.empty()) {
         return;
     }

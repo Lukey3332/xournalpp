@@ -105,7 +105,7 @@ auto LoadHandlerHelper::getAttribDouble(const char* name, LoadHandler* loadHandl
     return val;
 }
 
-auto LoadHandlerHelper::getAttribInt(const char* name, LoadHandler* loadHandler) -> int {
+auto LoadHandlerHelper::getAttribInt(const char* name, LoadHandler* loadHandler) -> int64_t {
     const char* attrib = getAttrib(name, false, loadHandler);
 
     if (attrib == nullptr) {
@@ -114,7 +114,7 @@ auto LoadHandlerHelper::getAttribInt(const char* name, LoadHandler* loadHandler)
     }
 
     char* ptr = nullptr;
-    int val = strtol(attrib, &ptr, 10);
+    int64_t val = strtol(attrib, &ptr, 10);
     if (ptr == attrib) {
         error("%s", FC(_F("Attribute \"{1}\" could not be parsed as int, the value is \"{2}\"") % name % attrib));
     }
@@ -122,7 +122,7 @@ auto LoadHandlerHelper::getAttribInt(const char* name, LoadHandler* loadHandler)
     return val;
 }
 
-auto LoadHandlerHelper::getAttribInt(const char* name, bool optional, LoadHandler* loadHandler, int& rValue) -> bool {
+auto LoadHandlerHelper::getAttribInt(const char* name, bool optional, LoadHandler* loadHandler, int64_t& rValue) -> bool {
     const char* attrib = getAttrib(name, optional, loadHandler);
 
     if (attrib == nullptr) {
@@ -133,7 +133,7 @@ auto LoadHandlerHelper::getAttribInt(const char* name, bool optional, LoadHandle
     }
 
     char* ptr = nullptr;
-    int val = strtol(attrib, &ptr, 10);
+    int64_t val = strtol(attrib, &ptr, 10);
     if (ptr == attrib) {
         error("%s", FC(_F("Attribute \"{1}\" could not be parsed as int, the value is \"{2}\"") % name % attrib));
     }

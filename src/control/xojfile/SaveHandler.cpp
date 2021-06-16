@@ -117,9 +117,9 @@ void SaveHandler::visitStroke(XmlPointNode* stroke, Stroke* s) {
 
     stroke->setAttrib("color", getColorStr(s->getColor(), alpha).c_str());
 
-    int pointCount = s->getPointCount();
+    int64_t pointCount = s->getPointCount();
 
-    for (int i = 0; i < pointCount; i++) {
+    for (int64_t i = 0; i < pointCount; i++) {
         Point p = s->getPoint(i);
         stroke->addPoint(&p);
     }
@@ -127,7 +127,7 @@ void SaveHandler::visitStroke(XmlPointNode* stroke, Stroke* s) {
     if (s->hasPressure()) {
         auto* values = new double[pointCount + 1];
         values[0] = s->getWidth();
-        for (int i = 0; i < pointCount; i++) {
+        for (int64_t i = 0; i < pointCount; i++) {
             values[i + 1] = s->getPoint(i).z;
         }
 
@@ -204,7 +204,7 @@ void SaveHandler::visitLayer(XmlNode* page, Layer* l) {
     }
 }
 
-void SaveHandler::visitPage(XmlNode* root, PageRef p, Document* doc, int id) {
+void SaveHandler::visitPage(XmlNode* root, PageRef p, Document* doc, int64_t id) {
     auto* page = new XmlNode("page");
     root->addChild(page);
     page->setAttrib("width", p->getWidth());
@@ -253,7 +253,7 @@ void SaveHandler::visitPage(XmlNode* root, PageRef p, Document* doc, int id) {
     } else if (p->getBackgroundType().isImagePage()) {
         background->setAttrib("type", "pixmap");
 
-        int cloneId = p->getBackgroundImage().getCloneId();
+        int64_t cloneId = p->getBackgroundImage().getCloneId();
         if (cloneId != -1) {
             background->setAttrib("domain", "clone");
             char* filename = g_strdup_printf("%i", cloneId);

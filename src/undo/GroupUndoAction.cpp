@@ -3,7 +3,7 @@
 GroupUndoAction::GroupUndoAction(): UndoAction("GroupUndoAction") {}
 
 GroupUndoAction::~GroupUndoAction() {
-    for (int i = actions.size() - 1; i >= 0; i--) {
+    for (int64_t i = actions.size() - 1; i >= 0; i--) {
         delete actions[i];
     }
 
@@ -49,7 +49,7 @@ auto GroupUndoAction::redo(Control* control) -> bool {
 
 auto GroupUndoAction::undo(Control* control) -> bool {
     bool result = true;
-    for (int i = actions.size() - 1; i >= 0; i--) {
+    for (int64_t i = actions.size() - 1; i >= 0; i--) {
         result = result && actions[i]->undo(control);
     }
 

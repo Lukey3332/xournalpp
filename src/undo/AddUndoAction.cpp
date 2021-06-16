@@ -26,7 +26,7 @@ AddUndoAction::~AddUndoAction() {
     ;
 }
 
-void AddUndoAction::addElement(Layer* layer, Element* e, int pos) {
+void AddUndoAction::addElement(Layer* layer, Element* e, int64_t pos) {
     this->elements = g_list_insert_sorted(this->elements, new PageLayerPosEntry<Element>(layer, e, pos),
                                           reinterpret_cast<GCompareFunc>(PageLayerPosEntry<Element>::cmp));
 }

@@ -20,7 +20,7 @@ auto KeyboardInputHandler::handleImpl(InputEvent const& event) -> bool {
         auto keyEvent = reinterpret_cast<GdkEventKey*>(gdkEvent);
         EditSelection* selection = xournal->selection;
         if (selection) {
-            int d = 3;
+            int64_t d = 3;
 
             if ((keyEvent->state & GDK_MOD1_MASK) || (keyEvent->state & GDK_SHIFT_MASK)) {
                 if (keyEvent->state & GDK_MOD1_MASK) {

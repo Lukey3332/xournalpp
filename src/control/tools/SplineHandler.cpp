@@ -34,7 +34,7 @@ void SplineHandler::draw(cairo_t* cr) {
         return;
     }
 
-    int dpiScaleFactor = xournal->getDpiScaleFactor();
+    int64_t dpiScaleFactor = xournal->getDpiScaleFactor();
     cairo_scale(cr, zoom * dpiScaleFactor, zoom * dpiScaleFactor);
 
     double lineWidth = LINE_WIDTH_WITHOUT_ZOOM / zoom;
@@ -215,7 +215,7 @@ void SplineHandler::onButtonReleaseEvent(const PositionInputData& pos) {
 
     if (settings->getStrokeFilterEnabled() && this->getKnotCount() < 2)  // Note: Mostly same as in BaseStrokeHandler
     {
-        int strokeFilterIgnoreTime = 0, strokeFilterSuccessiveTime = 0;
+        int64_t strokeFilterIgnoreTime = 0, strokeFilterSuccessiveTime = 0;
         double strokeFilterIgnoreLength = NAN;
 
         settings->getStrokeFilter(&strokeFilterIgnoreTime, &strokeFilterIgnoreLength, &strokeFilterSuccessiveTime);
@@ -338,7 +338,7 @@ void SplineHandler::deleteLastKnotWithTangent() {
     }
 }
 
-auto SplineHandler::getKnotCount() const -> int {
+auto SplineHandler::getKnotCount() const -> int64_t {
     if (this->knots.size() != this->tangents.size()) {
         g_warning("number of knots and tangents differ");
     }

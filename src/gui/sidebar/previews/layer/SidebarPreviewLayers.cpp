@@ -102,10 +102,10 @@ void SidebarPreviewLayers::updatePreviews() {
         return;
     }
 
-    int layerCount = page->getLayerCount();
+    int64_t layerCount = page->getLayerCount();
 
     size_t index = 0;
-    for (int i = layerCount; i >= 0; i--) {
+    for (int64_t i = layerCount; i >= 0; i--) {
         std::string name = lc->getLayerNameById(i);
         SidebarPreviewBaseEntry* p = new SidebarPreviewLayerEntry(this, page, i - 1, name, index++, this->stacked);
         this->previews.push_back(p);
@@ -131,7 +131,7 @@ void SidebarPreviewLayers::layerVisibilityChanged() {
         return;
     }
 
-    for (int i = 0; i < static_cast<int>(this->previews.size()); i++) {
+    for (int64_t i = 0; i < static_cast<int64_t>(this->previews.size()); i++) {
         auto* sp = dynamic_cast<SidebarPreviewLayerEntry*>(this->previews[this->previews.size() - i - 1]);
         sp->setVisibleCheckbox(p->isLayerVisible(i));
     }
@@ -156,7 +156,7 @@ void SidebarPreviewLayers::updateSelectedLayer() {
         scrollToPreview(this);
     }
 
-    int actions = 0;
+    int64_t actions = 0;
     // Background and top layer cannot be moved up
     if (this->selectedEntry < (this->previews.size() - 1) && this->selectedEntry > 0) {
         actions |= SIDEBAR_ACTION_MOVE_UP;
@@ -190,6 +190,6 @@ void SidebarPreviewLayers::layerSelected(size_t layerIndex) {
 /**
  * A layer was hidden / showed
  */
-void SidebarPreviewLayers::layerVisibilityChanged(int layerIndex, bool enabled) {
+void SidebarPreviewLayers::layerVisibilityChanged(int64_t layerIndex, bool enabled) {
     lc->setLayerVisible(layerIndex, enabled);
 }

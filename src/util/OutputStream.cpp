@@ -33,7 +33,7 @@ GzOutputStream::~GzOutputStream() {
 
 auto GzOutputStream::getLastError() -> string& { return this->error; }
 
-void GzOutputStream::write(const char* data, int len) { gzwrite(this->fp, data, len); }
+void GzOutputStream::write(const char* data, int64_t len) { gzwrite(this->fp, data, len); }
 
 void GzOutputStream::close() {
     if (this->fp) {

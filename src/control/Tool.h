@@ -20,7 +20,7 @@
 
 class Tool: public ToolBase {
 public:
-    Tool(string name, ToolType type, Color color, int capabilities, double* thickness);
+    Tool(string name, ToolType type, Color color, int64_t capabilities, double* thickness);
     /**
      * @brief Construct a new Tool object based on the pointer to another tool
      * Ideally this should be refactored to a copy constructor like Tool(const Tool& tool).
@@ -35,7 +35,7 @@ public:
      * @brief number of different sizes defined for tools with Size capability
      *
      */
-    static const int toolSizes = 5;
+    static const int64_t toolSizes = 5;
 
 public:
     string getName();
@@ -58,7 +58,7 @@ public:
     bool isDrawingTool();
 
 protected:
-    void setCapability(int capability, bool enabled);
+    void setCapability(int64_t capability, bool enabled);
 
 private:
     void operator=(const Tool& t);
@@ -69,7 +69,7 @@ private:
 
     double* thickness;
 
-    int capabilities;
+    int64_t capabilities;
 
     friend class ToolHandler;
 };

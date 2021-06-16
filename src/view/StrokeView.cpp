@@ -6,7 +6,7 @@
 
 #include "DocumentView.h"
 
-StrokeView::StrokeView(cairo_t* cr, Stroke* s, int startPoint, double scaleFactor, bool noAlpha):
+StrokeView::StrokeView(cairo_t* cr, Stroke* s, int64_t startPoint, double scaleFactor, bool noAlpha):
         cr(cr), s(s), startPoint(startPoint), scaleFactor(scaleFactor), noAlpha(noAlpha) {}
 
 
@@ -20,7 +20,7 @@ void StrokeView::drawFillStroke() {
 
 void StrokeView::applyDashed(double offset) {
     const double* dashes = nullptr;
-    int dashCount = 0;
+    int64_t dashCount = 0;
     if (s->getLineStyle().getDashes(dashes, dashCount)) {
         cairo_set_dash(cr, dashes, dashCount, offset);
     } else {

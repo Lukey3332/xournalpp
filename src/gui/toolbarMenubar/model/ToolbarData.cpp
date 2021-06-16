@@ -96,7 +96,7 @@ void ToolbarData::saveToKeyFile(GKeyFile* config) {
     g_key_file_set_string(config, group.c_str(), "name", this->name.c_str());
 }
 
-auto ToolbarData::insertItem(const string& toolbar, const string& item, int position) -> int {
+auto ToolbarData::insertItem(const string& toolbar, const string& item, int64_t position) -> int64_t {
     g_message("%s", FC(FORMAT_STR("ToolbarData::insertItem({1}, {2}, {3});") % toolbar % item % position));
 
     g_return_val_if_fail(isPredefined() == false, -1);
@@ -105,7 +105,7 @@ auto ToolbarData::insertItem(const string& toolbar, const string& item, int posi
         if (e->getName() == toolbar) {
             g_message("%s", FC(_F("Toolbar found: {1}") % toolbar));
 
-            int id = e->insertItem(item, position);
+            int64_t id = e->insertItem(item, position);
 
             g_message("%s", FC(FORMAT_STR("return {1}") % id));
             return id;
@@ -114,13 +114,13 @@ auto ToolbarData::insertItem(const string& toolbar, const string& item, int posi
 
     auto* newEntry = new ToolbarEntry();
     newEntry->setName(toolbar);
-    int id = newEntry->addItem(item);
+    int64_t id = newEntry->addItem(item);
     contents.push_back(newEntry);
 
     return id;
 }
 
-auto ToolbarData::removeItemByID(const string& toolbar, int id) -> bool {
+auto ToolbarData::removeItemByID(const string& toolbar, int64_t id) -> bool {
     g_return_val_if_fail(isPredefined() == false, false);
 
     for (ToolbarEntry* e: contents) {

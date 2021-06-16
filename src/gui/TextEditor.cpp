@@ -437,7 +437,7 @@ void TextEditor::selectAtCursor(TextEditor::SelectType ty) {
     this->repaintEditor();
 }
 
-void TextEditor::moveCursor(GtkMovementStep step, int count, bool extendSelection) {
+void TextEditor::moveCursor(GtkMovementStep step, int64_t count, bool extendSelection) {
     resetImContext();
 
     // Not possible, but we have to handle the events, else the page gets scrolled
@@ -628,8 +628,8 @@ void TextEditor::mouseMoved(double x, double y) {
 
 void TextEditor::mouseReleased() { this->mouseDown = false; }
 
-void TextEditor::jumpALine(GtkTextIter* textIter, int count) {
-    int cursorLine = gtk_text_iter_get_line(textIter);
+void TextEditor::jumpALine(GtkTextIter* textIter, int64_t count) {
+    int64_t cursorLine = gtk_text_iter_get_line(textIter);
 
     if (cursorLine + count < 0) {
         return;
@@ -654,7 +654,7 @@ void TextEditor::calcVirtualCursor() {
     GtkTextMark* cursor = gtk_text_buffer_get_insert(this->buffer);
     gtk_text_buffer_get_iter_at_mark(this->buffer, &cursorIter, cursor);
 
-    int offset = getByteOffset(gtk_text_iter_get_offset(&cursorIter));
+    int64_t offset = getByteOffset(gtk_text_iter_get_offset(&cursorIter));
 
     PangoRectangle rect = {0};
     pango_layout_index_to_pos(this->layout, offset, &rect);
@@ -693,7 +693,7 @@ static auto find_whitepace_region(const GtkTextIter* center, GtkTextIter* start,
     return !gtk_text_iter_equal(start, end);
 }
 
-void TextEditor::deleteFromCursor(GtkDeleteType type, int count) {
+void TextEditor::deleteFromCursor(GtkDeleteType type, int64_t count) {
     GtkTextIter insert;
     // gboolean leave_one = false; // not needed
 
@@ -912,7 +912,7 @@ void TextEditor::repaintEditor() { this->gui->repaintPage(); }
 /**
  * Calculate the UTF-8 Char offset into a byte offset.
  */
-auto TextEditor::getByteOffset(int charOffset) -> int {
+auto TextEditor::getByteOffset(int64_t charOffset) -> int64_t {
     const char* text = pango_layout_get_text(this->layout);
     return g_utf8_offset_to_pointer(text, charOffset) - text;
 }
@@ -920,7 +920,7 @@ auto TextEditor::getByteOffset(int charOffset) -> int {
 /**
  * Calculate the UTF-8 Char byte offset into a char offset.
  */
-auto TextEditor::getCharOffset(int byteOffset) -> int {
+auto TextEditor::getCharOffset(int64_t byteOffset) -> int64_t {
     const char* text = pango_layout_get_text(this->layout);
 
     return g_utf8_pointer_to_offset(text, text + byteOffset);
@@ -973,8 +973,8 @@ void TextEditor::paint(cairo_t* cr, GdkRectangle* repaintRect, double zoom) {
 
     if (!this->preeditString.empty()) {
         string text = this->text->getText();
-        int offset = gtk_text_iter_get_offset(&cursorIter);
-        int pos = gtk_text_iter_get_line_index(&cursorIter);
+        int64_t offset = gtk_text_iter_get_offset(&cursorIter);
+        int64_t pos = gtk_text_iter_get_line_index(&cursorIter);
 
         for (gtk_text_iter_set_line_index(&cursorIter, 0); gtk_text_iter_backward_line(&cursorIter);) {
             pos += gtk_text_iter_get_bytes_in_line(&cursorIter);
@@ -1032,14 +1032,14 @@ void TextEditor::paint(cairo_t* cr, GdkRectangle* repaintRect, double zoom) {
     double width = (static_cast<double>(w)) / PANGO_SCALE;
     double height = (static_cast<double>(h)) / PANGO_SCALE;
 
-    int offset = gtk_text_iter_get_offset(&cursorIter);
+    int64_t offset = gtk_text_iter_get_offset(&cursorIter);
     PangoRectangle rect = {0};
-    int pcursInd = 0;
+    int64_t pcursInd = 0;
     if (!this->preeditString.empty() && this->preeditCursor != 0) {
         const gchar* preeditText = this->preeditString.c_str();
         pcursInd = g_utf8_offset_to_pointer(preeditText, preeditCursor) - preeditText;
     }
-    int pangoOffset = getByteOffset(offset) + pcursInd;
+    int64_t pangoOffset = getByteOffset(offset) + pcursInd;
     pango_layout_index_to_pos(this->layout, pangoOffset, &rect);
     double cX = (static_cast<double>(rect.x)) / PANGO_SCALE;
     double cY = (static_cast<double>(rect.y)) / PANGO_SCALE;
@@ -1059,14 +1059,14 @@ void TextEditor::paint(cairo_t* cr, GdkRectangle* repaintRect, double zoom) {
     // Notify the IM of the app's window and cursor position.
     gtk_im_context_set_client_window(this->imContext, gtk_widget_get_window(this->widget));
     GdkRectangle cursorRect;
-    cursorRect.x = static_cast<int>(zoom * x0 + x1 + zoom * cX);
-    cursorRect.y = static_cast<int>(zoom * y0 + y1 + zoom * cY);
-    cursorRect.height = static_cast<int>(zoom * cHeight);
+    cursorRect.x = static_cast<int64_t>(zoom * x0 + x1 + zoom * cX);
+    cursorRect.y = static_cast<int64_t>(zoom * y0 + y1 + zoom * cY);
+    cursorRect.height = static_cast<int64_t>(zoom * cHeight);
     // // The next setting treat the text box as if it were a cursor rectangle.
-    // cursorRect.x = static_cast<int>(zoom * x0 + x1 - 10);
-    // cursorRect.y = static_cast<int>(zoom * y0 + y1 - 10);
-    // cursorRect.width = static_cast<int>(zoom * width + 20);
-    // cursorRect.height = static_cast<int>(zoom * height + 20);
+    // cursorRect.x = static_cast<int64_t>(zoom * x0 + x1 - 10);
+    // cursorRect.y = static_cast<int64_t>(zoom * y0 + y1 - 10);
+    // cursorRect.width = static_cast<int64_t>(zoom * width + 20);
+    // cursorRect.height = static_cast<int64_t>(zoom * height + 20);
     // // This is also useful, so it is good to make it user's preference.
     gtk_im_context_set_cursor_location(this->imContext, &cursorRect);
 

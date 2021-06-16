@@ -39,7 +39,7 @@ public:
 
 public:
     string sValue;
-    int iValue{};
+    int64_t iValue{};
     double dValue{};
 
     AttributeType type;
@@ -63,15 +63,15 @@ public:
 
     SElement& child(const string& name);
 
-    void setIntHex(const string& name, const int value);
-    void setInt(const string& name, const int value);
+    void setIntHex(const string& name, const int64_t value);
+    void setInt(const string& name, const int64_t value);
     void setDouble(const string& name, const double value);
     void setBool(const string& name, const bool value);
     void setString(const string& name, const string& value);
 
     [[maybe_unused]] void setComment(const string& name, const string& comment);
 
-    bool getInt(const string& name, int& value);
+    bool getInt(const string& name, int64_t& value);
     [[maybe_unused]] bool getDouble(const string& name, double& value);
     bool getBool(const string& name, bool& value);
     bool getString(const string& name, string& value);
@@ -101,8 +101,8 @@ private:
     void parseItem(xmlDocPtr doc, xmlNodePtr cur);
 
     static xmlNodePtr savePropertyDouble(const gchar* key, double value, xmlNodePtr parent);
-    static xmlNodePtr saveProperty(const gchar* key, int value, xmlNodePtr parent);
-    static xmlNodePtr savePropertyUnsigned(const gchar* key, unsigned int value, xmlNodePtr parent);
+    static xmlNodePtr saveProperty(const gchar* key, int64_t value, xmlNodePtr parent);
+    static xmlNodePtr savePropertyUnsigned(const gchar* key, uint64_t value, xmlNodePtr parent);
     static xmlNodePtr saveProperty(const gchar* key, const gchar* value, xmlNodePtr parent);
 
     void saveData(xmlNodePtr root, const string& name, SElement& elem);
@@ -157,8 +157,8 @@ public:
     /**
      * Sets the screen resolution in DPI
      */
-    void setDisplayDpi(int dpi);
-    int getDisplayDpi() const;
+    void setDisplayDpi(int64_t dpi);
+    int64_t getDisplayDpi() const;
 
     /**
      * Dark theme for white-coloured icons
@@ -184,10 +184,10 @@ public:
     void setLastImagePath(const fs::path& p);
     fs::path const& getLastImagePath() const;
 
-    void setMainWndSize(int width, int height);
+    void setMainWndSize(int64_t width, int64_t height);
     void setMainWndMaximized(bool max);
-    int getMainWndWidth() const;
-    int getMainWndHeight() const;
+    int64_t getMainWndWidth() const;
+    int64_t getMainWndHeight() const;
     bool isMainWndMaximized() const;
 
     bool isSidebarVisible() const;
@@ -196,8 +196,8 @@ public:
     bool isToolbarVisible() const;
     void setToolbarVisible(bool visible);
 
-    int getSidebarWidth() const;
-    void setSidebarWidth(int width);
+    int64_t getSidebarWidth() const;
+    void setSidebarWidth(int64_t width);
 
     bool isSidebarOnRight() const;
     void setSidebarOnRight(bool right);
@@ -214,14 +214,14 @@ public:
     void setPresentationMode(bool presentationMode);
     bool isPresentationMode() const;
 
-    void setPairsOffset(int numOffset);
-    int getPairsOffset() const;
+    void setPairsOffset(int64_t numOffset);
+    int64_t getPairsOffset() const;
 
-    void setViewColumns(int numColumns);
-    int getViewColumns() const;
+    void setViewColumns(int64_t numColumns);
+    int64_t getViewColumns() const;
 
-    void setViewRows(int numRows);
-    int getViewRows() const;
+    void setViewRows(int64_t numRows);
+    int64_t getViewRows() const;
 
     void setViewFixedRows(bool viewFixedRows);
     bool isViewFixedRows() const;
@@ -239,25 +239,25 @@ public:
     bool isAutloadPdfXoj() const;
     void setAutoloadPdfXoj(bool load);
 
-    int getAutosaveTimeout() const;
-    void setAutosaveTimeout(int autosave);
+    int64_t getAutosaveTimeout() const;
+    void setAutosaveTimeout(int64_t autosave);
     bool isAutosaveEnabled() const;
     void setAutosaveEnabled(bool autosave);
 
     bool getAddVerticalSpace() const;
     void setAddVerticalSpace(bool space);
-    int getAddVerticalSpaceAmount() const;
-    void setAddVerticalSpaceAmount(int pixels);
+    int64_t getAddVerticalSpaceAmount() const;
+    void setAddVerticalSpaceAmount(int64_t pixels);
 
     bool getAddHorizontalSpace() const;
     void setAddHorizontalSpace(bool space);
-    int getAddHorizontalSpaceAmount() const;
-    void setAddHorizontalSpaceAmount(int pixels);
+    int64_t getAddHorizontalSpaceAmount() const;
+    void setAddHorizontalSpaceAmount(int64_t pixels);
 
     bool getDrawDirModsEnabled() const;
     void setDrawDirModsEnabled(bool enable);
-    int getDrawDirModsRadius() const;
-    void setDrawDirModsRadius(int pixels);
+    int64_t getDrawDirModsRadius() const;
+    void setDrawDirModsRadius(int64_t pixels);
 
     bool getTouchDrawingEnabled() const;
     void setTouchDrawingEnabled(bool b);
@@ -304,7 +304,7 @@ public:
     string const& getDefaultSaveName() const;
     void setDefaultSaveName(const string& name);
 
-    ButtonConfig* getButtonConfig(int id);
+    ButtonConfig* getButtonConfig(int64_t id);
 
     string const& getFullscreenHideElements() const;
     void setFullscreenHideElements(string elements);
@@ -328,14 +328,14 @@ public:
     double getTouchZoomStartThreshold() const;
     void setTouchZoomStartThreshold(double threshold);
 
-    int getPdfPageCacheSize() const;
-    [[maybe_unused]] void setPdfPageCacheSize(int size);
+    int64_t getPdfPageCacheSize() const;
+    [[maybe_unused]] void setPdfPageCacheSize(int64_t size);
 
-    unsigned int getPreloadPagesBefore() const;
-    void setPreloadPagesBefore(unsigned int n);
+    uint64_t getPreloadPagesBefore() const;
+    void setPreloadPagesBefore(uint64_t n);
 
-    unsigned int getPreloadPagesAfter() const;
-    void setPreloadPagesAfter(unsigned int n);
+    uint64_t getPreloadPagesAfter() const;
+    void setPreloadPagesAfter(uint64_t n);
 
     bool isEagerPageCleanup() const;
     void setEagerPageCleanup(bool b);
@@ -358,8 +358,8 @@ public:
     double getAudioGain() const;
     void setAudioGain(double gain);
 
-    unsigned int getDefaultSeekTime() const;
-    void setDefaultSeekTime(unsigned int t);
+    uint64_t getDefaultSeekTime() const;
+    void setDefaultSeekTime(uint64_t t);
 
     string const& getPluginEnabled() const;
     void setPluginEnabled(const string& pluginEnabled);
@@ -370,11 +370,11 @@ public:
     /**
      * Sets #numIgnoredStylusEvents. If given a negative value writes 0 instead.
      */
-    void setIgnoredStylusEvents(int numEvents);
+    void setIgnoredStylusEvents(int64_t numEvents);
     /**
      * Returns #numIgnoredStylusEvents.
      */
-    int getIgnoredStylusEvents() const;
+    int64_t getIgnoredStylusEvents() const;
 
     bool getInputSystemTPCButtonEnabled() const;
     void setInputSystemTPCButtonEnabled(bool tpcButtonEnabled);
@@ -399,7 +399,7 @@ public:
     /**
      * Get size index in XOJ_UNITS
      */
-    int getSizeUnitIndex() const;
+    int64_t getSizeUnitIndex() const;
 
     /**
      * Set Unit, e.g. "cm"
@@ -409,7 +409,7 @@ public:
     /**
      * Set size index in XOJ_UNITS
      */
-    void setSizeUnitIndex(int sizeUnitId);
+    void setSizeUnitIndex(int64_t sizeUnitId);
 
     /**
      * Set StrokeFilter enabled
@@ -424,13 +424,13 @@ public:
     /**
      * get strokeFilter settings
      */
-    void getStrokeFilter(int* strokeFilterIgnoreTime, double* strokeFilterIgnoreLength,
-                         int* strokeFilterSuccessiveTime) const;
+    void getStrokeFilter(int64_t* strokeFilterIgnoreTime, double* strokeFilterIgnoreLength,
+                         int64_t* strokeFilterSuccessiveTime) const;
 
     /**
      * configure stroke filter
      */
-    void setStrokeFilter(int strokeFilterIgnoreTime, double strokeFilterIgnoreLength, int strokeFilterSuccessiveTime);
+    void setStrokeFilter(int64_t strokeFilterIgnoreTime, double strokeFilterIgnoreLength, int64_t strokeFilterSuccessiveTime);
 
     /**
      * Set DoActionOnStrokeFilter enabled
@@ -567,7 +567,7 @@ private:
     /**
      *  The Width of the Sidebar
      */
-    int sidebarWidth{};
+    int64_t sidebarWidth{};
 
     /**
      *  If the sidebar is on the right
@@ -679,12 +679,12 @@ private:
     /**
      * Width of the main window
      */
-    int mainWndWidth{};
+    int64_t mainWndWidth{};
 
     /**
      * Height of the main window
      */
-    int mainWndHeight{};
+    int64_t mainWndHeight{};
 
     /**
      * Show the scrollbar on the left side
@@ -704,17 +704,17 @@ private:
     /**
      *  Offsets first page ( to align pairing )
      */
-    int numPairsOffset{};
+    int64_t numPairsOffset{};
 
     /**
      *  Use when fixed number of columns
      */
-    int numColumns{};
+    int64_t numColumns{};
 
     /**
      *  Use when fixed number of rows
      */
-    int numRows{};
+    int64_t numRows{};
 
     /**
      *  USE  fixed rows, otherwise fixed columns
@@ -745,7 +745,7 @@ private:
     /**
      * Automatically save documents for crash recovery each x minutes
      */
-    int autosaveTimeout{};
+    int64_t autosaveTimeout{};
 
     /**
      *  Enable automatic save
@@ -760,7 +760,7 @@ private:
     /**
      * How much allowance to scroll outside the page display area (either side of )
      */
-    int addHorizontalSpaceAmount{};
+    int64_t addHorizontalSpaceAmount{};
 
     /**
      * Allow scroll outside the page display area (vertical)
@@ -769,7 +769,7 @@ private:
 
     /** How much allowance to scroll outside the page display area (above and below)
      */
-    int addVerticalSpaceAmount{};
+    int64_t addVerticalSpaceAmount{};
 
     /**
      * Emulate modifier keys based on initial direction of drawing tool ( for Rectangle, Ellipse etc. )
@@ -779,7 +779,7 @@ private:
     /**
      * Radius at which emulated modifiers are locked on for the rest of drawing operation
      */
-    int drawDirModsRadius{};
+    int64_t drawDirModsRadius{};
 
     /**
      * Rotation snapping enabled by default
@@ -811,7 +811,7 @@ private:
     /**
      *  The count of pages which will be cached
      */
-    int pdfPageCacheSize{};
+    int64_t pdfPageCacheSize{};
 
     /**
      *  Percentage by which the page's zoom must change
@@ -904,7 +904,7 @@ private:
     /**
      * The default time by which the playback will seek backwards and forwards
      */
-    unsigned int defaultSeekTime{};
+    uint64_t defaultSeekTime{};
 
     /**
      * List of enabled plugins (only the one which are not enabled by default)
@@ -922,9 +922,9 @@ private:
      * object, float Toolbox menu ). strokeFilterIgnoreLength			this many mm ( double ) strokeFilterIgnoreTime
      * within this time (ms)  will be ignored.. strokeFilterSuccessiveTime		...unless successive within this time.
      */
-    int strokeFilterIgnoreTime{};
+    int64_t strokeFilterIgnoreTime{};
     double strokeFilterIgnoreLength{};
-    int strokeFilterSuccessiveTime{};
+    int64_t strokeFilterSuccessiveTime{};
     bool strokeFilterEnabled{};
     bool doActionOnStrokeFiltered{};
     bool trySelectOnStrokeFiltered{};
@@ -943,7 +943,7 @@ private:
      * How many stylus events since hitting the screen should be ignored before actually starting the action. If set to
      * 0, no event will be ignored. Should not be negative.
      */
-    int numIgnoredStylusEvents{};
+    int64_t numIgnoredStylusEvents{};
 
     /**
      * Whether Wacom parameter TabletPCButton is enabled
@@ -967,12 +967,12 @@ private:
     /**
      * The number of pages to pre-load before the current page.
      */
-    unsigned int preloadPagesBefore{};
+    uint64_t preloadPagesBefore{};
 
     /**
      * The number of pages to pre-load after the current page.
      */
-    unsigned int preloadPagesAfter{};
+    uint64_t preloadPagesAfter{};
 
     /**
      * Whether to evict from the page buffer cache when scrolling.

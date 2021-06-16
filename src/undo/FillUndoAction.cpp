@@ -8,7 +8,7 @@
 
 class FillUndoActionEntry {
 public:
-    FillUndoActionEntry(Stroke* s, int originalFill, int newFill) {
+    FillUndoActionEntry(Stroke* s, int64_t originalFill, int64_t newFill) {
         this->s = s;
         this->originalFill = originalFill;
         this->newFill = newFill;
@@ -16,8 +16,8 @@ public:
 
     ~FillUndoActionEntry() = default;
     Stroke* s;
-    int originalFill;
-    int newFill;
+    int64_t originalFill;
+    int64_t newFill;
 };
 
 FillUndoAction::FillUndoAction(const PageRef& page, Layer* layer): UndoAction("FillUndoAction") {
@@ -32,7 +32,7 @@ FillUndoAction::~FillUndoAction() {
     this->data.clear();
 }
 
-void FillUndoAction::addStroke(Stroke* s, int originalFill, int newFill) {
+void FillUndoAction::addStroke(Stroke* s, int64_t originalFill, int64_t newFill) {
     this->data.push_back(new FillUndoActionEntry(s, originalFill, newFill));
 }
 

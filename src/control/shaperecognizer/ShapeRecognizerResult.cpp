@@ -8,7 +8,7 @@ ShapeRecognizerResult::ShapeRecognizerResult(Stroke* result) { this->recognized 
 ShapeRecognizerResult::ShapeRecognizerResult(Stroke* result, ShapeRecognizer* recognizer) {
     this->recognized = result;
 
-    for (int i = 0; i < recognizer->queueLength; i++) {
+    for (int64_t i = 0; i < recognizer->queueLength; i++) {
         if (recognizer->queue[i].stroke) {
             this->addSourceStroke(recognizer->queue[i].stroke);
         }

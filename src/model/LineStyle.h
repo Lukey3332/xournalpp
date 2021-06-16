@@ -38,7 +38,7 @@ public:
      *
      * @return true if dashed
      */
-    bool getDashes(const double*& dashes, int& dashCount) const;
+    bool getDashes(const double*& dashes, int64_t& dashCount) const;
 
     /**
      * @return true if dashed
@@ -51,7 +51,7 @@ public:
      * @param dashes Dash data, will be copied
      * @param dashCount Count of entries
      */
-    void setDashes(const double* dashes, int dashCount);
+    void setDashes(const double* dashes, int64_t dashCount);
 
 private:
     /**
@@ -62,5 +62,5 @@ private:
     /**
      * Dash count (0 for no dash)
      */
-    int dashCount = 0;
+    int64_t dashCount = 0;
 };

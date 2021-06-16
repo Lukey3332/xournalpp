@@ -67,7 +67,7 @@ public:
      * @param len Buffer len
      * @return If an image was read, or the error
      */
-    PreviewExtractResult readPreview(char* buffer, int len);
+    PreviewExtractResult readPreview(char* buffer, int64_t len);
 
     /**
      * @return The preview data, should be a binary PNG

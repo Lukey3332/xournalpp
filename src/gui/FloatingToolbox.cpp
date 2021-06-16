@@ -29,7 +29,7 @@ FloatingToolbox::FloatingToolbox(MainWindow* theMainWindow, GtkOverlay* overlay)
 FloatingToolbox::~FloatingToolbox() = default;
 
 
-void FloatingToolbox::show(int x, int y) {
+void FloatingToolbox::show(int64_t x, int64_t y) {
     this->floatingToolboxX = x;
     this->floatingToolboxY = y;
     this->show();
@@ -49,7 +49,7 @@ auto FloatingToolbox::floatingToolboxActivated() -> bool {
     ButtonConfig* cfg = nullptr;
 
     // check if any buttons assigned to bring up toolbox
-    for (int id = 0; id < BUTTON_COUNT; id++) {
+    for (int64_t id = 0; id < BUTTON_COUNT; id++) {
         cfg = settings->getButtonConfig(id);
 
         if (cfg->getAction() == TOOL_FLOATING_TOOLBOX) {
@@ -71,10 +71,10 @@ auto FloatingToolbox::floatingToolboxActivated() -> bool {
 }
 
 
-auto FloatingToolbox::countWidgets() -> int {
-    int count = 0;
+auto FloatingToolbox::countWidgets() -> int64_t {
+    int64_t count = 0;
 
-    for (int index = TBFloatFirst; index <= TBFloatLast; index++) {
+    for (int64_t index = TBFloatFirst; index <= TBFloatLast; index++) {
         const char* guiName = TOOLBAR_DEFINITIONS[index].guiName;
         GtkToolbar* toolbar1 = GTK_TOOLBAR(this->mainWindow->get(guiName));
         count += gtk_toolbar_get_n_items(toolbar1);

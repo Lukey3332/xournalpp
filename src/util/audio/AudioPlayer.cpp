@@ -4,7 +4,7 @@
 
 AudioPlayer::~AudioPlayer() { this->stop(); }
 
-auto AudioPlayer::start(const string& filename, unsigned int timestamp) -> bool {
+auto AudioPlayer::start(const string& filename, uint64_t timestamp) -> bool {
     // Start the producer for reading the data
     bool status = this->vorbisProducer->start(filename, timestamp);
 
@@ -54,7 +54,7 @@ void AudioPlayer::stop() {
     this->audioQueue->reset();
 }
 
-void AudioPlayer::seek(int seconds) {
+void AudioPlayer::seek(int64_t seconds) {
     // set seek flag here in vorbisProducer
     this->vorbisProducer->seek(seconds);
 }

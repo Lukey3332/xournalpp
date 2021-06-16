@@ -9,8 +9,8 @@ Shadow* Shadow::instance = new Shadow();
 using u8ptr = const unsigned char*;
 
 Shadow::Shadow() {
-    const int sBrSize = shadowBottomRightSize;
-    const int sTlSize = shadowTopLeftSize;
+    const int64_t sBrSize = shadowBottomRightSize;
+    const int64_t sTlSize = shadowTopLeftSize;
 
     this->edgeTopLeft = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, sTlSize * 2, sTlSize * 2);
     cairo_t* cr = cairo_create(this->edgeTopLeft);
@@ -62,17 +62,17 @@ Shadow::~Shadow() {
     this->bottom = nullptr;
 }
 
-auto Shadow::getShadowBottomRightSize() -> int { return shadowBottomRightSize; }
+auto Shadow::getShadowBottomRightSize() -> int64_t { return shadowBottomRightSize; }
 
-auto Shadow::getShadowTopLeftSize() -> int { return shadowTopLeftSize; }
+auto Shadow::getShadowTopLeftSize() -> int64_t { return shadowTopLeftSize; }
 
-void Shadow::drawShadowEdge(cairo_t* cr, int x, int y, int width, int height, const unsigned char* edge, double r,
+void Shadow::drawShadowEdge(cairo_t* cr, int64_t x, int64_t y, int64_t width, int64_t height, const unsigned char* edge, double r,
                             double g, double b) {
-    int w = width * 2;
-    int h = height * 2;
+    int64_t w = width * 2;
+    int64_t h = height * 2;
 
-    for (int u = 0; u < h; u++) {
-        for (int i = 0; i < w; i++) {
+    for (int64_t u = 0; u < h; u++) {
+        for (int64_t i = 0; i < w; i++) {
             double a = edge[u * w + i] / 255.0;
             cairo_set_source_rgba(cr, r, g, b, a);
 
@@ -82,14 +82,14 @@ void Shadow::drawShadowEdge(cairo_t* cr, int x, int y, int width, int height, co
     }
 }
 
-void Shadow::paintEdge(cairo_t* cr, cairo_surface_t* image, int x, int y, int width, int height) {
+void Shadow::paintEdge(cairo_t* cr, cairo_surface_t* image, int64_t x, int64_t y, int64_t width, int64_t height) {
     cairo_set_source_surface(cr, image, x - width, y - height);
     cairo_rectangle(cr, x - width, y - height, width * 2, height * 2);
     cairo_fill(cr);
 }
 
-void Shadow::drawShadowTop(cairo_t* cr, int x, int y, int width, double r, double g, double b) {
-    int w = this->top ? cairo_image_surface_get_width(this->top) : 0;
+void Shadow::drawShadowTop(cairo_t* cr, int64_t x, int64_t y, int64_t width, double r, double g, double b) {
+    int64_t w = this->top ? cairo_image_surface_get_width(this->top) : 0;
 
     if (w < width) {
         if (this->top) {
@@ -102,7 +102,7 @@ void Shadow::drawShadowTop(cairo_t* cr, int x, int y, int width, double r, doubl
         double a = NAN;
 
         // draw shadow on top and left
-        for (int i = 0; i < shadowTopLeftSize; i++) {
+        for (int64_t i = 0; i < shadowTopLeftSize; i++) {
             a = shadowTopLeft[i] / 255.0;
             cairo_set_source_rgba(cr2, r, g, b, a);
 
@@ -118,8 +118,8 @@ void Shadow::drawShadowTop(cairo_t* cr, int x, int y, int width, double r, doubl
     cairo_fill(cr);
 }
 
-void Shadow::drawShadowLeft(cairo_t* cr, int x, int y, int height, double r, double g, double b) {
-    int h = this->left ? cairo_image_surface_get_height(this->left) : 0;
+void Shadow::drawShadowLeft(cairo_t* cr, int64_t x, int64_t y, int64_t height, double r, double g, double b) {
+    int64_t h = this->left ? cairo_image_surface_get_height(this->left) : 0;
 
     if (h < height) {
         if (this->left) {
@@ -132,7 +132,7 @@ void Shadow::drawShadowLeft(cairo_t* cr, int x, int y, int height, double r, dou
         double a = NAN;
 
         // draw shadow on top and left
-        for (int i = 0; i < shadowTopLeftSize; i++) {
+        for (int64_t i = 0; i < shadowTopLeftSize; i++) {
             a = shadowTopLeft[i] / 255.0;
             cairo_set_source_rgba(cr2, r, g, b, a);
 
@@ -149,8 +149,8 @@ void Shadow::drawShadowLeft(cairo_t* cr, int x, int y, int height, double r, dou
     cairo_fill(cr);
 }
 
-void Shadow::drawShadowRight(cairo_t* cr, int x, int y, int height, double r, double g, double b) {
-    int h = this->right ? cairo_image_surface_get_height(this->right) : 0;
+void Shadow::drawShadowRight(cairo_t* cr, int64_t x, int64_t y, int64_t height, double r, double g, double b) {
+    int64_t h = this->right ? cairo_image_surface_get_height(this->right) : 0;
 
     if (h < height) {
         if (this->right) {
@@ -163,7 +163,7 @@ void Shadow::drawShadowRight(cairo_t* cr, int x, int y, int height, double r, do
         double a = NAN;
 
         // draw shadow on top and left
-        for (int i = 0; i < shadowBottomRightSize; i++) {
+        for (int64_t i = 0; i < shadowBottomRightSize; i++) {
             a = shadowBottomRight[i] / 255.0;
             cairo_set_source_rgba(cr2, r, g, b, a);
 
@@ -179,8 +179,8 @@ void Shadow::drawShadowRight(cairo_t* cr, int x, int y, int height, double r, do
     cairo_fill(cr);
 }
 
-void Shadow::drawShadowBottom(cairo_t* cr, int x, int y, int width, double r, double g, double b) {
-    int w = this->bottom ? cairo_image_surface_get_width(this->bottom) : 0;
+void Shadow::drawShadowBottom(cairo_t* cr, int64_t x, int64_t y, int64_t width, double r, double g, double b) {
+    int64_t w = this->bottom ? cairo_image_surface_get_width(this->bottom) : 0;
 
     if (w < width) {
         if (this->bottom) {
@@ -192,7 +192,7 @@ void Shadow::drawShadowBottom(cairo_t* cr, int x, int y, int width, double r, do
 
 
         // draw shadow on top and left
-        for (int i = 0; i < shadowBottomRightSize; i++) {
+        for (int64_t i = 0; i < shadowBottomRightSize; i++) {
             auto a = shadowBottomRight[i] / 255.0;
             cairo_set_source_rgba(cr2, r, g, b, a);
 
@@ -208,9 +208,9 @@ void Shadow::drawShadowBottom(cairo_t* cr, int x, int y, int width, double r, do
     cairo_fill(cr);
 }
 
-void Shadow::drawShadowImpl(cairo_t* cr, int x, int y, int width, int height) {
-    const int sBrSize = shadowBottomRightSize;
-    const int sTlSize = shadowTopLeftSize;
+void Shadow::drawShadowImpl(cairo_t* cr, int64_t x, int64_t y, int64_t width, int64_t height) {
+    const int64_t sBrSize = shadowBottomRightSize;
+    const int64_t sTlSize = shadowTopLeftSize;
 
     drawShadowTop(cr, x, y, width - 3, 0, 0, 0);
     drawShadowLeft(cr, x, y, height - 3, 0, 0, 0);
@@ -223,6 +223,6 @@ void Shadow::drawShadowImpl(cairo_t* cr, int x, int y, int width, int height) {
     paintEdge(cr, this->edgeBottomRight, x + width + 1, y + height + 1, sBrSize, sBrSize);
 }
 
-void Shadow::drawShadow(cairo_t* cr, int x, int y, int width, int height) {
+void Shadow::drawShadow(cairo_t* cr, int64_t x, int64_t y, int64_t width, int64_t height) {
     Shadow::instance->drawShadowImpl(cr, x, y, width, height);
 }

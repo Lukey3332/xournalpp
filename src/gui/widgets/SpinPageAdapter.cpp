@@ -55,7 +55,7 @@ void SpinPageAdapter::removeWidget() {
     g_clear_object(&this->widget);
 }
 
-auto SpinPageAdapter::getPage() const -> int { return this->page; }
+auto SpinPageAdapter::getPage() const -> int64_t { return this->page; }
 
 void SpinPageAdapter::setPage(size_t page) {
     this->page = page;

@@ -38,7 +38,7 @@ private:
     void searchPrevious();
 
     void search(const char* text);
-    bool searchTextonCurrentPage(const char* text, int* occures, double* top);
+    bool searchTextonCurrentPage(const char* text, int64_t* occures, double* top);
 
 private:
     Control* control;

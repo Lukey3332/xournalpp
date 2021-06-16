@@ -25,7 +25,7 @@ void ScrollHandling::init(GtkWidget* xournal, Layout* layout) {
 
 #define TEMP_FIX true
 
-void ScrollHandling::setLayoutSize(int width, int height) {
+void ScrollHandling::setLayoutSize(int64_t width, int64_t height) {
     // after a page has been inserted the layout size must be updated immediately,
     // otherwise it comes down to a race deciding if scrolling happens normally or not
 #if TEMP_FIX
@@ -40,6 +40,6 @@ void ScrollHandling::setLayoutSize(int width, int height) {
 #endif
 }
 
-auto ScrollHandling::getPreferredWidth() -> int { return layout->getMinimalWidth(); }
+auto ScrollHandling::getPreferredWidth() -> int64_t { return layout->getMinimalWidth(); }
 
-auto ScrollHandling::getPreferredHeight() -> int { return layout->getMinimalHeight(); }
+auto ScrollHandling::getPreferredHeight() -> int64_t { return layout->getMinimalHeight(); }

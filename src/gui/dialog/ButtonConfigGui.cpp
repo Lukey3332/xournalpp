@@ -43,7 +43,7 @@ void addToolToList(GtkListStore* typeModel, const char* icon, const char* name, 
     gtk_list_store_set(typeModel, &iter, 1, name, 2, action, -1);
 }
 
-ButtonConfigGui::ButtonConfigGui(GladeSearchpath* gladeSearchPath, GtkWidget* w, Settings* settings, int button,
+ButtonConfigGui::ButtonConfigGui(GladeSearchpath* gladeSearchPath, GtkWidget* w, Settings* settings, int64_t button,
                                  bool withDevice):
         GladeGui(gladeSearchPath, "settingsButtonConfig.glade", "offscreenwindow"),
         settings(settings),
@@ -152,14 +152,14 @@ void ButtonConfigGui::loadSettings() {
     }
 
     GValue value = {0};
-    int i = 0;
+    int64_t i = 0;
 
     gtk_combo_box_set_active(GTK_COMBO_BOX(cbTool), 0);
 
     do {
         gtk_tree_model_get_value(model, &iter, 2, &value);
 
-        int action = g_value_get_int(&value);
+        int64_t action = g_value_get_int(&value);
 
         if (action == cfg->action) {
             gtk_combo_box_set_active(GTK_COMBO_BOX(cbTool), i);
@@ -196,7 +196,7 @@ void ButtonConfigGui::loadSettings() {
     if (withDevice) {
         gtk_combo_box_set_active(GTK_COMBO_BOX(cbDevice), 0);
 
-        int i = 1;
+        int64_t i = 1;
         for (InputDevice const& dev: this->deviceList) {
             if (cfg->device == dev.getName()) {
                 gtk_combo_box_set_active(GTK_COMBO_BOX(cbDevice), i);
@@ -226,7 +226,7 @@ void ButtonConfigGui::saveSettings() {
     ButtonConfig* cfg = settings->getButtonConfig(button);
     cfg->action = action;
 
-    int thickness = gtk_combo_box_get_active(GTK_COMBO_BOX(cbThickness));
+    int64_t thickness = gtk_combo_box_get_active(GTK_COMBO_BOX(cbThickness));
     if (toolSizeIndexMap.count(thickness) == 0) {
         cfg->size = TOOL_SIZE_NONE;
     } else {
@@ -239,7 +239,7 @@ void ButtonConfigGui::saveSettings() {
 
     cfg->drawingType = static_cast<DrawingType>(gtk_combo_box_get_active(GTK_COMBO_BOX(this->cbDrawingType)));
 
-    int eraserMode = gtk_combo_box_get_active(GTK_COMBO_BOX(this->cbEraserType));
+    int64_t eraserMode = gtk_combo_box_get_active(GTK_COMBO_BOX(this->cbEraserType));
 
     if (eraserMode == 1) {
         cfg->eraserMode = ERASER_TYPE_DEFAULT;
@@ -252,7 +252,7 @@ void ButtonConfigGui::saveSettings() {
     }
 
     if (this->withDevice) {
-        int dev = gtk_combo_box_get_active(GTK_COMBO_BOX(cbDevice)) - 1;
+        int64_t dev = gtk_combo_box_get_active(GTK_COMBO_BOX(cbDevice)) - 1;
         cfg->device = (dev < 0 || this->deviceList.size() <= dev) ? "" : this->deviceList[dev].getName();
         cfg->disableDrawing = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(cbDisableDrawing));
     }

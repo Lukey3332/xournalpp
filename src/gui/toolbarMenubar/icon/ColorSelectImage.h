@@ -47,7 +47,7 @@ public:
     /**
      * Size of the icon
      */
-    int size = 16;
+    int64_t size = 16;
 
     /**
      * Draw as circle
@@ -57,12 +57,12 @@ public:
     /**
      * Size of the widget
      */
-    int width = 16;
+    int64_t width = 16;
 
     /**
      * Size of the widget
      */
-    int height = 16;
+    int64_t height = 16;
 
     /**
      * State of the icon
@@ -94,17 +94,17 @@ public:
     /**
      * Create a new GtkImage with preview color
      */
-    static GtkWidget* newColorIcon(Color color, int size = 22, bool circle = true);
+    static GtkWidget* newColorIcon(Color color, int64_t size = 22, bool circle = true);
 
     /**
      * Create a new cairo_surface_t* with preview color
      */
-    static cairo_surface_t* newColorIconSurface(Color color, int size = 22, bool circle = true);
+    static cairo_surface_t* newColorIconSurface(Color color, int64_t size = 22, bool circle = true);
 
     /**
      * Create a new GdkPixbuf* with preview color
      */
-    static GdkPixbuf* newColorIconPixbuf(Color color, int size = 22, bool circle = true);
+    static GdkPixbuf* newColorIconPixbuf(Color color, int64_t size = 22, bool circle = true);
 
 private:
     /**
@@ -131,7 +131,7 @@ private:
     /**
      * Size of the icon
      */
-    int size = 16;
+    int64_t size = 16;
 
     /**
      * Draw as circle

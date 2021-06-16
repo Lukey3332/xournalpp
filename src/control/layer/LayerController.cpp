@@ -29,7 +29,7 @@ void LayerController::pageSelected(size_t page) {
     fireRebuildLayerMenu();
 }
 
-void LayerController::insertLayer(PageRef page, Layer* layer, int layerPos) {
+void LayerController::insertLayer(PageRef page, Layer* layer, int64_t layerPos) {
     page->insertLayer(layer, layerPos);
     fireRebuildLayerMenu();
 }
@@ -77,8 +77,8 @@ auto LayerController::actionPerformed(ActionType type) -> bool {
 
         case ACTION_GOTO_NEXT_LAYER: {
             PageRef p = getCurrentPage();
-            int layer = p->getSelectedLayerId();
-            if (layer < static_cast<int>(p->getLayerCount())) {
+            int64_t layer = p->getSelectedLayerId();
+            if (layer < static_cast<int64_t>(p->getLayerCount())) {
                 switchToLay(layer + 1, true);
             }
         }
@@ -86,7 +86,7 @@ auto LayerController::actionPerformed(ActionType type) -> bool {
 
         case ACTION_GOTO_PREVIOUS_LAYER: {
             PageRef p = getCurrentPage();
-            int layer = p->getSelectedLayerId();
+            int64_t layer = p->getSelectedLayerId();
             if (layer > 0) {
                 switchToLay(layer - 1, true);
             }
@@ -140,7 +140,7 @@ void LayerController::addNewLayer() {
     }
 
     auto* l = new Layer();
-    int layerPos = p->getSelectedLayerId();
+    int64_t layerPos = p->getSelectedLayerId();
     p->insertLayer(l, layerPos);
 
     control->getUndoRedoHandler()->addUndoAction(std::make_unique<InsertLayerUndoAction>(this, p, l, layerPos));
@@ -153,12 +153,12 @@ void LayerController::deleteCurrentLayer() {
     control->clearSelectionEndText();
 
     PageRef p = getCurrentPage();
-    int pId = selectedPage;
+    int64_t pId = selectedPage;
     if (!p) {
         return;
     }
 
-    int lId = p->getSelectedLayerId();
+    int64_t lId = p->getSelectedLayerId();
     if (lId < 1) {
         return;
     }
@@ -181,12 +181,12 @@ void LayerController::moveCurrentLayer(bool up) {
     control->clearSelectionEndText();
 
     PageRef p = getCurrentPage();
-    int pId = selectedPage;
+    int64_t pId = selectedPage;
     if (!p) {
         return;
     }
 
-    int lId = p->getSelectedLayerId();
+    int64_t lId = p->getSelectedLayerId();
     Layer* currentLayer = p->getSelectedLayer();
     if (lId < 1) {
         // Background cannot be moved
@@ -198,7 +198,7 @@ void LayerController::moveCurrentLayer(bool up) {
         return;
     }
 
-    if (lId == static_cast<int>(p->getLayerCount()) && up) {
+    if (lId == static_cast<int64_t>(p->getLayerCount()) && up) {
         // top layer cannot be moved up
         return;
     }
@@ -208,7 +208,7 @@ void LayerController::moveCurrentLayer(bool up) {
     // Layer IDs are a bit strange, because background is 0
     // so the first layer is 1, technical the first layer is still
     // index 0 in the vector... confusing...
-    int newIndex = up ? lId : lId - 2;
+    int64_t newIndex = up ? lId : lId - 2;
     p->insertLayer(currentLayer, newIndex);
 
     MainWindow* win = control->getWindow();
@@ -226,12 +226,12 @@ void LayerController::copyCurrentLayer() {
     control->clearSelectionEndText();
 
     PageRef p = getCurrentPage();
-    int pId = selectedPage;
+    int64_t pId = selectedPage;
     if (!p) {
         return;
     }
 
-    int lId = p->getSelectedLayerId();
+    int64_t lId = p->getSelectedLayerId();
     if (lId < 1) {
         return;
     }
@@ -255,7 +255,7 @@ auto LayerController::getCurrentPage() -> PageRef { return control->getDocument(
 
 auto LayerController::getCurrentPageId() const -> size_t { return selectedPage; }
 
-void LayerController::setLayerVisible(int layerId, bool visible) {
+void LayerController::setLayerVisible(int64_t layerId, bool visible) {
     getCurrentPage()->setLayerVisible(layerId, visible);
     fireLayerVisibilityChanged();
 
@@ -268,7 +268,7 @@ void LayerController::setLayerVisible(int layerId, bool visible) {
  * @param hideShow	Auto hide / show other layers,
  * 					as it was before the advance layer menu
  */
-void LayerController::switchToLay(int layer, bool hideShow) {
+void LayerController::switchToLay(int64_t layer, bool hideShow) {
     control->clearSelectionEndText();
 
     PageRef p = getCurrentPage();
@@ -280,7 +280,7 @@ void LayerController::switchToLay(int layer, bool hideShow) {
 
     if (hideShow) {
         for (size_t i = 1; i <= p->getLayerCount(); i++) {
-            p->setLayerVisible(i, static_cast<int>(i) <= layer);
+            p->setLayerVisible(i, static_cast<int64_t>(i) <= layer);
         }
     }
 
@@ -346,7 +346,7 @@ void LayerController::setCurrentLayerName(const std::string& newName) {
     fireRebuildLayerMenu();
 }
 
-std::string LayerController::getLayerNameById(int id) {
+std::string LayerController::getLayerNameById(int64_t id) {
     PageRef page = getCurrentPage();
 
     if (page == nullptr) {
@@ -357,7 +357,7 @@ std::string LayerController::getLayerNameById(int id) {
         return page->getBackgroundName();
     }
 
-    int previousId = page->getSelectedLayerId();
+    int64_t previousId = page->getSelectedLayerId();
     if (previousId == id) {
         return getCurrentLayerName();
     }

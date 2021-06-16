@@ -53,8 +53,8 @@ void TexImage::setHeight(double height) {
     this->calcSize();
 }
 
-auto TexImage::cairoReadFunction(TexImage* image, unsigned char* data, unsigned int length) -> cairo_status_t {
-    for (unsigned int i = 0; i < length; i++, image->read++) {
+auto TexImage::cairoReadFunction(TexImage* image, unsigned char* data, uint64_t length) -> cairo_status_t {
+    for (uint64_t i = 0; i < length; i++, image->read++) {
         if (image->read >= image->binaryData.length()) {
             return CAIRO_STATUS_READ_ERROR;
         }
@@ -147,7 +147,7 @@ void TexImage::readSerialized(ObjectInputStream& in) {
     freeImageAndPdf();
 
     char* data = nullptr;
-    int len = 0;
+    int64_t len = 0;
     in.readData(reinterpret_cast<void**>(&data), &len);
 
     this->loadData(std::string(data, len), nullptr);

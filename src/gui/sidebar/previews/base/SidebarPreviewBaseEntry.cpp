@@ -133,18 +133,18 @@ void SidebarPreviewBaseEntry::updateSize() {
     gtk_widget_set_size_request(this->widget, getWidgetWidth(), getWidgetHeight());
 }
 
-auto SidebarPreviewBaseEntry::getWidgetWidth() -> int {
+auto SidebarPreviewBaseEntry::getWidgetWidth() -> int64_t {
     return page->getWidth() * sidebar->getZoom() + Shadow::getShadowBottomRightSize() + Shadow::getShadowTopLeftSize() +
            4;
 }
 
-auto SidebarPreviewBaseEntry::getWidgetHeight() -> int {
+auto SidebarPreviewBaseEntry::getWidgetHeight() -> int64_t {
     return page->getHeight() * sidebar->getZoom() + Shadow::getShadowBottomRightSize() +
            Shadow::getShadowTopLeftSize() + 4;
 }
 
-auto SidebarPreviewBaseEntry::getWidth() -> int { return getWidgetWidth(); }
+auto SidebarPreviewBaseEntry::getWidth() -> int64_t { return getWidgetWidth(); }
 
-auto SidebarPreviewBaseEntry::getHeight() -> int { return getWidgetHeight(); }
+auto SidebarPreviewBaseEntry::getHeight() -> int64_t { return getWidgetHeight(); }
 
 auto SidebarPreviewBaseEntry::getWidget() -> GtkWidget* { return this->widget; }

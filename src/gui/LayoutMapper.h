@@ -81,7 +81,7 @@ public:
 
     size_t getColumns() const;
     size_t getRows() const;
-    int getFirstPageOffset() const;
+    int64_t getFirstPageOffset() const;
 
     bool isPairedPages() const;
     bool isRightToLeft() const;
@@ -107,7 +107,7 @@ private:
         size_t rows = 0;
         size_t actualPages = 0;
 
-        int offset = 0;
+        int64_t offset = 0;
 
         bool showPairedPages = false;
         Orientation orientation = Vertical;
@@ -126,6 +126,6 @@ private:
     std::unordered_map<std::pair<size_t, size_t>, size_t> rasterToPage;
 
     friend void calculate(LayoutMapper::internal_data& data, size_t numRows, size_t numCols, bool useRows,
-                          int firstPageOffset);
+                          int64_t firstPageOffset);
     friend class std::hash<LayoutMapper::internal_data>;
 };

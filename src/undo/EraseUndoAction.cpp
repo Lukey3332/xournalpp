@@ -32,12 +32,12 @@ EraseUndoAction::~EraseUndoAction() {
     this->edited = nullptr;
 }
 
-void EraseUndoAction::addOriginal(Layer* layer, Stroke* element, int pos) {
+void EraseUndoAction::addOriginal(Layer* layer, Stroke* element, int64_t pos) {
     this->original = g_list_insert_sorted(this->original, new PageLayerPosEntry<Stroke>(layer, element, pos),
                                           reinterpret_cast<GCompareFunc>(PageLayerPosEntry<Stroke>::cmp));
 }
 
-void EraseUndoAction::addEdited(Layer* layer, Stroke* element, int pos) {
+void EraseUndoAction::addEdited(Layer* layer, Stroke* element, int64_t pos) {
     this->edited = g_list_insert_sorted(this->edited, new PageLayerPosEntry<Stroke>(layer, element, pos),
                                         reinterpret_cast<GCompareFunc>(PageLayerPosEntry<Stroke>::cmp));
 }
@@ -67,7 +67,7 @@ void EraseUndoAction::finalize() {
         } else {
 
             // Remove the original and add the copy
-            int pos = p->layer->removeElement(p->element, false);
+            int64_t pos = p->layer->removeElement(p->element, false);
 
             EraseableStroke* e = p->element->getEraseable();
             GList* stroke = e->getStroke(p->element);

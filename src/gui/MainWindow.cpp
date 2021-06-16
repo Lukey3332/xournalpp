@@ -50,7 +50,7 @@ MainWindow::MainWindow(GladeSearchpath* gladeSearchPath, Control* control):
     this->floatingToolbox = new FloatingToolbox(this, overlay);
 
 
-    for (int i = 0; i < TOOLBAR_DEFINITIONS_LEN; i++) {
+    for (int64_t i = 0; i < TOOLBAR_DEFINITIONS_LEN; i++) {
         GtkWidget* w = get(TOOLBAR_DEFINITIONS[i].guiName);
         g_object_ref(w);
         this->toolbarWidgets[i] = w;
@@ -183,7 +183,7 @@ void MainWindow::rebindMenubarAccelerators() {
 }
 
 MainWindow::~MainWindow() {
-    for (int i = 0; i < TOOLBAR_DEFINITIONS_LEN; i++) {
+    for (int64_t i = 0; i < TOOLBAR_DEFINITIONS_LEN; i++) {
         g_object_unref(this->toolbarWidgets[i]);
     }
 
@@ -293,8 +293,8 @@ bool MainWindow::getGtkTouchscreenScrollingEnabled() const { return gtkTouchscre
  * Allow to hide menubar, but only if global menu is not enabled
  */
 void MainWindow::initHideMenu() {
-    int top = -1;
-    for (int i = 0; TOP_WIDGETS[i]; i++) {
+    int64_t top = -1;
+    for (int64_t i = 0; TOP_WIDGETS[i]; i++) {
         GtkWidget* w = get(TOP_WIDGETS[i]);
         GtkAllocation allocation;
         gtk_widget_get_allocation(w, &allocation);
@@ -359,11 +359,11 @@ void MainWindow::dragDataRecived(GtkWidget* widget, GdkDragContext* dragContext,
 
     gchar** uris = gtk_selection_data_get_uris(data);
     if (uris) {
-        for (int i = 0; uris[i] != nullptr && i < 3; i++) {
+        for (int64_t i = 0; uris[i] != nullptr && i < 3; i++) {
             const char* uri = uris[i];
 
             GCancellable* cancel = g_cancellable_new();
-            int cancelTimeout = g_timeout_add(3000, reinterpret_cast<GSourceFunc>(cancellable_cancel), cancel);
+            int64_t cancelTimeout = g_timeout_add(3000, reinterpret_cast<GSourceFunc>(cancellable_cancel), cancel);
 
             GFile* file = g_file_new_for_uri(uri);
             GError* err = nullptr;
@@ -454,7 +454,7 @@ void MainWindow::updateScrollbarSidebarPosition() {
     GtkWidget* sidebar = get("sidebar");
     GtkWidget* boxContents = get("boxContents");
 
-    int divider = gtk_paned_get_position(GTK_PANED(panelMainContents));
+    int64_t divider = gtk_paned_get_position(GTK_PANED(panelMainContents));
     bool sidebarRight = control->getSettings()->isSidebarOnRight();
     if (sidebarRight == (gtk_paned_get_child2(GTK_PANED(panelMainContents)) == sidebar)) {
         // Already correct
@@ -555,7 +555,7 @@ void MainWindow::setToolbarVisible(bool visible) {
     Settings* settings = control->getSettings();
 
     settings->setToolbarVisible(visible);
-    for (int i = 0; i < TOOLBAR_DEFINITIONS_LEN; i++) {
+    for (int64_t i = 0; i < TOOLBAR_DEFINITIONS_LEN; i++) {
         auto widget = this->toolbarWidgets[i];
         if (!visible || GTK_IS_CONTAINER(widget) && gtk_container_get_children(GTK_CONTAINER(widget))) {
             gtk_widget_set_visible(widget, visible);
@@ -613,7 +613,7 @@ void MainWindow::toolbarSelected(ToolbarData* d) {
 
 auto MainWindow::clearToolbar() -> ToolbarData* {
     if (this->selectedToolbar != nullptr) {
-        for (int i = 0; i < TOOLBAR_DEFINITIONS_LEN; i++) {
+        for (int64_t i = 0; i < TOOLBAR_DEFINITIONS_LEN; i++) {
             ToolMenuHandler::unloadToolbar(this->toolbarWidgets[i]);
         }
 
@@ -630,7 +630,7 @@ auto MainWindow::clearToolbar() -> ToolbarData* {
 void MainWindow::loadToolbar(ToolbarData* d) {
     this->selectedToolbar = d;
 
-    for (int i = 0; i < TOOLBAR_DEFINITIONS_LEN; i++) {
+    for (int64_t i = 0; i < TOOLBAR_DEFINITIONS_LEN; i++) {
         this->toolbar->load(d, this->toolbarWidgets[i], TOOLBAR_DEFINITIONS[i].propName,
                             TOOLBAR_DEFINITIONS[i].horizontal);
     }
@@ -640,13 +640,13 @@ void MainWindow::loadToolbar(ToolbarData* d) {
 
 auto MainWindow::getSelectedToolbar() -> ToolbarData* { return this->selectedToolbar; }
 
-auto MainWindow::getToolbarWidgets(int& length) -> GtkWidget** {
+auto MainWindow::getToolbarWidgets(int64_t& length) -> GtkWidget** {
     length = TOOLBAR_DEFINITIONS_LEN;
     return this->toolbarWidgets;
 }
 
 auto MainWindow::getToolbarName(GtkToolbar* toolbar) -> const char* {
-    for (int i = 0; i < TOOLBAR_DEFINITIONS_LEN; i++) {
+    for (int64_t i = 0; i < TOOLBAR_DEFINITIONS_LEN; i++) {
         if (static_cast<void*>(this->toolbarWidgets[i]) == static_cast<void*>(toolbar)) {
             return TOOLBAR_DEFINITIONS[i].propName;
         }
@@ -717,8 +717,8 @@ void MainWindow::rebuildLayerMenu() { layerVisibilityChanged(); }
 void MainWindow::layerVisibilityChanged() {
     LayerController* lc = control->getLayerController();
 
-    int layer = lc->getCurrentLayerId();
-    int maxLayer = lc->getLayerCount();
+    int64_t layer = lc->getCurrentLayerId();
+    int64_t maxLayer = lc->getLayerCount();
 
     control->fireEnableAction(ACTION_DELETE_LAYER, layer > 0);
     control->fireEnableAction(ACTION_GOTO_NEXT_LAYER, layer < maxLayer);

@@ -68,17 +68,17 @@ public:
      * @remark If the given Rectangle won't fit into the scrolled window
      *         then only its top left corner will be visible
      */
-    void ensureRectIsVisible(int x, int y, int width, int height);
+    void ensureRectIsVisible(int64_t x, int64_t y, int64_t width, int64_t height);
 
     /**
      * Returns the height of the entire Layout
      */
-    int getMinimalHeight() const;
+    int64_t getMinimalHeight() const;
 
     /**
      * Returns the width of the entire Layout
      */
-    int getMinimalWidth() const;
+    int64_t getMinimalWidth() const;
 
     // Todo(Fabian): move to XournalView this must not depend on Layout directly
     /**
@@ -98,7 +98,7 @@ public:
      * Document pages are assigned to grid positions by the mapper object and may be ordered in a myriad of ways.
      * ONLY call this on size allocation
      */
-    void layoutPages(int width, int height);
+    void layoutPages(int64_t width, int64_t height);
 
     // Todo(Fabian): move to View:
     /**
@@ -111,7 +111,7 @@ public:
     /**
      * Return the pageview containing co-ordinates.
      */
-    XojPageView* getPageViewAt(int x, int y);
+    XojPageView* getPageViewAt(int64_t x, int64_t y);
 
     /**
      * Return the page index found ( or std::nullopt if not found) at layout grid row,col
@@ -129,7 +129,7 @@ public:
      * @return the sum of the padding between pages above the page with the given index
      *         and any padding the user added vertically above all pages (i.e. in settings).
      */
-    int getPaddingAbovePage(size_t pageIndex) const;
+    int64_t getPaddingAbovePage(size_t pageIndex) const;
 
     /**
      * @brief Get the static padding added to the left of the current page.
@@ -140,7 +140,7 @@ public:
      * @return the sum of the padding between pages left of the page at [pageIndex] and
      *         any horizontal padding the user decided to add (from settings)
      */
-    int getPaddingLeftOfPage(size_t pageIndex) const;
+    int64_t getPaddingLeftOfPage(size_t pageIndex) const;
 
 protected:
     // Todo(Fabian): move to ScrollHandling also it must not depend on Layout
@@ -156,7 +156,7 @@ private:
      * Calls the scroll handler to set the layout size by updating the horizontal and vertical GtkAdjustments
      */
     // Todo(Fabian): remove this function the true size always depends on the expose event
-    void setLayoutSize(int width, int height);
+    void setLayoutSize(int64_t width, int64_t height);
 
 private:
     XournalView* view = nullptr;

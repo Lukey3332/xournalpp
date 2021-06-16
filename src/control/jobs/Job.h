@@ -82,8 +82,8 @@ private:
     static bool callAfterCallback(Job* job);
 
 private:
-    int afterRunId = 0;
+    int64_t afterRunId = 0;
 
-    int refCount = 1;
+    int64_t refCount = 1;
     GMutex refMutex{};
 };

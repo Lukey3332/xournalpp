@@ -45,7 +45,7 @@ private:
 
     Orientation orientation = ORIENTATION_NOT_DEFINED;
     double scale = 0;
-    int selectedScale = 0;
+    int64_t selectedScale = 0;
 
     double origWidth = 0;
     double origHeight = 0;

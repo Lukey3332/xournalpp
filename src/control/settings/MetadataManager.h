@@ -26,7 +26,7 @@ public:
     bool valid;
     fs::path path;
     double zoom;
-    int page;
+    int64_t page;
     gint64 time;
 };
 
@@ -44,7 +44,7 @@ public:
     /**
      * Store the current data into metadata
      */
-    void storeMetadata(fs::path const& file, int page, double zoom);
+    void storeMetadata(fs::path const& file, int64_t page, double zoom);
 
     /**
      * Document was closed, a new document was opened etc.

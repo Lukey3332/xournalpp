@@ -162,22 +162,22 @@ private:
     /**
      * X-Position
      */
-    int posx = 0;
+    int64_t posx = 0;
 
     /**
      * Y-Position
      */
-    int posy = 0;
+    int64_t posy = 0;
 
     /**
      * Image width
      */
-    int imgwidth = 0;
+    int64_t imgwidth = 0;
 
     /**
      * Image height
      */
-    int imgheight = 0;
+    int64_t imgheight = 0;
 
     /**
      * Document

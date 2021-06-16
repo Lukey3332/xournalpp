@@ -56,8 +56,8 @@ void Layout::updateVisibility() {
 
     // step through every possible page position and update using p->setIsVisible()
     // Using initial grid aprox speeds things up by a factor of 5.  See previous git check-in for specifics.
-    int x1 = 0;
-    int y1 = 0;
+    int64_t x1 = 0;
+    int64_t y1 = 0;
 
     // Data to select page based on visibility
     std::optional<size_t> mostPageNr;
@@ -168,14 +168,14 @@ void Layout::recalculate() {
     gtk_widget_queue_resize(view->getWidget());
 }
 
-void Layout::layoutPages(int width, int height) {
+void Layout::layoutPages(int64_t width, int64_t height) {
     std::lock_guard g{pc.m};
     if (!pc.valid) {
         recalculate_int();
     }
     // Todo: remove, just a hack-hotfix
-    scrollHandling->setLayoutSize(std::max(width, strict_cast<int>(this->pc.minWidth)),
-                                  std::max(height, strict_cast<int>(this->pc.minHeight)));
+    scrollHandling->setLayoutSize(std::max(width, strict_cast<int64_t>(this->pc.minWidth)),
+                                  std::max(height, strict_cast<int64_t>(this->pc.minHeight)));
 
     size_t const len = this->view->viewPages.size();
     Settings* settings = this->view->getControl()->getSettings();
@@ -215,8 +215,8 @@ void Layout::layoutPages(int width, int height) {
             if (optionalPage) {
 
                 XojPageView* v = this->view->viewPages[*optionalPage];
-                v->setMappedRowCol(strict_cast<int>(r),
-                                   strict_cast<int>(c));  // store row and column for e.g. proper arrow key navigation
+                v->setMappedRowCol(strict_cast<int64_t>(r),
+                                   strict_cast<int64_t>(c));  // store row and column for e.g. proper arrow key navigation
                 auto vDisplayWidth = v->getDisplayWidthDouble();
                 {
                     auto paddingLeft = 0.0;
@@ -240,8 +240,8 @@ void Layout::layoutPages(int width, int height) {
 
                     x += paddingLeft;
 
-                    v->setX(floor_cast<int>(x));  // set the page position
-                    v->setY(floor_cast<int>(y));
+                    v->setX(floor_cast<int64_t>(x));  // set the page position
+                    v->setY(floor_cast<int64_t>(y));
 
                     x += vDisplayWidth + paddingRight;
                 }
@@ -273,7 +273,7 @@ void Layout::layoutPages(int width, int height) {
 }
 
 
-auto Layout::getPaddingAbovePage(size_t pageIndex) const -> int {
+auto Layout::getPaddingAbovePage(size_t pageIndex) const -> int64_t {
     const Settings* settings = this->view->getControl()->getSettings();
 
     // User-configured padding above all pages.
@@ -283,11 +283,11 @@ auto Layout::getPaddingAbovePage(size_t pageIndex) const -> int {
     // (x, y) coordinate pair gives grid indicies. This handles paired pages
     // and different page layouts for us.
     auto pageYLocation = this->mapper.at(pageIndex).second;
-    return strict_cast<int>(as_signed(pageYLocation) * XOURNAL_PADDING_BETWEEN + as_signed(paddingAbove));
+    return strict_cast<int64_t>(as_signed(pageYLocation) * XOURNAL_PADDING_BETWEEN + as_signed(paddingAbove));
 }
 
 
-auto Layout::getPaddingLeftOfPage(size_t pageIndex) const -> int {
+auto Layout::getPaddingLeftOfPage(size_t pageIndex) const -> int64_t {
     bool isPairedPages = this->mapper.isPairedPages();
     const Settings* settings = this->view->getControl()->getSettings();
 
@@ -299,20 +299,20 @@ auto Layout::getPaddingLeftOfPage(size_t pageIndex) const -> int {
     // No page pairing or we haven't rendered enough pages in the row for
     // page pairing to have an effect,
     if (!isPairedPages) {
-        return strict_cast<int>(pageXLocation * XOURNAL_PADDING_BETWEEN + XOURNAL_PADDING_BETWEEN / 2 +
+        return strict_cast<int64_t>(pageXLocation * XOURNAL_PADDING_BETWEEN + XOURNAL_PADDING_BETWEEN / 2 +
                                 as_signed(paddingBefore));
     } else {
         auto columnPadding =
-                XOURNAL_PADDING_BETWEEN + strict_cast<int>(pageXLocation / 2) * (XOURNAL_PADDING_BETWEEN * 2);
+                XOURNAL_PADDING_BETWEEN + strict_cast<int64_t>(pageXLocation / 2) * (XOURNAL_PADDING_BETWEEN * 2);
         if (pageXLocation % 2 == 0) {
-            return strict_cast<int>(columnPadding - XOURNAL_ROOM_FOR_SHADOW + paddingBefore);
+            return strict_cast<int64_t>(columnPadding - XOURNAL_ROOM_FOR_SHADOW + paddingBefore);
         } else {
-            return strict_cast<int>(columnPadding + XOURNAL_ROOM_FOR_SHADOW + paddingBefore);
+            return strict_cast<int64_t>(columnPadding + XOURNAL_ROOM_FOR_SHADOW + paddingBefore);
         }
     }
 }
 
-void Layout::setLayoutSize(int width, int height) { this->scrollHandling->setLayoutSize(width, height); }
+void Layout::setLayoutSize(int64_t width, int64_t height) { this->scrollHandling->setLayoutSize(width, height); }
 
 void Layout::scrollRelative(double x, double y) {
     if (this->view->getControl()->getSettings()->isPresentationMode()) {
@@ -335,13 +335,13 @@ void Layout::scrollAbs(double x, double y) {
 }
 
 
-void Layout::ensureRectIsVisible(int x, int y, int width, int height) {
+void Layout::ensureRectIsVisible(int64_t x, int64_t y, int64_t width, int64_t height) {
     gtk_adjustment_clamp_page(scrollHandling->getHorizontal(), x - 5, x + width + 10);
     gtk_adjustment_clamp_page(scrollHandling->getVertical(), y - 5, y + height + 10);
 }
 
 
-auto Layout::getPageViewAt(int x, int y) -> XojPageView* {
+auto Layout::getPageViewAt(int64_t x, int64_t y) -> XojPageView* {
     // Binary Search:
     auto rit = std::lower_bound(this->rowYStart.begin(), this->rowYStart.end(), y);
     auto const foundRow = std::distance(this->rowYStart.begin(), rit);
@@ -361,18 +361,18 @@ auto Layout::getPageIndexAtGridMap(size_t row, size_t col) -> std::optional<size
     return this->mapper.at({col, row});  // watch out.. x,y --> c,r
 }
 
-auto Layout::getMinimalHeight() const -> int {
+auto Layout::getMinimalHeight() const -> int64_t {
     std::lock_guard g{pc.m};
     if (!pc.valid) {
         recalculate_int();
     }
-    return strict_cast<int>(this->pc.minHeight);
+    return strict_cast<int64_t>(this->pc.minHeight);
 }
 
-auto Layout::getMinimalWidth() const -> int {
+auto Layout::getMinimalWidth() const -> int64_t {
     std::lock_guard g{pc.m};
     if (!pc.valid) {
         recalculate_int();
     }
-    return strict_cast<int>(this->pc.minWidth);
+    return strict_cast<int64_t>(this->pc.minWidth);
 }

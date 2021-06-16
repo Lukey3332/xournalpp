@@ -47,8 +47,8 @@ struct _GtkXournal {
     /**
      * Visible area
      */
-    int x;
-    int y;
+    int64_t x;
+    int64_t y;
 
     Layout* layout;
 
@@ -76,7 +76,7 @@ Layout* gtk_xournal_get_layout(GtkWidget* widget);
 
 void gtk_xournal_scroll_relative(GtkWidget* widget, double x, double y);
 
-void gtk_xournal_repaint_area(GtkWidget* widget, int x1, int y1, int x2, int y2);
+void gtk_xournal_repaint_area(GtkWidget* widget, int64_t x1, int64_t y1, int64_t x2, int64_t y2);
 
 Rectangle<double>* gtk_xournal_get_visible_area(GtkWidget* widget, XojPageView* p);
 

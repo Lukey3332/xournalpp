@@ -241,7 +241,7 @@ void ToolbarCustomizeDialog::rebuildIconview() {
 
     GtkGrid* table = GTK_GRID(get("tbDefaultTools"));
 
-    int i = 0;
+    int64_t i = 0;
     for (AbstractToolItem* item: *this->win->getToolMenuHandler()->getToolItems()) {
         if (item->isUsed()) {
             continue;
@@ -285,8 +285,8 @@ void ToolbarCustomizeDialog::rebuildIconview() {
 
         g_signal_connect(ebox, "drag-data-get", G_CALLBACK(toolitemDragDataGet), data);
 
-        const int x = i % 3;
-        const int y = i / 3;
+        const int64_t x = i % 3;
+        const int64_t y = i / 3;
         gtk_grid_attach(table, ebox, x, y, 1, 1);
 
         i++;
@@ -316,7 +316,7 @@ void ToolbarCustomizeDialog::rebuildColorIcons() {
 
     ToolMenuHandler* tmh = this->win->getToolMenuHandler();
 
-    int i = 0;
+    int64_t i = 0;
     for (const XojColor& color: this->colorList.getPredefinedColors()) {
         if (tmh->isColorInUse(color.getColor())) {
             continue;
@@ -348,8 +348,8 @@ void ToolbarCustomizeDialog::rebuildColorIcons() {
         g_signal_connect(ebox, "drag-data-get", G_CALLBACK(toolitemColorDragDataGet),
                          GUINT_TO_POINTER(color.getColor()));
 
-        int x = i % 5;
-        int y = i / 5;
+        int64_t x = i % 5;
+        int64_t y = i / 5;
         i++;
         gtk_grid_attach(table, ebox, x, y, 1, 1);
     }
@@ -357,7 +357,7 @@ void ToolbarCustomizeDialog::rebuildColorIcons() {
     gtk_widget_show_all(GTK_WIDGET(table));
 }
 
-void ToolbarCustomizeDialog::windowResponseCb(GtkDialog* dialog, int response, ToolbarCustomizeDialog* dlg) {
+void ToolbarCustomizeDialog::windowResponseCb(GtkDialog* dialog, int64_t response, ToolbarCustomizeDialog* dlg) {
     gtk_widget_hide(GTK_WIDGET(dialog));
 
     dlg->handler->toolbarConfigDialogClosed();

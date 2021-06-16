@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////
 //Auto-generated from image source
-const int shadowTopLeftSize = 8;
-const int shadowBottomRightSize = 12;
+const int64_t shadowTopLeftSize = 8;
+const int64_t shadowBottomRightSize = 12;
 const unsigned char shadowTopLeft[] = {0, 1, 3, 6, 12, 22, 36, 57};
 const unsigned char shadowBottomRight[] = {171, 142, 111, 82, 56, 37, 22, 12, 6, 3, 1, 0};
 const unsigned char shadowEdge1[16][16] = {

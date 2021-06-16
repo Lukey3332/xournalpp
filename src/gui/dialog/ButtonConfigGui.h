@@ -23,7 +23,7 @@ class SettingsDialog;
 
 class ButtonConfigGui: public GladeGui {
 public:
-    ButtonConfigGui(GladeSearchpath* gladeSearchPath, GtkWidget* w, Settings* settings, int button, bool withDevice);
+    ButtonConfigGui(GladeSearchpath* gladeSearchPath, GtkWidget* w, Settings* settings, int64_t button, bool withDevice);
     ~ButtonConfigGui() override;
 
 public:
@@ -52,7 +52,7 @@ private:
 
     std::vector<InputDevice> deviceList;
 
-    int button = 0;
+    int64_t button = 0;
     bool withDevice = false;
 
     typedef std::map<int, ToolSize> ToolSizeIndexMap;

@@ -97,7 +97,7 @@ protected:
      * Round margin = 1 => Round to next grid etc.
      * Todo(fabian): use enum RoundMargin : bool{ DoNotRound = false, RoundToNextGrid = true};
      */
-    int roundMargin = 0;
+    int64_t roundMargin = 0;
 
     /**
      * Line width factor, to use to draw Previews

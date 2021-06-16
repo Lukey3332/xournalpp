@@ -37,8 +37,8 @@ struct BackgroundImage {
     void loadFile(fs::path const& filepath, GError** error);
     void loadFile(GInputStream* stream, fs::path const& filepath, GError** error);
 
-    int getCloneId();
-    void setCloneId(int id);
+    int64_t getCloneId();
+    void setCloneId(int64_t id);
     void clearSaveState();
 
     fs::path getFilepath();

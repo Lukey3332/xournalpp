@@ -45,8 +45,8 @@ SearchBar::SearchBar(Control* control): control(control) {
 
 SearchBar::~SearchBar() { this->control = nullptr; }
 
-auto SearchBar::searchTextonCurrentPage(const char* text, int* occures, double* top) -> bool {
-    int p = control->getCurrentPageNo();
+auto SearchBar::searchTextonCurrentPage(const char* text, int64_t* occures, double* top) -> bool {
+    int64_t p = control->getCurrentPageNo();
 
     return control->searchTextOnPage(text, p, occures, top);
 }
@@ -56,7 +56,7 @@ void SearchBar::search(const char* text) {
     GtkWidget* lbSearchState = win->get("lbSearchState");
 
     bool found = true;
-    int occures = 0;
+    int64_t occures = 0;
 
     if (*text != 0) {
         found = searchTextonCurrentPage(text, &occures, nullptr);
@@ -91,15 +91,15 @@ void SearchBar::searchTextChangedCallback(GtkEntry* entry, SearchBar* searchBar)
 void SearchBar::buttonCloseSearchClicked(GtkButton* button, SearchBar* searchBar) { searchBar->showSearchBar(false); }
 
 void SearchBar::searchNext() {
-    int page = control->getCurrentPageNo();
-    int count = control->getDocument()->getPageCount();
+    int64_t page = control->getCurrentPageNo();
+    int64_t count = control->getDocument()->getPageCount();
     if (count < 2) {
         // Nothing to do
         return;
     }
 
     MainWindow* win = control->getWindow();
-    int x = page + 1;
+    int64_t x = page + 1;
     GtkWidget* searchTextField = win->get("searchTextField");
     const char* text = gtk_entry_get_text(GTK_ENTRY(searchTextField));
     GtkWidget* lbSearchState = win->get("lbSearchState");
@@ -112,7 +112,7 @@ void SearchBar::searchNext() {
     }
 
     double top = 0;
-    int occures = 0;
+    int64_t occures = 0;
 
     while (x != page) {
 
@@ -135,15 +135,15 @@ void SearchBar::searchNext() {
 }
 
 void SearchBar::searchPrevious() {
-    int page = control->getCurrentPageNo();
-    int count = control->getDocument()->getPageCount();
+    int64_t page = control->getCurrentPageNo();
+    int64_t count = control->getDocument()->getPageCount();
     if (count < 2) {
         // Nothing to do
         return;
     }
 
     MainWindow* win = control->getWindow();
-    int x = page - 1;
+    int64_t x = page - 1;
     GtkWidget* searchTextField = win->get("searchTextField");
     const char* text = gtk_entry_get_text(GTK_ENTRY(searchTextField));
     GtkWidget* lbSearchState = win->get("lbSearchState");
@@ -156,7 +156,7 @@ void SearchBar::searchPrevious() {
     }
 
     double top = 0;
-    int occures = 0;
+    int64_t occures = 0;
 
     while (x != page) {
 
@@ -188,7 +188,7 @@ void SearchBar::showSearchBar(bool show) {
         gtk_widget_show_all(searchBar);
     } else {
         gtk_widget_hide(searchBar);
-        for (int i = control->getDocument()->getPageCount() - 1; i >= 0; i--) {
+        for (int64_t i = control->getDocument()->getPageCount() - 1; i >= 0; i--) {
             control->searchTextOnPage("", i, nullptr, nullptr);
         }
     }

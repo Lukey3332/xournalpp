@@ -6,7 +6,7 @@
 #include "BackgroundSelectDialogBase.h"
 #include "Util.h"
 
-BaseElementView::BaseElementView(int id, BackgroundSelectDialogBase* dlg): dlg(dlg), id(id) {
+BaseElementView::BaseElementView(int64_t id, BackgroundSelectDialogBase* dlg): dlg(dlg), id(id) {
     this->widget = gtk_drawing_area_new();
     gtk_widget_show(this->widget);
 
@@ -60,8 +60,8 @@ void BaseElementView::paint(cairo_t* cr) {
     if (this->crBuffer == nullptr) {
         this->crBuffer = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, alloc.width, alloc.height);
 
-        int width = getContentWidth();
-        int height = getContentHeight();
+        int64_t width = getContentWidth();
+        int64_t height = getContentHeight();
 
         cairo_t* cr2 = cairo_create(this->crBuffer);
 
@@ -113,12 +113,12 @@ auto BaseElementView::getWidget() -> GtkWidget* {
     return this->widget;
 }
 
-auto BaseElementView::getWidth() -> int {
+auto BaseElementView::getWidth() -> int64_t {
     calcSize();
     return getContentWidth() + Shadow::getShadowBottomRightSize() + Shadow::getShadowTopLeftSize() + 4;
 }
 
-auto BaseElementView::getHeight() -> int {
+auto BaseElementView::getHeight() -> int64_t {
     calcSize();
     return getContentHeight() + Shadow::getShadowBottomRightSize() + Shadow::getShadowTopLeftSize() + 4;
 }

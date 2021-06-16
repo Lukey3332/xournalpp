@@ -23,8 +23,8 @@ PdfPagesDialog::PdfPagesDialog(GladeSearchpath* gladeSearchPath, Document* doc, 
         PageRef p = doc->getPage(i);
 
         if (p->getBackgroundType().isPdfPage()) {
-            int pdfPage = p->getPdfPageNr();
-            if (pdfPage >= 0 && pdfPage < static_cast<int>(elements.size())) {
+            int64_t pdfPage = p->getPdfPageNr();
+            if (pdfPage >= 0 && pdfPage < static_cast<int64_t>(elements.size())) {
                 (dynamic_cast<PdfElementView*>(elements[p->getPdfPageNr()]))->setUsed(true);
             }
         }
@@ -40,7 +40,7 @@ PdfPagesDialog::~PdfPagesDialog() = default;
 
 void PdfPagesDialog::updateOkButton() {
     bool valid = false;
-    if (selected >= 0 && selected < static_cast<int>(elements.size())) {
+    if (selected >= 0 && selected < static_cast<int64_t>(elements.size())) {
         BaseElementView* p = this->elements[this->selected];
         valid = gtk_widget_get_visible(p->getWidget());
     }
@@ -66,7 +66,7 @@ void PdfPagesDialog::onlyNotUsedCallback(GtkToggleButton* tb, PdfPagesDialog* dl
 
 auto PdfPagesDialog::getZoom() -> double { return 0.25; }
 
-auto PdfPagesDialog::getSelectedPage() -> int {
+auto PdfPagesDialog::getSelectedPage() -> int64_t {
     if (confirmed) {
         return this->selected;
     }
@@ -77,7 +77,7 @@ auto PdfPagesDialog::getSelectedPage() -> int {
 void PdfPagesDialog::show(GtkWindow* parent) {
     GtkWidget* w = get("cbOnlyNotUsed");
 
-    int unused = 0;
+    int64_t unused = 0;
     for (BaseElementView* p: elements) {
         auto* pv = dynamic_cast<PdfElementView*>(p);
         if (!pv->isUsed()) {

@@ -23,8 +23,8 @@ bool parseColor(const char* text, Color& color, LoadHandler* loadHandler);
 
 const char* getAttrib(const char* name, bool optional, LoadHandler* loadHandler);
 double getAttribDouble(const char* name, LoadHandler* loadHandler);
-int getAttribInt(const char* name, LoadHandler* loadHandler);
-bool getAttribInt(const char* name, bool optional, LoadHandler* loadHandler, int& rValue);
+int64_t getAttribInt(const char* name, LoadHandler* loadHandler);
+bool getAttribInt(const char* name, bool optional, LoadHandler* loadHandler, int64_t& rValue);
 size_t getAttribSizeT(const char* name, LoadHandler* loadHandler);
 bool getAttribSizeT(const char* name, bool optional, LoadHandler* loadHandler, size_t& rValue);
 };  // namespace LoadHandlerHelper

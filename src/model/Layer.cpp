@@ -64,7 +64,7 @@ void Layer::insertElement(Element* e, ElementIndex pos) {
     }
 
     // If the element should be inserted at the top
-    if (pos >= static_cast<int>(this->elements.size())) {
+    if (pos >= static_cast<int64_t>(this->elements.size())) {
         this->elements.push_back(e);
     } else {
         this->elements.insert(this->elements.begin() + pos, e);
@@ -72,7 +72,7 @@ void Layer::insertElement(Element* e, ElementIndex pos) {
 }
 
 auto Layer::indexOf(Element* e) -> ElementIndex {
-    for (unsigned int i = 0; i < this->elements.size(); i++) {
+    for (uint64_t i = 0; i < this->elements.size(); i++) {
         if (this->elements[i] == e) {
             return i;
         }
@@ -82,7 +82,7 @@ auto Layer::indexOf(Element* e) -> ElementIndex {
 }
 
 auto Layer::removeElement(Element* e, bool free) -> ElementIndex {
-    for (unsigned int i = 0; i < this->elements.size(); i++) {
+    for (uint64_t i = 0; i < this->elements.size(); i++) {
         if (e == this->elements[i]) {
             this->elements.erase(this->elements.begin() + i);
 

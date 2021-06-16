@@ -32,7 +32,7 @@ void TouchDisableX11::init() {
     int inputDeviceCount = 0;
     XID touchId = 0;
     XDeviceInfo* devices = XListInputDevices(display, &inputDeviceCount);
-    for (int i = 0; i < inputDeviceCount; i++) {
+    for (int64_t i = 0; i < inputDeviceCount; i++) {
         if (touchId == 0 && devices[i].type == touchAtom) {
             touchId = devices[i].id;
         }

@@ -13,11 +13,11 @@
 #include "filesystem.h"
 
 const char* TAG_PREVIEW_NAME = "preview";
-const int TAG_PREVIEW_NAME_LEN = strlen(TAG_PREVIEW_NAME);
+const int64_t TAG_PREVIEW_NAME_LEN = strlen(TAG_PREVIEW_NAME);
 const char* TAG_PAGE_NAME = "page";
-const int TAG_PAGE_NAME_LEN = strlen(TAG_PAGE_NAME);
+const int64_t TAG_PAGE_NAME_LEN = strlen(TAG_PAGE_NAME);
 const char* TAG_PREVIEW_END_NAME = "/preview";
-const int TAG_PREVIEW_END_NAME_LEN = strlen(TAG_PREVIEW_END_NAME);
+const int64_t TAG_PREVIEW_END_NAME_LEN = strlen(TAG_PREVIEW_END_NAME);
 constexpr auto BUF_SIZE = 8192;
 
 XojPreviewExtractor::XojPreviewExtractor() = default;
@@ -42,17 +42,17 @@ auto XojPreviewExtractor::getData(gsize& dataLen) -> unsigned char* {
  * @param len Buffer len
  * @return If an image was read, or the error
  */
-auto XojPreviewExtractor::readPreview(char* buffer, int len) -> PreviewExtractResult {
+auto XojPreviewExtractor::readPreview(char* buffer, int64_t len) -> PreviewExtractResult {
     bool inTag = false;
-    int startTag = 0;
-    int startPreview = -1;
-    int endPreview = -1;
-    int pageStart = -1;
-    for (int i = 0; i < len; i++) {
+    int64_t startTag = 0;
+    int64_t startPreview = -1;
+    int64_t endPreview = -1;
+    int64_t pageStart = -1;
+    for (int64_t i = 0; i < len; i++) {
         if (inTag) {
             if (buffer[i] == '>') {
                 inTag = false;
-                int tagLen = i - startTag;
+                int64_t tagLen = i - startTag;
                 if (tagLen == TAG_PREVIEW_NAME_LEN &&
                     strncmp(TAG_PREVIEW_NAME, buffer + startTag, TAG_PREVIEW_NAME_LEN) == 0) {
                     startPreview = i + 1;
@@ -114,7 +114,7 @@ auto XojPreviewExtractor::readFile(const fs::path& file) -> PreviewExtractResult
         // The Preview should end within the first 8k
 
         std::array<char, BUF_SIZE> buffer{};
-        int readLen = gzread(fp, buffer.data(), BUF_SIZE);
+        int64_t readLen = gzread(fp, buffer.data(), BUF_SIZE);
 
         PreviewExtractResult result = readPreview(buffer.data(), readLen);
 
@@ -126,7 +126,7 @@ auto XojPreviewExtractor::readFile(const fs::path& file) -> PreviewExtractResult
     }
 
     zip_stat_t thumbStat;
-    int statStatus = zip_stat(zipFp, "thumbnails/thumbnail.png", 0, &thumbStat);
+    int64_t statStatus = zip_stat(zipFp, "thumbnails/thumbnail.png", 0, &thumbStat);
     if (statStatus != 0) {
         return PREVIEW_RESULT_NO_PREVIEW;
     }

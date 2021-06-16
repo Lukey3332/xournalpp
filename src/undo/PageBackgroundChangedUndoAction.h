@@ -19,7 +19,7 @@
 
 class PageBackgroundChangedUndoAction: public UndoAction {
 public:
-    PageBackgroundChangedUndoAction(const PageRef& page, const PageType& origType, int origPdfPage,
+    PageBackgroundChangedUndoAction(const PageRef& page, const PageType& origType, int64_t origPdfPage,
                                     BackgroundImage origBackgroundImage, double origW, double origH);
     virtual ~PageBackgroundChangedUndoAction();
 
@@ -31,13 +31,13 @@ public:
 
 private:
     PageType origType;
-    int origPdfPage;
+    int64_t origPdfPage;
     BackgroundImage origBackgroundImage;
     double origW;
     double origH;
 
     PageType newType;
-    int newPdfPage = -1;
+    int64_t newPdfPage = -1;
     BackgroundImage newBackgroundImage;
     double newW = 0;
     double newH = 0;

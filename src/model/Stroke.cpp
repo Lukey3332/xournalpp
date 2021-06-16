@@ -71,7 +71,7 @@ void Stroke::readSerialized(ObjectInputStream& in) {
     this->fill = in.readInt();
 
     Point* p{};
-    int count{};
+    int64_t count{};
     in.readData(reinterpret_cast<void**>(&p), &count);
     this->points = std::vector<Point>{p, p + count};
     g_free(p);
@@ -87,7 +87,7 @@ void Stroke::readSerialized(ObjectInputStream& in) {
  * ...
  *   1: The shape is nearly fully transparent filled
  */
-auto Stroke::getFill() const -> int { return fill; }
+auto Stroke::getFill() const -> int64_t { return fill; }
 
 /**
  * Option to fill the shape:
@@ -96,7 +96,7 @@ auto Stroke::getFill() const -> int { return fill; }
  * ...
  *   1: The shape is nearly fully transparent filled
  */
-void Stroke::setFill(int fill) { this->fill = fill; }
+void Stroke::setFill(int64_t fill) { this->fill = fill; }
 
 void Stroke::setWidth(double width) { this->width = width; }
 
@@ -140,15 +140,15 @@ void Stroke::addPoint(const Point& p) {
     this->sizeCalculated = false;
 }
 
-auto Stroke::getPointCount() const -> int { return this->points.size(); }
+auto Stroke::getPointCount() const -> int64_t { return this->points.size(); }
 
 auto Stroke::getPointVector() const -> std::vector<Point> const& { return points; }
 
-void Stroke::deletePointsFrom(int index) { points.resize(std::min(size_t(index), points.size())); }
+void Stroke::deletePointsFrom(int64_t index) { points.resize(std::min(size_t(index), points.size())); }
 
-void Stroke::deletePoint(int index) { this->points.erase(std::next(begin(this->points), index)); }
+void Stroke::deletePoint(int64_t index) { this->points.erase(std::next(begin(this->points), index)); }
 
-auto Stroke::getPoint(int index) const -> Point {
+auto Stroke::getPoint(int64_t index) const -> Point {
     if (index < 0 || index >= this->points.size()) {
         g_warning("Stroke::getPoint(%i) out of bounds!", index);
         return Point(0, 0, Point::NO_PRESSURE);

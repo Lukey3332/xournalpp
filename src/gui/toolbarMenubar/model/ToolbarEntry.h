@@ -34,13 +34,13 @@ public:
     /**
      * Adds a new item and return the ID of the item
      */
-    int addItem(string item);
-    bool removeItemById(int id);
+    int64_t addItem(string item);
+    bool removeItemById(int64_t id);
 
     /**
      * Insert a new item and return the ID of the item
      */
-    int insertItem(string item, int position);
+    int64_t insertItem(string item, int64_t position);
 
     const ToolbarItemVector& getItems() const;
 

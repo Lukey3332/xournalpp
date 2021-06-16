@@ -12,7 +12,7 @@ EraseableStroke::EraseableStroke(Stroke* stroke): stroke(stroke) {
     this->parts = new PartList();
     g_mutex_init(&this->partLock);
 
-    for (int i = 1; i < stroke->getPointCount(); i++) {
+    for (int64_t i = 1; i < stroke->getPointCount(); i++) {
         this->parts->add(new EraseableStrokePart(stroke->getPoint(i - 1), stroke->getPoint(i)));
     }
 }
@@ -273,7 +273,7 @@ auto EraseableStroke::erasePart(double x, double y, double halfEraserSize, Erase
         part->points = static_cast<GList*>(lists->data);
         lists = g_list_delete_link(lists, lists);
 
-        int pos = g_list_index(list->data, part) + 1;
+        int64_t pos = g_list_index(list->data, part) + 1;
 
         // create data structure for all new (splitted) parts
         for (GList* l = lists; l != nullptr; l = l->next) {

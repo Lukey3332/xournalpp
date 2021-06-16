@@ -56,7 +56,7 @@ public:
     void setPdfReplacement(fs::path filepath, bool attachToDocument);
 
     /** @return The version of the loaded file */
-    int getFileVersion() const;
+    int64_t getFileVersion() const;
 
 private:
     void parseStart();
@@ -88,7 +88,7 @@ private:
 
     const char* getAttrib(const char* name, bool optional = false);
     double getAttribDouble(const char* name);
-    int getAttribInt(const char* name);
+    int64_t getAttribInt(const char* name);
 
     void parseBgSolid();
     void parseBgPixmap();
@@ -119,8 +119,8 @@ private:
     ParserPosition pos;
 
     string creator;
-    int fileVersion;
-    int minimalFileVersion;
+    int64_t fileVersion;
+    int64_t minimalFileVersion;
 
     zip_t* zipFp;
     zip_file_t* zipContentFile;
@@ -147,7 +147,7 @@ private:
     const gchar** attributeValues;
     const gchar* elementName;
 
-    int loadedTimeStamp;
+    int64_t loadedTimeStamp;
     string loadedFilename;
 
     DocumentHandler dHanlder;
@@ -158,8 +158,8 @@ private:
 
     friend const char* LoadHandlerHelper::getAttrib(const char* name, bool optional, LoadHandler* loadHandler);
     friend double LoadHandlerHelper::getAttribDouble(const char* name, LoadHandler* loadHandler);
-    friend int LoadHandlerHelper::getAttribInt(const char* name, LoadHandler* loadHandler);
-    friend bool LoadHandlerHelper::getAttribInt(const char* name, bool optional, LoadHandler* loadHandler, int& rValue);
+    friend int64_t LoadHandlerHelper::getAttribInt(const char* name, LoadHandler* loadHandler);
+    friend bool LoadHandlerHelper::getAttribInt(const char* name, bool optional, LoadHandler* loadHandler, int64_t& rValue);
     friend size_t LoadHandlerHelper::getAttribSizeT(const char* name, LoadHandler* loadHandler);
     friend bool LoadHandlerHelper::getAttribSizeT(const char* name, bool optional, LoadHandler* loadHandler,
                                                   size_t& rValue);

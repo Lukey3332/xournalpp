@@ -71,7 +71,7 @@ auto StringUtils::trim(std::string str) -> std::string { return ltrim(rtrim(std:
 auto StringUtils::iequals(const string& a, const string& b) -> bool {
     gchar* ca = g_utf8_casefold(a.c_str(), a.size());
     gchar* cb = g_utf8_casefold(b.c_str(), b.size());
-    int result = strcmp(ca, cb);
+    int64_t result = strcmp(ca, cb);
     g_free(ca);
     g_free(cb);
 

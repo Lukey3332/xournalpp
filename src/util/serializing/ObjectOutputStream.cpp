@@ -23,7 +23,7 @@ void ObjectOutputStream::writeObject(const char* name) {
 
 void ObjectOutputStream::endObject() { this->encoder->addStr("_}"); }
 
-void ObjectOutputStream::writeInt(int i) {
+void ObjectOutputStream::writeInt(int64_t i) {
     this->encoder->addStr("_i");
     this->encoder->addData(&i, sizeof(int));
 }
@@ -42,12 +42,12 @@ void ObjectOutputStream::writeString(const char* str) { writeString(string(str))
 
 void ObjectOutputStream::writeString(const string& s) {
     this->encoder->addStr("_s");
-    int len = s.length();
+    int64_t len = s.length();
     this->encoder->addData(&len, sizeof(int));
     this->encoder->addData(s.c_str(), len);
 }
 
-void ObjectOutputStream::writeData(const void* data, int len, int width) {
+void ObjectOutputStream::writeData(const void* data, int64_t len, int64_t width) {
     this->encoder->addStr("_b");
     this->encoder->addData(&len, sizeof(int));
 
@@ -58,7 +58,7 @@ void ObjectOutputStream::writeData(const void* data, int len, int width) {
     }
 }
 
-static auto cairoWriteFunction(GString* string, const unsigned char* data, unsigned int length) -> cairo_status_t {
+static auto cairoWriteFunction(GString* string, const unsigned char* data, uint64_t length) -> cairo_status_t {
     g_string_append_len(string, reinterpret_cast<const gchar*>(data), length);
     return CAIRO_STATUS_SUCCESS;
 }

@@ -13,7 +13,7 @@
 #include "i18n.h"
 
 namespace {
-void drawPage(GtkPrintOperation* /*operation*/, GtkPrintContext* context, int pageNr, Document* doc) {
+void drawPage(GtkPrintOperation* /*operation*/, GtkPrintContext* context, int64_t pageNr, Document* doc) {
     cairo_t* cr = gtk_print_context_get_cairo_context(context);
 
     PageRef page = doc->getPage(static_cast<size_t>(pageNr));
@@ -40,7 +40,7 @@ void drawPage(GtkPrintOperation* /*operation*/, GtkPrintContext* context, int pa
     view.drawPage(page, cr, true /* dont render eraseable */);
 }
 
-void requestPageSetup(GtkPrintOperation* /*op*/, GtkPrintContext* /*ctx*/, int pageNr, GtkPageSetup* setup,
+void requestPageSetup(GtkPrintOperation* /*op*/, GtkPrintContext* /*ctx*/, int64_t pageNr, GtkPageSetup* setup,
                       Document* doc) {
     PageRef page = doc->getPage(static_cast<size_t>(pageNr));  // Can't be negative
     if (!page) {
@@ -86,8 +86,8 @@ void PrintHandler::print(Document* doc, size_t currentPage, GtkWindow* parent) {
 
     GtkPrintOperation* op = gtk_print_operation_new();
     gtk_print_operation_set_print_settings(op, settings);
-    gtk_print_operation_set_n_pages(op, strict_cast<int>(doc->getPageCount()));
-    gtk_print_operation_set_current_page(op, strict_cast<int>(currentPage));
+    gtk_print_operation_set_n_pages(op, strict_cast<int64_t>(doc->getPageCount()));
+    gtk_print_operation_set_current_page(op, strict_cast<int64_t>(currentPage));
     gtk_print_operation_set_job_name(op, "Xournal++");
     gtk_print_operation_set_unit(op, GTK_UNIT_POINTS);
     gtk_print_operation_set_use_full_page(op, true);

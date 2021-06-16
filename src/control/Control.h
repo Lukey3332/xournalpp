@@ -70,7 +70,7 @@ public:
 public:
     // Menu File
     bool newFile(string pageTemplate = "", fs::path filepath = {});
-    bool openFile(fs::path filepath = "", int scrollToPage = -1, bool forceOpen = false);
+    bool openFile(fs::path filepath = "", int64_t scrollToPage = -1, bool forceOpen = false);
     bool annotatePdf(fs::path filepath, bool attachPdf, bool attachToDocument);
     void print();
     void exportAsPdf();
@@ -149,9 +149,9 @@ public:
     void updateWindowTitle();
     void setViewPairedPages(bool enabled);
     void setViewPresentationMode(bool enabled);
-    void setPairsOffset(int numOffset);
-    void setViewColumns(int numColumns);
-    void setViewRows(int numRows);
+    void setPairsOffset(int64_t numOffset);
+    void setViewColumns(int64_t numColumns);
+    void setViewRows(int64_t numRows);
     void setViewLayoutVert(bool vert);
     void setViewLayoutR2L(bool r2l);
     void setViewLayoutB2T(bool b2t);
@@ -175,7 +175,7 @@ public:
 
     bool isFullscreen();
 
-    bool searchTextOnPage(string text, int p, int* occures, double* top);
+    bool searchTextOnPage(string text, int64_t p, int64_t* occures, double* top);
 
     /**
      * Fire page selected, but first check if the page Number is valid
@@ -272,8 +272,8 @@ public:
 
 public:
     // ProgressListener interface
-    void setMaximumState(int max);
-    void setCurrentState(int state);
+    void setMaximumState(int64_t max);
+    void setCurrentState(int64_t state);
 
 public:
     // ClipboardListener interface
@@ -299,7 +299,7 @@ protected:
 
     bool showSaveDialog();
 
-    void fileLoaded(int scrollToPage = -1);
+    void fileLoaded(int64_t scrollToPage = -1);
 
     void eraserSizeChanged();
     void penSizeChanged();
@@ -322,7 +322,7 @@ protected:
     bool shouldFileOpen(fs::path const& filepath) const;
 
     bool loadXoptTemplate(fs::path const& filepath);
-    bool loadPdf(fs::path const& filepath, int scrollToPage);
+    bool loadPdf(fs::path const& filepath, int64_t scrollToPage);
 
 private:
     /**
@@ -369,7 +369,7 @@ private:
     /**
      * Timeout id: the timeout watches the changes and actualizes the previews from time to time
      */
-    int changeTimout;
+    int64_t changeTimout;
 
     /**
      * The pages wihch has changed since the last update (for preview update)
@@ -384,7 +384,7 @@ private:
     /**
      * The autosave handler ID
      */
-    int autosaveTimeout = 0;
+    int64_t autosaveTimeout = 0;
     fs::path lastAutosaveFilename;
 
     XournalScheduler* scheduler;
@@ -395,7 +395,7 @@ private:
     GtkWidget* statusbar = nullptr;
     GtkLabel* lbState = nullptr;
     GtkProgressBar* pgState = nullptr;
-    int maxState = 0;
+    int64_t maxState = 0;
     bool isBlocking;
 
     GladeSearchpath* gladeSearchPath;

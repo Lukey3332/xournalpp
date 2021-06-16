@@ -6,7 +6,7 @@
 #include "i18n.h"
 
 
-SidebarPreviewLayerEntry::SidebarPreviewLayerEntry(SidebarPreviewBase* sidebar, const PageRef& page, int layer,
+SidebarPreviewLayerEntry::SidebarPreviewLayerEntry(SidebarPreviewBase* sidebar, const PageRef& page, int64_t layer,
                                                    const string& layerName, size_t index, bool stacked):
         SidebarPreviewBaseEntry(sidebar, page),
         index(index),
@@ -61,9 +61,9 @@ auto SidebarPreviewLayerEntry::getRenderType() -> PreviewRenderType {
     return stacked ? RENDER_TYPE_PAGE_LAYERSTACK : RENDER_TYPE_PAGE_LAYER;
 }
 
-auto SidebarPreviewLayerEntry::getHeight() -> int { return getWidgetHeight() + toolbarHeight; }
+auto SidebarPreviewLayerEntry::getHeight() -> int64_t { return getWidgetHeight() + toolbarHeight; }
 
-auto SidebarPreviewLayerEntry::getLayer() const -> int { return layer; }
+auto SidebarPreviewLayerEntry::getLayer() const -> int64_t { return layer; }
 
 auto SidebarPreviewLayerEntry::getWidget() -> GtkWidget* { return this->box; }
 

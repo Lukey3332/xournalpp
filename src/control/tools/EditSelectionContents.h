@@ -75,7 +75,7 @@ public:
      * Fills the stroke, return an undo action
      * (Or nullptr if nothing done, e.g. because there is only an image)
      */
-    UndoAction* setFill(int alphaPen, int alphaHighligther);
+    UndoAction* setFill(int64_t alphaPen, int64_t alphaHighligther);
 
 public:
     /**
@@ -205,7 +205,7 @@ private:
     /**
      * The source id for the rescaling task
      */
-    int rescaleId = 0;
+    int64_t rescaleId = 0;
 
     /**
      * Source Page for Undo operations

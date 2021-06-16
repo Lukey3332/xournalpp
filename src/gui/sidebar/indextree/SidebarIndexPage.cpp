@@ -86,13 +86,13 @@ void SidebarIndexPage::askInsertPdfPage(size_t pdfPage) {
     gtk_dialog_add_button(GTK_DIALOG(dialog), "Insert at end", 3);
 
     gtk_window_set_transient_for(GTK_WINDOW(dialog), control->getGtkWindow());
-    int res = gtk_dialog_run(GTK_DIALOG(dialog));
+    int64_t res = gtk_dialog_run(GTK_DIALOG(dialog));
     gtk_widget_destroy(dialog);
     if (res == 1) {
         return;
     }
 
-    int position = 0;
+    int64_t position = 0;
 
     Document* doc = control->getDocument();
 
@@ -232,14 +232,14 @@ auto SidebarIndexPage::hasData() -> bool { return this->hasContents; }
 
 auto SidebarIndexPage::getWidget() -> GtkWidget* { return this->scrollBookmarks; }
 
-auto SidebarIndexPage::expandOpenLinks(GtkTreeModel* model, GtkTreeIter* parent) -> int {
+auto SidebarIndexPage::expandOpenLinks(GtkTreeModel* model, GtkTreeIter* parent) -> int64_t {
     GtkTreeIter iter = {0};
     XojLinkDest* link = nullptr;
     if (model == nullptr) {
         return 0;
     }
 
-    int count = 0;
+    int64_t count = 0;
 
     if (gtk_tree_model_iter_children(model, &iter, parent)) {
         do {
@@ -351,7 +351,7 @@ void SidebarIndexPage::documentChanged(DocumentChangeType type) {
         doc->lock();
         GtkTreeModel* model = doc->getContentsModel();
         gtk_tree_view_set_model(GTK_TREE_VIEW(this->treeViewBookmarks), model);
-        int count = expandOpenLinks(model, nullptr);
+        int64_t count = expandOpenLinks(model, nullptr);
         doc->unlock();
         g_signal_handler_unblock(this->treeViewBookmarks, this->selectHandler);
         this->treeBookmarkSelected(this->treeViewBookmarks, this);

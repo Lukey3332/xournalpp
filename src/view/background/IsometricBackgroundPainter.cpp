@@ -17,15 +17,15 @@ void IsometricBackgroundPainter::resetConfig() {
 
 namespace {
 template <class DrawFunc>
-void paintBackgroundDotted(int cols, int rows, double xstep, double ystep, DrawFunc drawDot) {
-    for (int col = 0; col <= cols; ++col) {
+void paintBackgroundDotted(int64_t cols, int64_t rows, double xstep, double ystep, DrawFunc drawDot) {
+    for (int64_t col = 0; col <= cols; ++col) {
         const auto x = col * xstep;
 
         const auto evenCol = col % 2 == 0;
         const auto yoffset = evenCol ? ystep : 0.0;
         const auto rowsInCol = evenCol ? rows - 2 : rows;
 
-        for (int row = 0; row <= rowsInCol; row += 2) {
+        for (int64_t row = 0; row <= rowsInCol; row += 2) {
             const auto y = yoffset + row * ystep;
             drawDot(x, y);
         }
@@ -33,7 +33,7 @@ void paintBackgroundDotted(int cols, int rows, double xstep, double ystep, DrawF
 }
 
 template <class DrawFunc>
-void paintBackgroundGraph(int cols, int rows, double xstep, double ystep, DrawFunc drawLine) {
+void paintBackgroundGraph(int64_t cols, int64_t rows, double xstep, double ystep, DrawFunc drawLine) {
     const auto contentWidth = cols * xstep;
     const auto contentHeight = rows * ystep;
 
@@ -41,20 +41,20 @@ void paintBackgroundGraph(int cols, int rows, double xstep, double ystep, DrawFu
     drawLine(0.0, 0.0, contentWidth, 0.0);                      // top
     drawLine(0.0, contentHeight, contentWidth, contentHeight);  // bottom
 
-    for (int col = 0; col <= cols; ++col) {
+    for (int64_t col = 0; col <= cols; ++col) {
         const auto x = col * xstep;
         drawLine(x, 0.0, x, contentHeight);
     }
 
     // Determine the number of diagonals to draw
-    auto hdiags = static_cast<int>(std::floor(cols / 2));
-    auto vdiags = static_cast<int>(std::floor(rows / 2));
+    auto hdiags = static_cast<int64_t>(std::floor(cols / 2));
+    auto vdiags = static_cast<int64_t>(std::floor(rows / 2));
     auto diags = hdiags + vdiags;
     auto hcorr = cols - 2 * hdiags;
     auto vcorr = rows - 2 * vdiags;
 
     // Draw diagonals starting in the top left corner (left-down)
-    for (int d = 0; d < diags + hcorr * vcorr; ++d) {
+    for (int64_t d = 0; d < diags + hcorr * vcorr; ++d) {
         // Point 1 travels horizontally from top left to top right,
         // then from top right to bottom right.
         double x1 = contentWidth, y1 = 0.0;
@@ -77,7 +77,7 @@ void paintBackgroundGraph(int cols, int rows, double xstep, double ystep, DrawFu
     }
 
     // Draw diagonals starting in the top right corner (right-down)
-    for (int d = 0; d < diags; ++d) {
+    for (int64_t d = 0; d < diags; ++d) {
         // Point 1 travels horizontally from top right to top left,
         // then from top left to bottom left.
         double x1 = 0.0, y1 = 0.0;
@@ -114,8 +114,8 @@ void IsometricBackgroundPainter::paint() {
 
     // Deduce the maximum grid size
     const auto margin = drawRaster1;
-    const int cols = static_cast<int>(std::floor((width - 2 * margin) / xstep));
-    const int rows = static_cast<int>(std::floor((height - 2 * margin) / ystep));
+    const int64_t cols = static_cast<int64_t>(std::floor((width - 2 * margin) / xstep));
+    const int64_t rows = static_cast<int64_t>(std::floor((height - 2 * margin) / ystep));
 
     // Center the grid on the page
     const auto contentWidth = cols * xstep;

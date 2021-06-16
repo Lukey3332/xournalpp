@@ -24,9 +24,9 @@ void DottedBackgroundPainter::paintBackgroundDotted() {
     cairo_set_line_width(cr, lineWidth * lineWidthFactor);
     cairo_set_line_cap(cr, CAIRO_LINE_CAP_ROUND);
 
-    auto pos = [dr1 = drawRaster1](int i) { return dr1 + i * dr1; };
-    for (int x = 0; pos(x) < width; ++x) {
-        for (int y = 0; pos(y) < height; ++y) {
+    auto pos = [dr1 = drawRaster1](int64_t i) { return dr1 + i * dr1; };
+    for (int64_t x = 0; pos(x) < width; ++x) {
+        for (int64_t y = 0; pos(y) < height; ++y) {
             cairo_move_to(cr, pos(x), pos(y));
             cairo_line_to(cr, pos(x), pos(y));
         }

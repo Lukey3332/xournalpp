@@ -33,13 +33,13 @@ private:
     Stroke* tryRectangle();
     // function Stroke* tryArrow(); removed after commit a3f7a251282dcfea8b4de695f28ce52bf2035da2
 
-    static void optimizePolygonal(const Point* pt, int nsides, int* breaks, Inertia* ss);
+    static void optimizePolygonal(const Point* pt, int64_t nsides, int64_t* breaks, Inertia* ss);
 
-    int findPolygonal(const Point* pt, int start, int end, int nsides, int* breaks, Inertia* ss);
+    int64_t findPolygonal(const Point* pt, int64_t start, int64_t end, int64_t nsides, int64_t* breaks, Inertia* ss);
 
 private:
     std::array<RecoSegment, MAX_POLYGON_SIDES + 1> queue{};
-    int queueLength;
+    int64_t queueLength;
 
     Stroke* stroke;
 

@@ -13,7 +13,7 @@
  * @param firstPageOffset  Pages to offset - usually one or zero in order to pair up properly
  */
 
-void calculate(LayoutMapper::internal_data& data, size_t numRows, size_t numCols, bool useRows, int firstPageOffset) {
+void calculate(LayoutMapper::internal_data& data, size_t numRows, size_t numCols, bool useRows, int64_t firstPageOffset) {
     if (useRows) {
         data.rows = std::max<size_t>(1UL, numRows);
 
@@ -49,7 +49,7 @@ void LayoutMapper::configureFromSettings(size_t numPages, Settings* settings) {
     // get from user settings:
     data.actualPages = numPages;
     data.showPairedPages = settings->isShowPairedPages();
-    const int pairsOffset = data.showPairedPages ? settings->getPairsOffset() : 0;
+    const int64_t pairsOffset = data.showPairedPages ? settings->getPairsOffset() : 0;
 
     const bool fixRows = settings->isPresentationMode() ? false : settings->isViewFixedRows();
     const size_t numCols = settings->isPresentationMode() ? 1 : settings->getViewColumns();
@@ -89,7 +89,7 @@ auto LayoutMapper::getColumns() const -> size_t { return data_.cols; }
 
 auto LayoutMapper::getRows() const -> size_t { return data_.rows; }
 
-auto LayoutMapper::getFirstPageOffset() const -> int { return data_.offset; }
+auto LayoutMapper::getFirstPageOffset() const -> int64_t { return data_.offset; }
 
 auto LayoutMapper::isPairedPages() const -> bool { return data_.showPairedPages; }
 

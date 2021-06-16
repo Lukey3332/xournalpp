@@ -69,7 +69,7 @@ void EraseHandler::eraseStroke(Layer* l, Stroke* s, double x, double y, Range* r
     // delete complete element
     if (this->handler->getEraserType() == ERASER_TYPE_DELETE_STROKE) {
         this->doc->lock();
-        int pos = l->removeElement(s, false);
+        int64_t pos = l->removeElement(s, false);
         this->doc->unlock();
 
         if (pos == -1) {
@@ -90,7 +90,7 @@ void EraseHandler::eraseStroke(Layer* l, Stroke* s, double x, double y, Range* r
         this->eraseDeleteUndoAction->addElement(l, s, pos);
     } else  // Default eraser
     {
-        int pos = l->indexOf(s);
+        int64_t pos = l->indexOf(s);
         if (pos == -1) {
             return;
         }

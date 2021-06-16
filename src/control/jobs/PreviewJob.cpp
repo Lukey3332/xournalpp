@@ -54,7 +54,7 @@ void PreviewJob::finishPaint() {
 }
 
 void PreviewJob::drawBackgroundPdf(Document* doc) {
-    int pgNo = this->sidebarPreview->page->getPdfPageNr();
+    int64_t pgNo = this->sidebarPreview->page->getPdfPageNr();
     XojPdfPageSPtr popplerPage = doc->getPdfPage(pgNo);
 
     PdfView::drawPage(this->sidebarPreview->sidebar->getCache(), popplerPage, cr2, zoom,
@@ -66,7 +66,7 @@ void PreviewJob::drawPage() {
     PageRef page = this->sidebarPreview->page;
     Document* doc = this->sidebarPreview->sidebar->getControl()->getDocument();
     PreviewRenderType type = this->sidebarPreview->getRenderType();
-    int layer;
+    int64_t layer;
 
     doc->lock();
 
@@ -118,7 +118,7 @@ void PreviewJob::drawPage() {
             // render all layers up to layer
             view.initDrawing(page, cr2, true);
             view.drawBackground();
-            for (int i = 0; i <= layer; i++) {
+            for (int64_t i = 0; i <= layer; i++) {
                 Layer* drawLayer = (*page->getLayers())[i];
                 view.drawLayer(cr2, drawLayer);
             }

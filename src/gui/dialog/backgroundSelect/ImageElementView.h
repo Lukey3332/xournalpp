@@ -21,7 +21,7 @@
 
 class ImageElementView: public BaseElementView {
 public:
-    ImageElementView(int id, BackgroundSelectDialogBase* dlg);
+    ImageElementView(int64_t id, BackgroundSelectDialogBase* dlg);
     ~ImageElementView();
 
 protected:
@@ -33,12 +33,12 @@ protected:
     /**
      * Get the width in pixel, without shadow / border
      */
-    virtual int getContentWidth();
+    virtual int64_t getContentWidth();
 
     /**
      * Get the height in pixel, without shadow / border
      */
-    virtual int getContentHeight();
+    virtual int64_t getContentHeight();
 
     /**
      * Will be called before getContentWidth() / getContentHeight(), can be overwritten
@@ -49,8 +49,8 @@ private:
     double zoom = 1;
 
     BackgroundImage backgroundImage;
-    int width = -1;
-    int height = -1;
+    int64_t width = -1;
+    int64_t height = -1;
 
     friend class ImagesDialog;
 };

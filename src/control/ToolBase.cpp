@@ -57,12 +57,12 @@ void ToolBase::setFill(bool fill) { this->fill = fill; }
 /**
  * @return Alpha for fill
  */
-auto ToolBase::getFillAlpha() const -> int { return this->fillAlpha; }
+auto ToolBase::getFillAlpha() const -> int64_t { return this->fillAlpha; }
 
 /**
  * @param fillAlpha Alpha for fill
  */
-void ToolBase::setFillAlpha(int fillAlpha) { this->fillAlpha = fillAlpha; }
+void ToolBase::setFillAlpha(int64_t fillAlpha) { this->fillAlpha = fillAlpha; }
 
 /**
  * @return Style of the line drawing

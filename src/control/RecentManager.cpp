@@ -145,7 +145,7 @@ void RecentManager::recentsMenuActivateCallback(GtkAction* action, RecentManager
     }
 }
 
-void RecentManager::addRecentMenu(GtkRecentInfo* info, int i) {
+void RecentManager::addRecentMenu(GtkRecentInfo* info, int64_t i) {
     string display_name = gtk_recent_info_get_display_name(info);
 
     // escape underscore
@@ -193,7 +193,7 @@ void RecentManager::updateMenu() {
 
     freeOldMenus();
 
-    int xojCount = 0;
+    int64_t xojCount = 0;
     for (GList* l = filteredItemsXoj; l != nullptr; l = l->next) {
         auto* info = static_cast<GtkRecentInfo*>(l->data);
 
@@ -212,7 +212,7 @@ void RecentManager::updateMenu() {
 
     this->menuItemList.push_back(separator);
 
-    int pdfCount = 0;
+    int64_t pdfCount = 0;
     for (GList* l = filteredItemsPdf; l != nullptr; l = l->next) {
         auto* info = static_cast<GtkRecentInfo*>(l->data);
 

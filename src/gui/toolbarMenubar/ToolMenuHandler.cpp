@@ -75,7 +75,7 @@ void ToolMenuHandler::freeDynamicToolbarItems() {
 }
 
 void ToolMenuHandler::unloadToolbar(GtkWidget* toolbar) {
-    for (int i = gtk_toolbar_get_n_items(GTK_TOOLBAR(toolbar)) - 1; i >= 0; i--) {
+    for (int64_t i = gtk_toolbar_get_n_items(GTK_TOOLBAR(toolbar)) - 1; i >= 0; i--) {
         GtkToolItem* tbItem = gtk_toolbar_get_nth_item(GTK_TOOLBAR(toolbar), i);
         gtk_container_remove(GTK_CONTAINER(toolbar), GTK_WIDGET(tbItem));
     }
@@ -84,7 +84,7 @@ void ToolMenuHandler::unloadToolbar(GtkWidget* toolbar) {
 }
 
 void ToolMenuHandler::load(ToolbarData* d, GtkWidget* toolbar, const char* toolbarName, bool horizontal) {
-    int count = 0;
+    int64_t count = 0;
 
     for (ToolbarEntry* e: d->contents) {
         if (e->getName() == toolbarName) {
@@ -194,7 +194,7 @@ void ToolMenuHandler::load(ToolbarData* d, GtkWidget* toolbar, const char* toolb
 
 void ToolMenuHandler::removeColorToolItem(AbstractToolItem* it) {
     g_return_if_fail(it != nullptr);
-    for (unsigned int i = 0; i < this->toolbarColorItems.size(); i++) {
+    for (uint64_t i = 0; i < this->toolbarColorItems.size(); i++) {
         if (this->toolbarColorItems[i] == it) {
             this->toolbarColorItems.erase(this->toolbarColorItems.begin() + i);
             break;

@@ -28,7 +28,7 @@ public:
     virtual bool redo(Control* control);
     virtual string getText();
 
-    void addStroke(Stroke* s, int originalFill, int newFill);
+    void addStroke(Stroke* s, int64_t originalFill, int64_t newFill);
 
 private:
     std::vector<FillUndoActionEntry*> data;

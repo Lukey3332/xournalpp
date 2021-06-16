@@ -3,27 +3,27 @@
 #include <cctype>
 #include <cstdlib>
 
-PageRangeEntry::PageRangeEntry(int first, int last) {
+PageRangeEntry::PageRangeEntry(int64_t first, int64_t last) {
     this->first = first;
     this->last = last;
 }
 
 PageRangeEntry::~PageRangeEntry() = default;
 
-auto PageRangeEntry::getLast() const -> int { return this->last; }
+auto PageRangeEntry::getLast() const -> int64_t { return this->last; }
 
-auto PageRangeEntry::getFirst() const -> int { return this->first; }
+auto PageRangeEntry::getFirst() const -> int64_t { return this->first; }
 
 auto PageRange::isSeparator(char c) -> bool { return (c == ',' || c == ';' || c == ':'); }
 
-auto PageRange::parse(const char* str, int pageCount) -> PageRangeVector {
+auto PageRange::parse(const char* str, int64_t pageCount) -> PageRangeVector {
     PageRangeVector data;
 
     if (*str == 0) {
         return data;
     }
 
-    int start = 0, end = 0;
+    int64_t start = 0, end = 0;
     char* next = nullptr;
     const char* p = str;
     while (*p) {
@@ -35,7 +35,7 @@ auto PageRange::parse(const char* str, int pageCount) -> PageRangeVector {
             // a half-open range like -2
             start = 1;
         } else {
-            start = static_cast<int>(strtol(p, &next, 10));
+            start = static_cast<int64_t>(strtol(p, &next, 10));
             if (start < 1) {
                 start = 1;
             }
@@ -50,7 +50,7 @@ auto PageRange::parse(const char* str, int pageCount) -> PageRangeVector {
 
         if (*p == '-') {
             p++;
-            end = static_cast<int>(strtol(p, &next, 10));
+            end = static_cast<int64_t>(strtol(p, &next, 10));
             if (next == p)  // a half-open range like 2-
             {
                 end = pageCount;

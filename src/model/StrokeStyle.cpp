@@ -45,12 +45,12 @@ auto StrokeStyle::parseStyle(const char* style) -> LineStyle {
     }
 
     auto* dashesArr = new double[dash.size()];
-    for (int i = 0; i < static_cast<int>(dash.size()); i++) {
+    for (int64_t i = 0; i < static_cast<int64_t>(dash.size()); i++) {
         dashesArr[i] = dash[i];
     }
 
     LineStyle ls;
-    ls.setDashes(dashesArr, static_cast<int>(dash.size()));
+    ls.setDashes(dashesArr, static_cast<int64_t>(dash.size()));
     delete[] dashesArr;
 
     return ls;
@@ -61,14 +61,14 @@ auto StrokeStyle::parseStyle(const char* style) -> LineStyle {
         return name;                                                                                       \
     }
 
-auto StrokeStyle::formatStyle(const double* dashes, int count) -> string {
+auto StrokeStyle::formatStyle(const double* dashes, int64_t count) -> string {
     FORMAT_STYLE("dash", dashLinePattern);
     FORMAT_STYLE("dashdot", dashDotLinePattern);
     FORMAT_STYLE("dot", dotLinePattern);
 
     string custom = "cust:";
 
-    for (int i = 0; i < count; i++) {
+    for (int64_t i = 0; i < count; i++) {
         custom += " ";
         char* str = g_strdup_printf("%0.2lf", dashes[i]);
         custom += str;
@@ -80,7 +80,7 @@ auto StrokeStyle::formatStyle(const double* dashes, int count) -> string {
 
 auto StrokeStyle::formatStyle(const LineStyle& style) -> string {
     const double* dashes = nullptr;
-    int dashCount = 0;
+    int64_t dashCount = 0;
     if (style.getDashes(dashes, dashCount)) {
         return StrokeStyle::formatStyle(dashes, dashCount);
     }

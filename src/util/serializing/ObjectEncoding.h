@@ -23,7 +23,7 @@ public:
 
 public:
     void addStr(const char* str) const;
-    virtual void addData(const void* data, int len) = 0;
+    virtual void addData(const void* data, int64_t len) = 0;
 
     GString* getData();
 

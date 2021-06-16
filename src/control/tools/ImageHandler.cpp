@@ -51,8 +51,8 @@ auto ImageHandler::insertImage(GFile* file, double x, double y) -> bool {
     img->setY(y);
     img->setImage(pixbuf);
 
-    int width = gdk_pixbuf_get_width(pixbuf);
-    int height = gdk_pixbuf_get_height(pixbuf);
+    int64_t width = gdk_pixbuf_get_width(pixbuf);
+    int64_t height = gdk_pixbuf_get_height(pixbuf);
     g_object_unref(pixbuf);
 
     double zoom = 1;

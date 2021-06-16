@@ -31,7 +31,7 @@ public:
 
     virtual vector<XojPdfRectangle> findText(string& text);
 
-    virtual int getPageId();
+    virtual int64_t getPageId();
 
 private:
     PopplerPage* page;

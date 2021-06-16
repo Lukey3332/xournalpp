@@ -407,13 +407,13 @@ auto XournalppCursor::getPenCursor() -> GdkCursor* {
 }
 
 
-auto XournalppCursor::createHighlighterOrPenCursor(int size, double alpha) -> GdkCursor* {
+auto XournalppCursor::createHighlighterOrPenCursor(int64_t size, double alpha) -> GdkCursor* {
     auto irgb = control->getToolHandler()->getColor();
     auto drgb = Util::rgb_to_GdkRGBA(irgb);
     bool big = control->getSettings()->getStylusCursorType() == STYLUS_CURSOR_BIG;
     bool bright = control->getSettings()->isHighlightPosition();
-    int height = size;
-    int width = size;
+    int64_t height = size;
+    int64_t width = size;
 
     // create a hash of variables so we notice if one changes despite being the same cursor type:
     gulong flavour = (big ? 1 : 0) | (bright ? 2 : 0) | static_cast<gulong>(64 * alpha) << 2 |
@@ -432,8 +432,8 @@ auto XournalppCursor::createHighlighterOrPenCursor(int size, double alpha) -> Gd
     // We change the drawing method, now the center with the colored dot of the pen
     // is at the center of the cairo surface, and when we load the cursor, we load it
     // with the relative offset
-    int centerX = width / 2;
-    int centerY = height / 2;
+    int64_t centerX = width / 2;
+    int64_t centerY = height / 2;
     cairo_surface_t* crCursor = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
     cairo_t* cr = cairo_create(crCursor);
 
@@ -490,7 +490,7 @@ auto XournalppCursor::createHighlighterOrPenCursor(int size, double alpha) -> Gd
 }
 
 
-void XournalppCursor::setCursor(int cursorID) {
+void XournalppCursor::setCursor(int64_t cursorID) {
     if (cursorID == this->currentCursor) {
         return;
     }
@@ -537,11 +537,11 @@ void XournalppCursor::setCursor(int cursorID) {
 }
 
 
-auto XournalppCursor::createCustomDrawDirCursor(int size, bool shift, bool ctrl) -> GdkCursor* {
+auto XournalppCursor::createCustomDrawDirCursor(int64_t size, bool shift, bool ctrl) -> GdkCursor* {
     bool big = control->getSettings()->getStylusCursorType() == STYLUS_CURSOR_BIG;
     bool bright = control->getSettings()->isHighlightPosition();
 
-    int newCursorID = CRSR_DRAWDIRNONE + (shift ? 1 : 0) + (ctrl ? 2 : 0);
+    int64_t newCursorID = CRSR_DRAWDIRNONE + (shift ? 1 : 0) + (ctrl ? 2 : 0);
     gulong flavour =
             (big ? 1 : 0) | (bright ? 2 : 0) | static_cast<gulong>(size) << 2;  // hash of variables for comparison only
 
@@ -551,15 +551,15 @@ auto XournalppCursor::createCustomDrawDirCursor(int size, bool shift, bool ctrl)
     this->currentCursor = newCursorID;
     this->currentCursorFlavour = flavour;
 
-    int height = size;
-    int width = size;
-    int fontSize = 8;
+    int64_t height = size;
+    int64_t width = size;
+    int64_t fontSize = 8;
     if (big || bright) {
         height = width = 60;
         fontSize = 12;
     }
-    int centerX = width - width / 4;
-    int centerY = height - height / 4;
+    int64_t centerX = width - width / 4;
+    int64_t centerY = height - height / 4;
 
 
     cairo_surface_t* crCursor = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);

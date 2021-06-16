@@ -23,7 +23,7 @@ private:
     virtual ~TextView();
 
 public:
-    static void setDpi(int dpi);
+    static void setDpi(int64_t dpi);
 
     /**
      * Calculates the size of a Text model

@@ -20,7 +20,7 @@ FormatDialog::FormatDialog(GladeSearchpath* gladeSearchPath, Settings* settings,
 
     GtkWidget* cbUnit = get("cbUnit");
 
-    for (int i = 0; i < XOJ_UNIT_COUNT; i++) {
+    for (int64_t i = 0; i < XOJ_UNIT_COUNT; i++) {
         gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(cbUnit), XOJ_UNITS[i].name);
     }
     gtk_combo_box_set_active(GTK_COMBO_BOX(cbUnit), this->selectedScale);
@@ -34,7 +34,7 @@ FormatDialog::FormatDialog(GladeSearchpath* gladeSearchPath, Settings* settings,
     gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(cbTemplate), cell, true);
     gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(cbTemplate), cell, "text", 0, nullptr);
 
-    int selectedFormat = -1;
+    int64_t selectedFormat = -1;
 
     // Todo(fabian) why does this nothing and is still here or is it a bug? (Commented it out)
     //		if (height < width)
@@ -46,7 +46,7 @@ FormatDialog::FormatDialog(GladeSearchpath* gladeSearchPath, Settings* settings,
 
     loadPageFormats();
 
-    int i = 0;
+    int64_t i = 0;
     for (GList* l = list; l != nullptr; l = l->next) {
         auto* s = static_cast<GtkPaperSize*>(l->data);
 
@@ -154,14 +154,14 @@ void FormatDialog::spinValueChangedCb(GtkSpinButton* spinbutton, FormatDialog* d
         dlg->setOrientation(ORIENTATION_NOT_DEFINED);
     }
 
-    int i = 0;
+    int64_t i = 0;
     for (GList* l = dlg->list; l != nullptr; l = l->next) {
         auto* s = static_cast<GtkPaperSize*>(l->data);
         double w = gtk_paper_size_get_width(s, GTK_UNIT_POINTS);
         double h = gtk_paper_size_get_height(s, GTK_UNIT_POINTS);
 
-        if ((static_cast<int>(w - width) == 0 && static_cast<int>(h - height) == 0) ||
-            (static_cast<int>(h - width) == 0 && static_cast<int>(w - height) == 0)) {
+        if ((static_cast<int64_t>(w - width) == 0 && static_cast<int64_t>(h - height) == 0) ||
+            (static_cast<int64_t>(h - width) == 0 && static_cast<int64_t>(w - height) == 0)) {
             gtk_combo_box_set_active(GTK_COMBO_BOX(dlg->get("cbTemplate")), i);
             return;
         }
@@ -172,7 +172,7 @@ void FormatDialog::spinValueChangedCb(GtkSpinButton* spinbutton, FormatDialog* d
 }
 
 void FormatDialog::cbUnitChanged(GtkComboBox* widget, FormatDialog* dlg) {
-    int selectd = gtk_combo_box_get_active(widget);
+    int64_t selectd = gtk_combo_box_get_active(widget);
     if (dlg->selectedScale == selectd) {
         return;
     }
@@ -273,7 +273,7 @@ void FormatDialog::setSpinValues(double width, double heigth) {
 }
 
 void FormatDialog::show(GtkWindow* parent) {
-    int ret = 0;
+    int64_t ret = 0;
     while (ret == 0) {
         gtk_window_set_transient_for(GTK_WINDOW(this->window), parent);
         ret = gtk_dialog_run(GTK_DIALOG(this->window));

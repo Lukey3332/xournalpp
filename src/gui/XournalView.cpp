@@ -113,7 +113,7 @@ auto XournalView::cleanupBufferCache() -> void {
 
 auto XournalView::getCurrentPage() const -> size_t { return currentPage; }
 
-const int scrollKeySize = 30;
+const int64_t scrollKeySize = 30;
 
 auto XournalView::onKeyPressEvent(GdkEventKey* event) -> bool {
     size_t p = getCurrentPage();
@@ -148,7 +148,7 @@ auto XournalView::onKeyPressEvent(GdkEventKey* event) -> bool {
     if (state & GDK_SHIFT_MASK) {
         GtkAllocation alloc = {0};
         gtk_widget_get_allocation(gtk_widget_get_parent(this->widget), &alloc);
-        int windowHeight = alloc.height - scrollKeySize;
+        int64_t windowHeight = alloc.height - scrollKeySize;
 
         if (event->keyval == GDK_KEY_Page_Down) {
             layout->scrollRelative(0, windowHeight);
@@ -172,7 +172,7 @@ auto XournalView::onKeyPressEvent(GdkEventKey* event) -> bool {
     if (event->keyval == GDK_KEY_space) {
         GtkAllocation alloc = {0};
         gtk_widget_get_allocation(gtk_widget_get_parent(this->widget), &alloc);
-        int windowHeight = alloc.height - scrollKeySize;
+        int64_t windowHeight = alloc.height - scrollKeySize;
 
         layout->scrollRelative(0, windowHeight);
         return true;
@@ -295,7 +295,7 @@ void XournalView::onRealized(GtkWidget* widget, XournalView* view) {
 // send the focus back to the appropriate widget
 void XournalView::requestFocus() { gtk_widget_grab_focus(this->widget); }
 
-auto XournalView::searchTextOnPage(string text, size_t p, int* occures, double* top) -> bool {
+auto XournalView::searchTextOnPage(string text, size_t p, int64_t* occures, double* top) -> bool {
     if (p == npos || p >= this->viewPages.size()) {
         return false;
     }
@@ -375,10 +375,10 @@ void XournalView::scrollTo(size_t pageNo, double yDocument) {
     // Make sure it is visible
     Layout* layout = gtk_xournal_get_layout(this->widget);
 
-    int x = v->getX();
-    int y = v->getY() + std::lround(yDocument);
-    int width = v->getDisplayWidth();
-    int height = v->getDisplayHeight();
+    int64_t x = v->getX();
+    int64_t y = v->getY() + std::lround(yDocument);
+    int64_t width = v->getDisplayWidth();
+    int64_t height = v->getDisplayHeight();
 
     layout->ensureRectIsVisible(x, y, width, height);
 
@@ -387,12 +387,12 @@ void XournalView::scrollTo(size_t pageNo, double yDocument) {
 }
 
 
-void XournalView::pageRelativeXY(int offCol, int offRow) {
+void XournalView::pageRelativeXY(int64_t offCol, int64_t offRow) {
     size_t currPage = getCurrentPage();
 
     XojPageView* view = getViewFor(currPage);
-    int row = view->getMappedRow();
-    int col = view->getMappedCol();
+    int64_t row = view->getMappedRow();
+    int64_t col = view->getMappedCol();
 
     Layout* layout = gtk_xournal_get_layout(this->widget);
     auto optionalPageIndex = layout->getPageIndexAtGridMap(row + offRow, col + offCol);
@@ -461,7 +461,7 @@ auto XournalView::getScrollHandling() -> ScrollHandling* { return scrollHandling
 
 auto XournalView::getWidget() -> GtkWidget* { return widget; }
 
-void XournalView::ensureRectIsVisible(int x, int y, int width, int height) {
+void XournalView::ensureRectIsVisible(int64_t x, int64_t y, int64_t width, int64_t height) {
     Layout* layout = gtk_xournal_get_layout(this->widget);
     layout->ensureRectIsVisible(x, y, width, height);
 }
@@ -561,7 +561,7 @@ void XournalView::pageInserted(size_t page) {
 
 auto XournalView::getZoom() -> double { return control->getZoomControl()->getZoom(); }
 
-auto XournalView::getDpiScaleFactor() -> int { return gtk_widget_get_scale_factor(widget); }
+auto XournalView::getDpiScaleFactor() -> int64_t { return gtk_widget_get_scale_factor(widget); }
 
 void XournalView::clearSelection() {
     EditSelection* sel = GTK_XOURNAL(widget)->selection;
@@ -646,23 +646,23 @@ void XournalView::layoutPages() {
     // Todo (fabian): the following lines are conceptually wrong, the Layout::layoutPages function is meant to be called
     //                by an expose event, but removing it, will break "add page".
     auto rectangle = layout->getVisibleRect();
-    layout->layoutPages(std::max<int>(layout->getMinimalWidth(), std::lround(rectangle.width)),
-                        std::max<int>(layout->getMinimalHeight(), std::lround(rectangle.height)));
+    layout->layoutPages(std::max<int64_t>(layout->getMinimalWidth(), std::lround(rectangle.width)),
+                        std::max<int64_t>(layout->getMinimalHeight(), std::lround(rectangle.height)));
 }
 
-auto XournalView::getDisplayHeight() const -> int {
+auto XournalView::getDisplayHeight() const -> int64_t {
     GtkAllocation allocation = {0};
     gtk_widget_get_allocation(this->widget, &allocation);
     return allocation.height;
 }
 
-auto XournalView::getDisplayWidth() const -> int {
+auto XournalView::getDisplayWidth() const -> int64_t {
     GtkAllocation allocation = {0};
     gtk_widget_get_allocation(this->widget, &allocation);
     return allocation.width;
 }
 
-auto XournalView::isPageVisible(size_t page, int* visibleHeight) -> bool {
+auto XournalView::isPageVisible(size_t page, int64_t* visibleHeight) -> bool {
     Rectangle<double>* rect = getVisibleRect(page);
     if (rect) {
         if (visibleHeight) {

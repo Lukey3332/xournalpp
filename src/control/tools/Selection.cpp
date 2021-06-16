@@ -96,11 +96,11 @@ void RectSelection::paint(cairo_t* cr, GdkRectangle* rect, double zoom) {
     cairo_set_line_width(cr, 1 / zoom);
     gdk_cairo_set_source_rgba(cr, &selectionColor);
 
-    int aX = std::min(this->sx, this->ex);
-    int bX = std::max(this->sx, this->ex);
+    int64_t aX = std::min(this->sx, this->ex);
+    int64_t bX = std::max(this->sx, this->ex);
 
-    int aY = std::min(this->sy, this->ey);
-    int bY = std::max(this->sy, this->ey);
+    int64_t aY = std::min(this->sy, this->ey);
+    int64_t bY = std::max(this->sy, this->ey);
 
     cairo_move_to(cr, aX, aY);
     cairo_line_to(cr, bX, aY);
@@ -208,7 +208,7 @@ auto RegionSelect::contains(double x, double y) -> bool {
         return false;
     }
 
-    int hits = 0;
+    int64_t hits = 0;
 
     auto* last = static_cast<RegionPoint*>(g_list_last(this->points)->data);
 
@@ -226,7 +226,7 @@ auto RegionSelect::contains(double x, double y) -> bool {
             continue;
         }
 
-        int leftx = 0;
+        int64_t leftx = 0;
         if (curx < lastx) {
             if (x >= lastx) {
                 continue;

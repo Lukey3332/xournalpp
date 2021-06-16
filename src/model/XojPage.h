@@ -35,9 +35,9 @@ public:
     // So notification can be sent on change
 protected:
     void addLayer(Layer* layer);
-    void insertLayer(Layer* layer, int index);
+    void insertLayer(Layer* layer, int64_t index);
     void removeLayer(Layer* layer);
-    void setLayerVisible(int layerId, bool visible);
+    void setLayerVisible(int64_t layerId, bool visible);
 
 public:
     // Also set the size over doc->setPageSize!
@@ -63,10 +63,10 @@ public:
 
     vector<Layer*>* getLayers();
     size_t getLayerCount();
-    int getSelectedLayerId();
-    void setSelectedLayerId(int id);
+    int64_t getSelectedLayerId();
+    void setSelectedLayerId(int64_t id);
     static bool isLayerVisible(Layer* layer);
-    bool isLayerVisible(int layerId);
+    bool isLayerVisible(int64_t layerId);
 
     Layer* getSelectedLayer();
 

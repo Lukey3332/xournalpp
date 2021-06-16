@@ -38,7 +38,7 @@ void ToolPageLayer::rebuildLayerMenu() { updateMenu(); }
 
 void ToolPageLayer::layerVisibilityChanged() { updateLayerData(); }
 
-const int MENU_WIDTH = 3;
+const int64_t MENU_WIDTH = 3;
 
 void ToolPageLayer::createSeparator() {
     gtk_menu_attach(GTK_MENU(menu), gtk_separator_menu_item_new(), 0, MENU_WIDTH, menuY, menuY + 1);
@@ -83,14 +83,14 @@ void ToolPageLayer::addSpecialButtonTop() {
     createSeparator();
 }
 
-void ToolPageLayer::selectLayer(int layerId) { lc->switchToLay(layerId); }
+void ToolPageLayer::selectLayer(int64_t layerId) { lc->switchToLay(layerId); }
 
 void ToolPageLayer::layerMenuClicked(GtkWidget* menu) {
     if (inMenuUpdate) {
         return;
     }
 
-    int layerId = -1;
+    int64_t layerId = -1;
 
     for (auto& kv: layerItems) {
         if (kv.second == menu) {
@@ -106,7 +106,7 @@ void ToolPageLayer::layerMenuClicked(GtkWidget* menu) {
 
 
     if (!gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(menu))) {
-        if (layerId == static_cast<int>(lc->getCurrentLayerId())) {
+        if (layerId == static_cast<int64_t>(lc->getCurrentLayerId())) {
             // This is the current layer, don't allow to deselect it
             inMenuUpdate = true;
             gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(menu), true);
@@ -124,7 +124,7 @@ void ToolPageLayer::layerMenuShowClicked(GtkWidget* menu) {
         return;
     }
 
-    int layerId = -1;
+    int64_t layerId = -1;
 
     for (auto& kv: showLayerItems) {
         if (kv.second == menu) {
@@ -143,7 +143,7 @@ void ToolPageLayer::layerMenuShowClicked(GtkWidget* menu) {
     lc->setLayerVisible(layerId, checked);
 }
 
-void ToolPageLayer::createLayerMenuItem(const string& text, int layerId) {
+void ToolPageLayer::createLayerMenuItem(const string& text, int64_t layerId) {
     GtkWidget* itLayer = gtk_check_menu_item_new_with_label(text.c_str());
     gtk_check_menu_item_set_draw_as_radio(GTK_CHECK_MENU_ITEM(itLayer), true);
     gtk_menu_attach(GTK_MENU(menu), itLayer, 0, 2, menuY, menuY + 1);
@@ -154,7 +154,7 @@ void ToolPageLayer::createLayerMenuItem(const string& text, int layerId) {
     layerItems[layerId] = itLayer;
 }
 
-void ToolPageLayer::createLayerMenuItemShow(int layerId) {
+void ToolPageLayer::createLayerMenuItemShow(int64_t layerId) {
     GtkWidget* itShow = gtk_check_menu_item_new_with_label(_("show"));
     gtk_menu_attach(GTK_MENU(menu), itShow, 2, 3, menuY, menuY + 1);
     gtk_widget_set_hexpand(itShow, false);
@@ -182,8 +182,8 @@ void ToolPageLayer::updateMenu() {
 
     addSpecialButtonTop();
 
-    int layerCount = lc->getLayerCount();
-    for (int layer = layerCount; layer > 0; layer--) {
+    int64_t layerCount = lc->getLayerCount();
+    for (int64_t layer = layerCount; layer > 0; layer--) {
         createLayerMenuItem(lc->getLayerNameById(layer), layer);
         createLayerMenuItemShow(layer);
         menuY++;
@@ -211,7 +211,7 @@ void ToolPageLayer::updateMenu() {
  * Update selected layer, update visible layer
  */
 void ToolPageLayer::updateLayerData() {
-    int layerId = lc->getCurrentLayerId();
+    int64_t layerId = lc->getCurrentLayerId();
 
     inMenuUpdate = true;
 
