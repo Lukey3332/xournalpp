@@ -39,7 +39,7 @@ using std::map;
  *
  * Returns 1 on success, and (nil, message) on failure.
  */
-static int64_t applib_glib_rename(lua_State* L) {
+static int applib_glib_rename(lua_State* L) {
     GError* err = nullptr;
     GFile* to = g_file_new_for_path(lua_tostring(L, -1));
     GFile* from = g_file_new_for_path(lua_tostring(L, -2));
@@ -67,10 +67,10 @@ static int64_t applib_glib_rename(lua_State* L) {
  *   local filename = app.saveAs() -- defaults to suggestion "Untitled"
  *   local filename = app.saveAs("foo") -- suggests "foo" as filename
  */
-static int64_t applib_saveAs(lua_State* L) {
+static int applib_saveAs(lua_State* L) {
     GtkFileChooserNative* native;
     gint res;
-    int64_t args_returned = 0;  // change to 1 if user chooses file
+    int args_returned = 0;  // change to 1 if user chooses file
 
     const char* filename = luaL_checkstring(L, -1);
 
@@ -105,7 +105,7 @@ static int64_t applib_saveAs(lua_State* L) {
  * Example: local result = app.msgbox("Test123", {[1] = "Yes", [2] = "No"})
  * Pops up a message box with two buttons "Yes" and "No" and returns 1 for yes, 2 for no
  */
-static int64_t applib_msgbox(lua_State* L) {
+static int applib_msgbox(lua_State* L) {
     const char* msg = luaL_checkstring(L, 1);
 
     // discard any extra arguments passed in
@@ -117,7 +117,7 @@ static int64_t applib_msgbox(lua_State* L) {
     map<int, string> button;
 
     while (lua_next(L, 2) != 0) {
-        int64_t index = lua_tointeger(L, -2);
+        int index = lua_tointeger(L, -2);
         const char* buttonText = luaL_checkstring(L, -1);
         lua_pop(L, 1);
 
@@ -126,7 +126,7 @@ static int64_t applib_msgbox(lua_State* L) {
 
     Plugin* plugin = Plugin::getPluginFromLua(L);
 
-    int64_t result = XojMsgBox::showPluginMessage(plugin->getName(), msg, button);
+    int result = XojMsgBox::showPluginMessage(plugin->getName(), msg, button);
     lua_pushinteger(L, result);
     return 1;
 }
@@ -139,7 +139,7 @@ static int64_t applib_msgbox(lua_State* L) {
  * registers a menupoint with name "HelloWorld" executing a function named "printMessage",
  * which can be triggered via the "<Control>a" keyboard accelerator
  */
-static int64_t applib_registerUi(lua_State* L) {
+static int applib_registerUi(lua_State* L) {
     Plugin* plugin = Plugin::getPluginFromLua(L);
     if (!plugin->isInInitUi()) {
         luaL_error(L, "registerUi needs to be called within initUi()");
@@ -175,9 +175,9 @@ static int64_t applib_registerUi(lua_State* L) {
         accelerator = "";
     }
 
-    int64_t toolbarId = -1;
+    int toolbarId = -1;
 
-    int64_t menuId = plugin->registerMenu(menu, callback, accelerator);
+    int menuId = plugin->registerMenu(menu, callback, accelerator);
 
     // Make sure to remove all vars which are put to the stack before!
     lua_pop(L, 3);
@@ -208,7 +208,7 @@ static int64_t applib_registerUi(lua_State* L) {
  * Example 2: app.uiAction({["action"] = "ACTION_TOOL_DRAW_ELLIPSE", ["enabled"] = false})
  * turns off the Ellipse drawing type
  */
-static int64_t applib_uiAction(lua_State* L) {
+static int applib_uiAction(lua_State* L) {
     Plugin* plugin = Plugin::getPluginFromLua(L);
 
     // discard any extra arguments passed in
@@ -265,7 +265,7 @@ static int64_t applib_uiAction(lua_State* L) {
  * notifies the action listeners that grid snapping is turned on; it is not recorded in the settings,
  * so better use app.uiAction({["action"] = "ACTION_GRID_SNAPPING") instead
  */
-static int64_t applib_uiActionSelected(lua_State* L) {
+static int applib_uiActionSelected(lua_State* L) {
     Plugin* plugin = Plugin::getPluginFromLua(L);
 
     ActionGroup group = ActionGroup_fromString(luaL_checkstring(L, 1));
@@ -283,7 +283,7 @@ static int64_t applib_uiActionSelected(lua_State* L) {
  * Example: app.sidebarAction("MOVE_DOWN")
  * moves down the current page
  */
-static int64_t applib_sidebarAction(lua_State* L) {
+static int applib_sidebarAction(lua_State* L) {
     // Connect the context menu actions
     const std::map<std::string, SidebarActions> actionMap = {
             {"COPY", SIDEBAR_ACTION_COPY},
@@ -314,7 +314,7 @@ static int64_t applib_sidebarAction(lua_State* L) {
  * Example: app.layerAction("ACTION_DELETE_LAYER")
  * deletes the current layer
  */
-static int64_t applib_layerAction(lua_State* L) {
+static int applib_layerAction(lua_State* L) {
     Plugin* plugin = Plugin::getPluginFromLua(L);
 
     ActionType action = ActionType_fromString(luaL_checkstring(L, 1));
@@ -331,7 +331,7 @@ static int64_t applib_layerAction(lua_State* L) {
  * Example: app.changeCurrentPageBackground("graph")
  * changes the page background of the current page to graph paper
  */
-static int64_t applib_changeCurrentPageBackground(lua_State* L) {
+static int applib_changeCurrentPageBackground(lua_State* L) {
     PageType pt;
     pt.format = PageTypeHandler::getPageTypeFormatForString(luaL_checkstring(L, 1));
     pt.config = luaL_optstring(L, 2, "");
@@ -353,7 +353,7 @@ static int64_t applib_changeCurrentPageBackground(lua_State* L) {
  * Example 2: app.changeToolColor({["color"] = 0xff0000, ["selection"] = true })
  * changes the color of the current tool to red and also applies it to the current selection if there is one
  */
-static int64_t applib_changeToolColor(lua_State* L) {
+static int applib_changeToolColor(lua_State* L) {
 
     // discard any extra arguments passed in
     lua_settop(L, 1);
@@ -396,7 +396,7 @@ static int64_t applib_changeToolColor(lua_State* L) {
         return 0;
     }
 
-    int64_t color = 0x000000;
+    int color = 0x000000;
     if (lua_isinteger(L, -1)) {
         color = lua_tointeger(L, -1);
         if (color < 0x000000 || color > 0xffffff) {
@@ -437,7 +437,7 @@ static int64_t applib_changeToolColor(lua_State* L) {
  * Example 2: app.changeBackgroundPdfPageNr(7, false)
  * changes the page background to the 7th pdf page (absolute mode)
  */
-static int64_t applib_changeBackgroundPdfPageNr(lua_State* L) {
+static int applib_changeBackgroundPdfPageNr(lua_State* L) {
     Plugin* plugin = Plugin::getPluginFromLua(L);
 
     size_t nr = luaL_checkinteger(L, 1);
@@ -463,7 +463,7 @@ static int64_t applib_changeBackgroundPdfPageNr(lua_State* L) {
             luaL_error(L, "Current page has no pdf background, cannot use relative mode!");
         }
     }
-    if (selected >= 0 && selected < static_cast<int64_t>(doc->getPdfPageCount())) {
+    if (selected >= 0 && selected < static_cast<int>(doc->getPdfPageCount())) {
         // no need to set a type, if we set the page number the type is also set
         page->setBackgroundPdfPageNr(selected);
 
@@ -506,7 +506,7 @@ static int64_t applib_changeBackgroundPdfPageNr(lua_State* L) {
  *
  * Example: local docStructure = app.getDocumentStructure()
  */
-static int64_t applib_getDocumentStructure(lua_State* L) {
+static int applib_getDocumentStructure(lua_State* L) {
     Plugin* plugin = Plugin::getPluginFromLua(L);
     Control* control = plugin->getControl();
     Document* doc = control->getDocument();
@@ -553,7 +553,7 @@ static int64_t applib_getDocumentStructure(lua_State* L) {
         lua_newtable(L);  // beginning of table for background layer
 
         lua_pushliteral(L, "isVisible");
-        lua_pushboolean(L, page->isLayerVisible(0));
+        lua_pushboolean(L, page->isLayerVisible((int64_t)0));
         lua_settable(L, -3);
 
         lua_pushliteral(L, "name");
@@ -563,7 +563,7 @@ static int64_t applib_getDocumentStructure(lua_State* L) {
         lua_settable(L, -3);  // end of table for background layer
 
         // add (non-background) layers
-        int64_t currLayer = 0;
+        int currLayer = 0;
 
         for (auto l: *page->getLayers()) {
             lua_pushinteger(L, ++currLayer);
@@ -614,19 +614,19 @@ static int64_t applib_getDocumentStructure(lua_State* L) {
  * Example 2: app.scrollToPage(10)
  * scrolls to page 10 (absolute mode)
  **/
-static int64_t applib_scrollToPage(lua_State* L) {
+static int applib_scrollToPage(lua_State* L) {
     Plugin* plugin = Plugin::getPluginFromLua(L);
     Control* control = plugin->getControl();
 
-    int64_t val = luaL_checkinteger(L, 1);
+    int val = luaL_checkinteger(L, 1);
     bool relative = false;
     if (lua_isboolean(L, 2)) {
         relative = lua_toboolean(L, 2);
     }
-    int64_t page = (relative) ? control->getCurrentPageNo() + val : val - 1;
+    int page = (relative) ? control->getCurrentPageNo() + val : val - 1;
 
-    const int64_t first = 0;
-    const int64_t last = static_cast<int64_t>(control->getDocument()->getPageCount()) - 1;
+    const int first = 0;
+    const int last = static_cast<int>(control->getDocument()->getPageCount()) - 1;
     control->getScrollHandler()->scrollToPage(std::clamp(page, first, last));
 
     return 1;
@@ -641,7 +641,7 @@ static int64_t applib_scrollToPage(lua_State* L) {
  * Example 2: app.scrollToPos(200, 50, false)
  * scrolls to page position 200pt right and 50pt down from the left page corner  (absolute mode)
  **/
-static int64_t applib_scrollToPos(lua_State* L) {
+static int applib_scrollToPos(lua_State* L) {
     Plugin* plugin = Plugin::getPluginFromLua(L);
     Control* control = plugin->getControl();
     Layout* layout = control->getWindow()->getLayout();
@@ -669,7 +669,7 @@ static int64_t applib_scrollToPos(lua_State* L) {
  * Example: app.setCurrentPage(1)
  * makes the first page the new current page
  **/
-static int64_t applib_setCurrentPage(lua_State* L) {
+static int applib_setCurrentPage(lua_State* L) {
     Plugin* plugin = Plugin::getPluginFromLua(L);
     Control* control = plugin->getControl();
     size_t pageId = luaL_checkinteger(L, 1);
@@ -689,7 +689,7 @@ static int64_t applib_setCurrentPage(lua_State* L) {
  * Example 2: app.setPageSize(0, 14.17*6, true)
  * adds 14.17*6 pt = 3cm to the height of the page (relative mode)
  **/
-static int64_t applib_setPageSize(lua_State* L) {
+static int applib_setPageSize(lua_State* L) {
     Plugin* plugin = Plugin::getPluginFromLua(L);
     Control* control = plugin->getControl();
     Document* doc = control->getDocument();
@@ -737,7 +737,7 @@ static int64_t applib_setPageSize(lua_State* L) {
  * Example 2: app.setCurrentLayer(2, false)
  * makes the second (non-background) layer the current layer and does not change visibility
  **/
-static int64_t applib_setCurrentLayer(lua_State* L) {
+static int applib_setCurrentLayer(lua_State* L) {
     Plugin* plugin = Plugin::getPluginFromLua(L);
     Control* control = plugin->getControl();
     PageRef const& page = control->getCurrentPage();
@@ -769,7 +769,7 @@ static int64_t applib_setCurrentLayer(lua_State* L) {
  * Example: app.setLayerVisibility(true)
  * makes the current layer visible
  */
-static int64_t applib_setLayerVisibility(lua_State* L) {
+static int applib_setLayerVisibility(lua_State* L) {
     Plugin* plugin = Plugin::getPluginFromLua(L);
     Control* control = plugin->getControl();
 
@@ -778,7 +778,7 @@ static int64_t applib_setLayerVisibility(lua_State* L) {
         enabled = lua_toboolean(L, 1);
     }
 
-    int64_t layerId = control->getCurrentPage()->getSelectedLayerId();
+    int layerId = control->getCurrentPage()->getSelectedLayerId();
     control->getLayerController()->setLayerVisible(layerId, enabled);
     return 1;
 }
@@ -789,7 +789,7 @@ static int64_t applib_setLayerVisibility(lua_State* L) {
  * Example: app.setCurrentLayerName("Custom name 1")
  * Changes current layer name to "Custom name 1"
  **/
-static int64_t applib_setCurrentLayerName(lua_State* L) {
+static int applib_setCurrentLayerName(lua_State* L) {
     Plugin* plugin = Plugin::getPluginFromLua(L);
     Control* control = plugin->getControl();
 
@@ -807,7 +807,7 @@ static int64_t applib_setCurrentLayerName(lua_State* L) {
  * Example: app.setBackgroundName("Custom name 1")
  * Changes background name to "Custom name 1"
  **/
-static int64_t applib_setBackgroundName(lua_State* L) {
+static int applib_setBackgroundName(lua_State* L) {
     Plugin* plugin = Plugin::getPluginFromLua(L);
     Control* control = plugin->getControl();
     PageRef const& page = control->getCurrentPage();
@@ -833,7 +833,7 @@ static int64_t applib_setBackgroundName(lua_State* L) {
  * Example: app.scaleTextElements(2.3)
  * scales all text elements on the current layer with factor 2.3
  **/
-static int64_t applib_scaleTextElements(lua_State* L) {
+static int applib_scaleTextElements(lua_State* L) {
     Plugin* plugin = Plugin::getPluginFromLua(L);
     Control* control = plugin->getControl();
 
@@ -860,10 +860,10 @@ static int64_t applib_scaleTextElements(lua_State* L) {
  * Gets the display DPI.
  * Example: app.getDisplayDpi()
  **/
-static int64_t applib_getDisplayDpi(lua_State* L) {
+static int applib_getDisplayDpi(lua_State* L) {
     Plugin* plugin = Plugin::getPluginFromLua(L);
     Control* control = plugin->getControl();
-    int64_t dpi = control->getSettings()->getDisplayDpi();
+    int dpi = control->getSettings()->getDisplayDpi();
     lua_pushinteger(L, dpi);
 
     return 1;
@@ -904,7 +904,7 @@ static const luaL_Reg applib[] = {{"msgbox", applib_msgbox},
 /**
  * Open application Library
  */
-LUAMOD_API int64_t luaopen_app(lua_State* L) {
+LUAMOD_API int luaopen_app(lua_State* L) {
     luaL_newlib(L, applib);
     //	lua_pushnumber(L, MSG_BT_OK);
     //	lua_setfield(L, -2, "MSG_BT_OK");
