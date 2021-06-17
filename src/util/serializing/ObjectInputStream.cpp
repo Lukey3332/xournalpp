@@ -162,8 +162,8 @@ public:
     int64_t pos;
 };
 
-auto cairoReadFunction(PngDatasource* obj, unsigned char* data, uint64_t length) -> cairo_status_t {
-    for (uint64_t i = 0; i < length; i++, obj->pos++) {
+auto cairoReadFunction(PngDatasource* obj, unsigned char* data, unsigned int length) -> cairo_status_t {
+    for (unsigned int i = 0; i < length; i++, obj->pos++) {
         if (obj->pos >= obj->len) {
             return CAIRO_STATUS_READ_ERROR;
         }

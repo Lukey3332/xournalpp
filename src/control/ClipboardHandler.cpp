@@ -113,7 +113,7 @@ private:
     GString* str;
 };
 
-static auto svgWriteFunction(GString* string, const unsigned char* data, uint64_t length) -> cairo_status_t {
+static auto svgWriteFunction(GString* string, const unsigned char* data, unsigned int length) -> cairo_status_t {
     g_string_append_len(string, reinterpret_cast<const gchar*>(data), length);
     return CAIRO_STATUS_SUCCESS;
 }

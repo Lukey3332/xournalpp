@@ -73,7 +73,7 @@ public:
 private:
     void calcSize() const override;
 
-    static cairo_status_t cairoReadFunction(TexImage* image, unsigned char* data, uint64_t length);
+    static cairo_status_t cairoReadFunction(TexImage* image, unsigned char* data, unsigned int length);
 
     /**
      * Free image and PDF
